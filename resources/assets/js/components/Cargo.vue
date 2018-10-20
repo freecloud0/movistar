@@ -42,7 +42,7 @@
                                         </b-alert>
                                     </div>
 
-                                    <div v-if="successAct" class="flotante">
+                                    <div v-if="successAct.length > 0" class="flotante">
                                         <b-alert :show="dismissCountDown1"
                                                 dismissible
                                                 variant="warning"
@@ -153,6 +153,10 @@
                                         <!-- This will only be shown if the preceeding input has an invalid state -->
                                         Rellene este campo
                                         </b-form-invalid-feedback>  
+                                         <b-form-invalid-feedback v-show="unique.length > 0" id="inputLiveFeedback">
+                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                        {{unique}}
+                                        </b-form-invalid-feedback>  
                                         <b-form-invalid-feedback v-if="errores.ctcargo_nombre" id="inputLiveFeedback">
                                         <!-- This will only be shown if the preceeding input has an invalid state -->
                                         Ya existe este campo
@@ -229,11 +233,12 @@
                 buscar:'',
                 errores:[],
                 success:false,
-                successAct:false,
+                successAct:'',
                 dismissSecs1: 5,
                 dismissCountDown1: 0,
                 dismissSecs: 5,
                 dismissCountDown: 0,
+                unique:''
             }
         },
         computed:{
@@ -409,17 +414,17 @@
                 let me=this;
                  this.dismissCountDown1 = this.dismissSecs1;
                 axios.patch('/cargo/actualizar',{
-                    'nombre':this.descripcion,
+                    'ctcargo_nombre':this.descripcion,
                     'observacion':this.observacion,
-                    'idCargo':this.cargo_id
+                    'ctcargo_code':this.cargo_id
                 }).then(function (response) {
                    me.cerrarModal();
                    me.listarCargo(1,'','descripcion');
-                    me.successAct=true;
                    me.successAct = response.data;
+                   console.log(response.data);
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    me.unique=error.response.data.errors.ctcargo_nombre[0]
                 });
             },
             cerrarModal(){

@@ -82,7 +82,7 @@ class CategoriaController extends Controller
      if ($descripcionBaseDatos==$descripcion) {
         //  $validate='Campo existente';
         // return with(['validate' => $validate]);
-        return response()->json('Campo existente', 200);
+        return response()->json('Campo existente', 400);
      }else{
      $categoria->ctcatego_desc=$request->ctcatego_desc;
      $categoria->ctcatego_fecha_act=$date;

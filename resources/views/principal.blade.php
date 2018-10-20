@@ -96,7 +96,12 @@
         <!-- Contenido Principal -->
         @yield('contenido')
         <!-- /Fin del contenido principal -->
-    </div>   
+    </div>  
+    
+        <div class="hola">
+            <router-view></router-view>
+        </div>
+
     </div>
     <footer class="app-footer">
         
@@ -107,6 +112,14 @@
 
     <script src="js/app.js"></script>
     <script src="js/plantilla.js"></script>
+    <script>
+        $(document).ready(function(){
+            $( "ul"  ).click(function() {
+                window.location.href='/main#/';
+            });
+
+        });
+        </script>
 
 </body>
 

@@ -17,10 +17,10 @@ class LoginController extends Controller
     {
         // return $request;
         $usuario=$request->usuario;
-        $user=User::where('ctusuar_email',$usuario)->pluck('ctusuar_email');
+        $user=User::where('ctusuar_usuario',$usuario)->pluck('ctusuar_usuario');
         $ema = str_replace('["',"",$user);
         $userEmail = str_replace('"]',"",$ema);
-        $iduser=User::where('ctusuar_email',$usuario)->pluck('ctusuar_code');
+        $iduser=User::where('ctusuar_usuario',$usuario)->pluck('ctusuar_code');
         $idconvert =(string) $iduser;
         $idema = str_replace('[',"",$idconvert);
         $IdUsuario = str_replace(']',"",$idema);
@@ -32,7 +32,7 @@ class LoginController extends Controller
         // return $estadoUser;
         
         // return $userEmail;
-            if (Auth::attempt(['ctusuar_email'=>$request->usuario,'password'=>$request->password,'estado'=>1])) {
+            if (Auth::attempt(['ctusuar_usuario'=>$request->usuario,'password'=>$request->password,'estado'=>1])) {
                 
                     return redirect()->route('main');
                 
@@ -44,7 +44,7 @@ class LoginController extends Controller
                     ->with('msj1','Usuario desactivo');
                 }else{
                  return redirect()->route('iniciar-sesion')
-                 ->withErrors(['ctusuar_email'=>trans('auth.failed')])
+                 ->withErrors(['ctusuar_usuario'=>trans('auth.failed')])
                  ->withInput(request(['usuario']));
                 }
             

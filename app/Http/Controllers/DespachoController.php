@@ -11,6 +11,8 @@ use App\ProductoMaster;
 use App\DetalleGuia;
 use Carbon\Carbon;
 use App\DetalleSalida;
+// modelo liquidacion nuevo
+use App\Liquidacion;
 use Illuminate\Support\Facades\Auth;
 
 use Validator;
@@ -67,7 +69,7 @@ class DespachoController extends Controller
             ->wherenull('ctdetsa_reportar')
             ->wherenull('ctdetsa_fechaReporte')
             ->where('ctdetsa_tipro_code','=',1)
-            ->orderby('ctdetsa.ctdetsa_indice','desc')->paginate(10);
+            ->orderby('ctdetsa.ctdetsa_indice','desc')->get();
         }else {
             $salidas=DetalleSalida::select('ctdetsa.ctdetsa_sot','ctdetsa.ctdetsa_salid_nro',
             'ctdetsa.ctdetsa_sap','ctdetsa.ctdetsa_serie','ctdetsa.ctdetsa_cantidad',
@@ -77,25 +79,18 @@ class DespachoController extends Controller
             ->wherenull('ctdetsa_fechaReporte')
             ->where('ctdetsa_tipro_code','=',1)
             ->where('ctdetsa.'.$criterio,'like','%' .$buscar. '%')
-            ->orderby('ctdetsa.ctdetsa_indice','desc')->paginate(10);
+            ->orderby('ctdetsa.ctdetsa_indice','desc')->get();
            
         }
         return [
-            'pagination'=>[
-                    'total'=>$salidas->total(),
-                    'current_page'=>$salidas->currentPage(),
-                    'per_page'=>$salidas->perPage(),
-                    'last_page'=>$salidas->lastPage(),
-                    'from'=>$salidas->firstItem(),
-                    'to'=>$salidas->lastItem(),
-            ],
+            
             'salidas'=>$salidas
         ];
     }
     // MOSTRAR SALIDA DE MATERIAL
     public function SalidaMaterial(Request $request)
     {
-     if (!$request->ajax()) return redirect('/');
+    //  if (!$request->ajax()) return redirect('/');
         $buscar =$request->buscar;
         $criterio=$request->criterio;
         if ($buscar=='') {
@@ -106,7 +101,7 @@ class DespachoController extends Controller
             ->wherenull('ctdetsa_reportar')
             ->wherenull('ctdetsa_fechaReporte')
             ->where('ctdetsa_tipro_code','=',2)
-            ->orderby('ctdetsa.ctdetsa_indice','desc')->paginate(10);
+            ->orderby('ctdetsa.ctdetsa_indice','desc')->get();
         }else {
             $salidas=DetalleSalida::select('ctdetsa.ctdetsa_sot','ctdetsa.ctdetsa_salid_nro',
             'ctdetsa.ctdetsa_sap','ctdetsa.ctdetsa_serie','ctdetsa.ctdetsa_cantidad',
@@ -116,26 +111,18 @@ class DespachoController extends Controller
             ->wherenull('ctdetsa_fechaReporte')
             ->where('ctdetsa_tipro_code','=',2)
             ->where('ctdetsa.'.$criterio,'like','%' .$buscar. '%')
-            ->orderby('ctdetsa.ctdetsa_indice','desc')->paginate(10);
+            ->orderby('ctdetsa.ctdetsa_indice','desc')->get();
            
         }
         return [
-            'pagination'=>[
-                    'total'=>$salidas->total(),
-                    'current_page'=>$salidas->currentPage(),
-                    'per_page'=>$salidas->perPage(),
-                    'last_page'=>$salidas->lastPage(),
-                    'from'=>$salidas->firstItem(),
-                    'to'=>$salidas->lastItem(),
-            ],
+            
             'salidas'=>$salidas
         ];
     }
 
     public function obtenerProduserie(Request $request)
     {
-        //  return $request;
-    //   if (!$request->ajax()) return redirect('/');
+    //  if (!$request->ajax()) return redirect('/');
     
         $buscar =$request->buscar;
             $series=DB::select('call BucarSerieEquipo(?)',[$buscar]);
@@ -144,7 +131,7 @@ class DespachoController extends Controller
     }
     public function obtenerProdusap(Request $request)
     {
-       return $request;
+      
     //   if (!$request->ajax()) return redirect('/');
     
         $buscar =$request->buscar1;
@@ -369,7 +356,7 @@ class DespachoController extends Controller
     
     public function store(Request $request)
     {   
-    //    return $request;
+    //   return $request;
              
          if (!$request->ajax()) return redirect('/');
          $date =Carbon::now('America/Lima')->toDateTimeString();
@@ -380,17 +367,16 @@ class DespachoController extends Controller
          $usereplace = str_replace('{"ctusuar_code":',"",$user);
          $usereplacefinal = str_replace('}',"",$usereplace);
          $usuario =User::where('ctusuar_code',$usereplacefinal)
-         ->select('ctusuar_usuario')->get();
-         $usuarioreplace = str_replace('[{"ctusuar_usuario":"',"",$usuario);
-         $usuarioreplacefinal = str_replace('"}]',"",$usuarioreplace);
-        
+         ->select('ctusuar_usuario')->pluck('ctusuar_usuario');
+         $usuarioreplace = str_replace('["',"",$usuario);
+         $usuarioreplacefinal = str_replace('"]',"",$usuarioreplace);
          //REGISTRAR SALIDA
          $id=Salida::max('ctsalid_nro');
          $idmas=$id+1;
          $salida= new Salida();
          $salida->ctsalid_nro=$idmas;
          $salida->ctsalid_colab_id=$request->usuario_id;
-         $salida->ctsalid_sot_id=$request->sot;
+        //  $salida->ctsalid_sot_id=$request->sot;
          $salida->ctsalid_fecha_act=$request->fechaLlegada;
          $salida->ctsalid_usuario=Auth::user()->ctusuar_usuario;
          $salida->save();
@@ -411,7 +397,7 @@ class DespachoController extends Controller
             $idEquipoDetalle=$det['idProduct'];
             //SERIE DEL PRODUCTO
             $serieProducto=$det['prod01'];
-            
+           
             //NOMBRE DEL PRODUCTO
             $productonombre=$det['prodescri'];
             
@@ -421,7 +407,7 @@ class DespachoController extends Controller
             $idetmas=$idet+1;
             $detallessalida->ctdetsa_indice=$idetmas;
             $detallessalida->ctdetsa_salid_nro=$idmas;
-            $detallessalida->ctdetsa_sot=$request->sot;
+            // $detallessalida->ctdetsa_sot=$request->sot;
             $detallessalida->ctdetsa_roduc_id=$det['idProduct'];
             $detallessalida->ctdetsa_serie=$det['prod01'];
             $detallessalida->ctdetsa_fecha_reg=$dateconvert;
@@ -741,48 +727,17 @@ class DespachoController extends Controller
     ->where('ctdetsa_indice',$estadosjson1)->get();
     $idreplace = str_replace('[{"ctproduc_id":',"",$idproducto);
     $idreplacefinal = str_replace('}]',"",$idreplace);
-
-    /////FUNCIONES A APLICAR RESTA DE STOCK EN TABLA PRODUCTO
-     //ACTUALIZAR STOCK DEL PRODUCTO
-    
-    // $resta=$stockreplacefinal - 1;
-    // // return $resta ;
-    // $descontarstock =ProductoMaster::where('ctproduc_id', $idreplacefinal)
-
-    // ->update([
-    //     'ctproduc_stock' => $resta,
-    //     ]);
-     
      //ACTUALIZAR STOCK
      $newUsuario =DetalleSalida::where('ctdetsa_indice', $estadosjson1)
     ->delete(); 
-    //  ->update([
-    //      'ctdetsa_esta_code' => 0,
-    //      ]);
-    
-    
-    
     //OCULTAR PRODUCTO CON SERIE IDENTIFICADA
     
     $serie =DetailProducto::where('ctdetpr_serie', $seriereplacefinal)
     ->delete();
-
-    // ->update([
-    //     'ctdetpr_esta_code' => 0,
-    //     'ctdetpr_fechaLiqui'=>$dateconvert,
-    //     ]);
     //MOSTRAR MENSAJE ELIMINADO
     //ELIMINAR DE DETALLE GUIA
     $serieGuia =DetalleGuia::where('ctdetgu_serieProduc', $seriereplacefinal)
     ->delete();
-    
-    //  return $dateconvert;
-    // $mensaje =DetailProducto::where('ctdetpr_serie', $seriereplacefinal)
-
-    // ->update([
-    //     'ctdetpr_esta_equi' => 'Eliminado por '.Auth::user()->ctusuar_usuario
-    //     ]);
-    
     
     }
     public function devolverMaterialAlmacen(Request $request)
@@ -887,15 +842,6 @@ class DespachoController extends Controller
         ]);
         // return $indice;
     }
-   
-    // public function prueba()
-    // {
-    //     $productoDesc =DetalleSalida::crossjoin('ctdetpr')
-    //     ->join('ctproduc','ctproduc.ctproduc_id','=','ctdetpr.ctdetpr_produc_id')
-    //     ->select('ctproduc.ctproduc_stock','ctdetpr.ctdetpr_serie','ctproduc.sap')
-    //     ->where('ctdetsa_indice',1)->get();
-    //     return $productoDesc;
-    // }
     public function listarLiquidar(Request $request)
     
     {
@@ -965,12 +911,27 @@ class DespachoController extends Controller
    }
    public function LiquidarEquipoAdminArray(Request $request)
    {
-    //    return $request;
+        //  return $request;
     if (!$request->ajax()) return redirect('/');
-       $serie=$request->serie;
-        // return $request;
+        $date =Carbon::now('America/Lima')->toDateTimeString();
+        $dateconvert =(string) $date;
+        $idLiqui=Liquidacion::max('ctliqui_id');
+        $idLiquiMax=$idLiqui+1;
+        // capturando array de la respuesta
+        $serie=$request->serie;
+        //Capturando el codigo sap de la respuesta
+        $codigoSOT=$request->codigoSOT;  
+        //  return $serie;
        foreach ($serie as $key => $value) {
-            
+            //añadiendo equipos a la tabla liquidacion para control respectivo
+            $product_liquidation=new Liquidacion();
+            $product_liquidation->ctliqui_id=$idLiquiMax; 
+            $product_liquidation->ctliqui_sot=$codigoSOT;
+            $product_liquidation->ctliqui_fechareg=$dateconvert;
+            $product_liquidation->ctliqui_userliqui=Auth::user()->ctusuar_usuario;
+            // return $product_liquidation;
+            $product_liquidation->save();   
+            // eliminando los equipos por serie
             $serieProducto =DetailProducto::where('ctdetpr_serie', $value)
             ->pluck('ctdetpr_produc_id');
             $proid = str_replace('[',"",$serieProducto);

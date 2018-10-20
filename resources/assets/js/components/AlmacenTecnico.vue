@@ -1,5 +1,5 @@
 <template>
-            <main class="main">
+        <main class="main">
             <!-- Breadcrumb -->
             <ol class="breadcrumb">
                 
@@ -40,15 +40,15 @@
                             <table class="table table-bordered table-striped table-sm">
                                 <thead>
                                     <tr>
-                                        <th>Sot</th>
+                                       
                                         <th>Usuario</th>
                                         <th>SAP</th>
                                         <th>Serie</th>
                                         <th>Cantidad</th>
                                         <th>Fecha Registro</th>
                                         <th>Dias</th>
-                                        <th>Traslado</th>
-                                        <th>Liquidación</th>
+                                        <th v-if="CargoUser==1|| CargoUser==2">Traslado</th>
+                                        <th v-if="CargoUser==1|| CargoUser==2">Liquidación</th>
                                         <th>Devolución</th>
                                     
                                     
@@ -58,14 +58,14 @@
                                 
                                     <tr v-for="almacen in arrayAlmacen" :key="almacen.idalmacen"  >
                                         <!-- <td v-text="categoria.idCategoria" ></td> -->
-                                        <td v-text="almacen.ctdetsa_sot"></td>
+                                        <!-- <td v-text="almacen.ctdetsa_sot"></td> -->
                                         <td v-text="almacen.ctdetsa_traspaso"></td>
                                         <td v-text="almacen.ctdetsa_sap"></td>
                                         <td v-text="almacen.ctdetsa_serie"></td>
-                                        <td v-text="almacen.ctdetsa_cantidad"></td>
+                                        <td  v-text="almacen.ctdetsa_cantidad"></td>
                                         <td v-text="almacen.ctdetsa_detgu_fecha_reg"></td>
                                         <!-- <td>{{moment(almacen.ctdetsa_fecha_reg).fromNow()}}</td> -->
-                                        <td 
+                                        <td v-if="CargoUser==1|| CargoUser==2"
                                             :class="{ 
                                                 reds: restantes(almacen.ctdetsa_detgu_fecha_reg) >= 4, 
                                                 greens: restantes(almacen.ctdetsa_detgu_fecha_reg) <= 4  
@@ -73,7 +73,7 @@
                                                 
                                                 {{restantes(almacen.ctdetsa_detgu_fecha_reg)}}
                                         </td>
-                                        <td>
+                                        <td v-if="CargoUser==1|| CargoUser==2"> 
                                             <b-btn v-b-modal.modallg class="btn-sm" variant="primary" @click="abrirModal('producto','traslado',almacen)">
                                                 Traslado
                                             </b-btn>
@@ -292,6 +292,20 @@
             
         },
         methods:{
+            listarCargo(){
+                let me=this;
+                var url='/user/cargo';
+               axios.get(url).then(function (response) {
+                    // handle success;
+                   var respuesta=response.data;
+                   me.CargoUser=respuesta.cargo;
+                   
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                });
+            },
 
             restantes(val){
 
@@ -500,6 +514,7 @@
             }
         },
         mounted() {
+            this.listarCargo();
             this.listarAlmacen(1,this.buscar,this.criterio);
               
         }

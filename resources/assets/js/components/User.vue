@@ -355,21 +355,25 @@
                                                 label-class="text-sm-right"
                                                 label-for="nestedCountry">
 
-                                                <b-form-input   id="inputLive3"
-                                                                v-model.trim="dni"
-                                                                type="number"
-                                                                aria-describedby="inputLiveHelp1 inputLiveFeedback1"
-                                                                :state="dniState"
-                                                                placeholder="">
-                                                </b-form-input>
-                                                <b-form-invalid-feedback v-show="dni.length != 8" id="inputLiveFeedback1">
-                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                Rellene con 8 digitos
-                                                </b-form-invalid-feedback>
+                                                <input type="text" :class="{ brd:dni.length<=7 , werd:dni.length==8}"  v-model="dni" @keyup="dniEx()" class="form-control" >
+                                               <div class="filesx" v-if="mesaFal == 1" >
+                                                   <p>Ya existe este campo</p>
+                                               </div>
+                                               <div class="filesx" v-if="dni.length<=7 " >
+                                                   <p>Rellene con 8 digitos</p>
+                                               </div>
 
-                                                <b-form-invalid-feedback v-if="errores.ctcolab_dni" id="inputLiveFeedback1">
+                                               <b-form-invalid-feedback v-show="dni.length != 8"  id="inputLiveFeedback1">
+                                                   Rellene con 8 digitos
+                                               </b-form-invalid-feedback>
+
+                                               <b-form-invalid-feedback v-show="mesaFal == 1" id="inputLiveFeedback1">
+                                               Ya existe este campo
+                                               </b-form-invalid-feedback>
+
+                                                 <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                Ya existe este campo
+                                                    {{uniqueDni + 'DNI'}}
                                                 </b-form-invalid-feedback>
                                     
                                     </b-form-group>
@@ -474,16 +478,28 @@
                                         <!-- This will only be shown if the preceeding input has an invalid state -->
                                         Rellene este campo
                                         </b-form-invalid-feedback>
+                                          <!-- CAMPOS GENERALES -->
+                                <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
+                                <!-- This will only be shown if the preceeding input has an invalid state -->
+                                    {{uniqueDni + "DNI regrese"}}
+                                </b-form-invalid-feedback>
                                 </div>
+                                
+                            
+
                                
                             </div>
+                               
+                           
                         </b-card>
+                       
                     </div>
+                   
                 </div>    
-                    
                 
             </div>
-        
+          
+                
         </form>
 
         <div v-if="step01 === 1" slot="modal-footer" class="w-100">
@@ -598,7 +614,9 @@
                 rolChecked:0,
                 unidadMedidaChecked:0,
                 liquidacionChecked:0,
-                idPermiso:''
+                idPermiso:'',
+                uniqueDni:'',
+                mesaFal:0
                 
             }
     
@@ -716,6 +734,22 @@
         },
        
         methods:{
+            dniEx(){
+                for (let index = 0; index < this.arrayUsuario.length; index++) {
+                   const aUser = this.arrayUsuario[index];
+
+                   if (aUser.ctcolab_dni == this.dni) {
+
+                        this.mesaFal=1;
+                       this.dni="";
+                        this.timer = setTimeout(() => {
+                            this.mesaFal=0;
+
+                       }, 1200);
+
+                   }
+               }
+           },
             //check
              toggleAll (checked) {
             this.selected = checked ? this.flavours.slice() : []
@@ -947,7 +981,7 @@
                 'apePater':this.apePater,
                 'apeMater':this.apeMater,
                 'nombres':this.nombres,
-                'dni':this.dni,
+                'ctcolab_dni':this.dni,
                 'direccion':this.direccion,
                 'telefono':this.telefono,
                 'celular':this.celular,
@@ -966,7 +1000,8 @@
                    me.successAct = response.data;
                 })
                 .catch(function (error) {
-                    console.log(error);
+                    console.log(error.response.data.errors.ctcolab_dni[0]);
+                    me.uniqueDni=error.response.data.errors.ctcolab_dni[0];
                 });
             },
             cerrarModal(){
@@ -1164,5 +1199,24 @@
     background: red;
     position: relative;
     
+}
+.filesx{
+   width: 100%;
+   margin-top: 0.25rem;
+   font-size: 80%;
+   color: #dc3545;
+}
+.brd{
+   border: 1px solid #dc3545!important;
+}
+.werd{
+   border: 1px solid #28a745!important;
+}
+
+.brd:focus{
+   box-shadow: 0 0 0 0.2rem rgba(146, 15, 15, 0.25)!important;
+}
+.werd:focus{
+   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25)!important;
 }
 </style>

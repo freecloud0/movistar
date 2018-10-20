@@ -65,17 +65,41 @@ class CargoController extends Controller
    
     public function update(Request $request)
     {
-        // return $request;
+          
         if (!$request->ajax()) return redirect('/');
-        $date =Carbon::now('America/Lima')->toDateTimeString();
-        $dateconvert =(string) $date;
-     $cargos= Cargo::findOrFail($request->idCargo);
-     $cargos->ctcargo_nombre=$request->nombre;
-     $cargos->ctcargo_desc=$request->observacion;
-     $cargos->ctcargo_fecha_act=$dateconvert;
-     $cargos->ctcargo_usuario=Auth::user()->ctusuar_usuario;
-     $cargos->save();
-     return response()->json('Actualizado Correctamente', 200);
+            $date =Carbon::now('America/Lima')->toDateTimeString();
+            $dateconvert =(string) $date;
+            $cargos= Cargo::findOrFail($request->ctcargo_code);
+            $id = $cargos->ctcargo_code;
+            $buscar = Cargo::where('ctcargo_code',$id)->pluck('ctcargo_code');
+            $buscarr = str_replace('[',"",$buscar);
+            $Userid = str_replace(']',"",$buscarr);
+            $name = Cargo::where('ctcargo_code',$id)->pluck('ctcargo_nombre');
+            $names = str_replace('["',"",$name);
+            $UserName = str_replace('"]',"",$names);
+        
+        if ($UserName == $request->ctcargo_nombre ) {
+            $cargos->ctcargo_nombre=$request->ctcargo_nombre;
+            $cargos->ctcargo_desc=$request->observacion;
+            $cargos->ctcargo_fecha_act=$dateconvert;
+            $cargos->ctcargo_usuario=Auth::user()->ctusuar_usuario;
+            $cargos->save();
+            return response()->json('Actualizado Correctamente', 200);
+        } else {
+            $this->validate($request,[
+             'ctcargo_nombre' => 'unique:ctcargo,ctcargo_nombre,ctcargo_code'.$id.',ctcargo_code'
+            ]);
+            $cargos->ctcargo_nombre=$request->ctcargo_nombre;
+            $cargos->ctcargo_desc=$request->observacion;
+            $cargos->ctcargo_fecha_act=$dateconvert;
+            $cargos->ctcargo_usuario=Auth::user()->ctusuar_usuario;
+            $cargos->save();
+            return response()->json('Actualizado Correctamente', 200);
+        }
+       
+      
+      
+     
     }
 
     public function desactivar(Request $request)

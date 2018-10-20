@@ -29,12 +29,12 @@
                                     {{csrf_field()}}  
                                     <h1 class="tel01">Login</h1>
                                     <p class="text-muted">Iniciar sesión en su cuenta</p>
-                                    <div class="input-group mb-3{{$errors->has('ctusuar_email' ? 'has-error' : '' )}}">
+                                    <div class="input-group mb-3{{$errors->has('ctusuar_usuario' ? 'has-error' : '' )}}">
                                             <span class="input-group-addon">
                                             <i class="icon-user"></i>
                                             </span>
                             
-                                            <input  type="email" 
+                                            <input  type="text" 
                                                     value="{{old('usuario')}}" 
                                                     name="usuario" 
                                                     id="usuario" 
@@ -42,7 +42,7 @@
                                                     placeholder="Usuario"
                                                     required autofocus>
                                                     
-                                                    {!!$errors->first('ctusuar_email','
+                                                    {!!$errors->first('ctusuar_usuario','
                                                     
 
                                                     <div class="alert alert-warning alert-dismissible fade show cuer01" role="alert">

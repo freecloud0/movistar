@@ -29,7 +29,8 @@ class DetalleIngresoController extends Controller
             'ctdetgu_usuario','ctundmd.ctundmd_code','ctundmd.ctundmd_desc')
             ->groupby('ctdetgu.ctdetgu_indice')
             ->orderby('ctdetgu.ctdetgu_indice','desc')
-            ->paginate(10);
+            ->get()
+            ;
         
             // ->join('ctproduc','ctproduc.ctproduc_id','=','ctdetpr.ctdetpr_produc_id')
             // ->join('ctundmd','ctundmd.ctundmd_code','=','ctdetpr.ctdetpr_undmd_code')
@@ -42,18 +43,12 @@ class DetalleIngresoController extends Controller
             ->groupby('ctdetgu.ctdetgu_serieProduc')
            
             ->where('ctdetgu.'.$criterio,'like','%' .$buscar. '%')
-            ->orderby('ctdetgu.ctdetgu_indice','desc')->paginate(10);
+            ->orderby('ctdetgu.ctdetgu_indice','desc')
+            ->get();
            
         }
         return [
-            'pagination'=>[
-                    'total'=>$productos->total(),
-                    'current_page'=>$productos->currentPage(),
-                    'per_page'=>$productos->perPage(),
-                    'last_page'=>$productos->lastPage(),
-                    'from'=>$productos->firstItem(),
-                    'to'=>$productos->lastItem(),
-            ],
+            
             'productos'=>$productos
         ];
     }

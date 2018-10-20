@@ -49,25 +49,72 @@
                                 </div>
                                 </div>
                             </div>
-                            <div class="col-md-4"></div>
-                        </div>
+                            
+                            <div class="col-md-4 ">
+
+                                <div class="anyClass border-r p-4" :class="{disNo:this.probarinsert=='' ,disBlo:this.probarinsert!=''}">
+                                    <h6 class="p-2 b-01 text-center">Lista de Liquidación</h6>
+                                    <table class="table table-bordered table-striped table-sm">
+                                        <thead>
+                                            <tr>
+                                                <th>Equipos</th>
+                                                <th>Opciones</th>
+                                                <th>
+                                                    <div class="btn-group ">
+                                                        <button type="button" v-b-tooltip.hover title="Limpiar Liquidación"  @click="probarinsert=[]" class=" btn-transparent blue-text">
+                                                            <i class="fas fa-eraser"></i>
+                                                        </button>
+                                                    </div>
+                                                    
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody class=" ">
+                                            <tr v-for="(fruit, index) in probarinsert" :key="index">
+                                                <td>
+                                                    {{fruit}}
+                                                    <!-- <p hidden="hidden">{{index +1}}</p> -->
+                                                </td>
+                                                <td>
+                                                    <div class="btn-group ">
+                                                        <button type="button" @click="eliminarIndex(index)" class=" btn-transparent red-text">
+                                                            <i class="fas fa-backspace"></i>
+                                                        </button>
+                                                    </div>
+                                                    <!-- <a @click="eliminarIndex(index)"> eliminar</a> -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                <button class="btn orange float-c mt-2 btn-sm" @click="liquidarProductos(probarinsert)">Liquidar Todo</button>
+                            
+                                </div>
+                            </div>
+                                   
+                            <div class="col-md-4">
+                                <label for="codigoSOT"> Codigo SOT</label>
+                                <input  v-model="codigoSOT" type="number"  class="form-control" placeholder="Texto a buscar">
+                            
+                            </div>
+                            
+                            </div>
 
                             <br>
                             
                          <div class="table-responsive">
-                        <table class="table table-bordered table-striped table-sm">
+                        <table @click="mostrarLista()" class="table table-bordered table-striped table-sm">
                             <thead class="blue white-text text-center">
-                                <tr>
-                                     <th>Seleccione</th>
+                                <tr class="text-center">
+                                     <th>Selección</th>
                                     
-                                    <th>Cod. SAP</th>
+                                    <th>Código. SAP</th>
                                     <th>Código del producto</th>
                                     
                                     <th>Fecha de Registro</th>
                                    
-                                    <th>Perteneciente a:</th>
+                                    <th>Usuario</th>
                                      <th>
-                                        Liquidar
+                                        Opciones
                                     </th>
                                    
                                    
@@ -78,22 +125,31 @@
                                 <tr v-for="entrada in paginador(arrayEntrada)" :key="entrada.idProducto"  >
                                     
                                      <td >
-                                        <b-form-checkbox 
-                                        :disabled="entrada.ctdetgu_code==2"
-                                        v-model="LiquiChecked"
-                                        :value="entrada.ctdetgu_serieProduc"
-                                        >
-                                        </b-form-checkbox>            
+                                         <div >
+                                              <b-form-checkbox 
+                                                :disabled="entrada.ctdetgu_code==2"
+                                                v-model="LiquiChecked"
+                                                :value="entrada.ctdetgu_serieProduc"
+                                                
+                                                >
+                                                </b-form-checkbox>  
+                                         </div>
+                                                 
                                     </td>
                                      <td v-text="entrada.ctdetgu_desc" ></td>
                                      <td v-text="entrada.ctdetgu_serieProduc"></td>
                                      <td v-text="entrada.ctdetgu_fecha_reg"></td> 
                                      <td v-text="entrada.ctdetgu_userSalida"></td>
                                      
-                                    <td   class="text-center">
+                                    <!-- <td   class="text-center">
                                         <b-btn :disabled="entrada.ctdetgu_code==2"  @click="liquidarProducto(entrada.ctdetgu_serieProduc)"  variant="warning btn-sm" >
                                                 <i class="fa fa-trash black"></i>    
                                         </b-btn> 
+                                    </td> -->
+                                    <td class="sm-0 sp-0">
+                                         <b-btn class="btn orange float-right mt-2 btn-sm" :disabled="entrada.ctdetgu_code==2" @click="capturaSerie(entrada.ctdetgu_serieProduc)">
+                                            Agregar
+                                         </b-btn>
                                     </td>
                                      
                                     
@@ -623,6 +679,10 @@ function pasacampo(key_event)
         data(){
             return{
                 //event_at: new Date(),
+                
+                codigoSOT:'',
+                probarinsert:[],
+                lista:[],
                 items: items,  
                 fields: ['SAP','DESCRIPCION','STOCK','OPCIONES'],
                 fields01: ['SAP','DESCRIPCION','STOCK','OPCIONES'],
@@ -703,7 +763,8 @@ function pasacampo(key_event)
                 arrayListarSerie:[],
                 arrayGuia:[],
                 LiquiChecked:[],
-                selectAll: false
+                selectAll: false,
+                
                
           
             }
@@ -768,6 +829,29 @@ function pasacampo(key_event)
             }
         },
         methods:{
+            eliminarIndex: function (index) {
+
+               this.probarinsert.splice(index, 1);
+                
+            },
+            capturaSerie: function (id) {
+           if (this.probarinsert < 1) {
+               this.probarinsert.push(id);
+           } else {
+            if (this.probarinsert.indexOf(id) === -1) {
+                    this.probarinsert.push(id);
+                } else if (this.probarinsert.indexOf(id) > -1) {
+                     toast({
+                        type: 'warning',
+                        title: `${this.probarinsert} ya existe en la colección.`
+                    })
+                }
+           } 
+            },
+            
+            mostrarLista(){
+                this.lista = this.arrayEntrada;
+            },
               liquidarProducto(serie){
                  swal({
                     title: '¿Desea eliminar este registro?',
@@ -801,6 +885,13 @@ function pasacampo(key_event)
 
             },
              liquidarProductos(serie){
+
+                 if (this.probarinsert.length ==0) {
+                      toast({
+                        type: 'warning',
+                        title: `no existe ninguna colección a eliminar.`
+                    })
+                 } else {
                  swal({
                     title: '¿Desea eliminar estos registros?',
                     
@@ -815,7 +906,8 @@ function pasacampo(key_event)
                 let me=this;
                     axios.patch('/liquidar/productoArray',{
                                 
-                                'serie':serie
+                                'serie':serie,
+                                'codigoSOT':this.codigoSOT
                             }).then(function (response) {
                            
                             me.listarEntrada(1,'','ctdetgu_serieProduc');
@@ -824,14 +916,15 @@ function pasacampo(key_event)
                                     'Registro desactivado',
                                     'success'
                                     )
-                                    me.LiquiChecked.length=0       
+                                    me.LiquiChecked.length=0 
+                                    me.probarinsert.length=0       
                             })
                             .catch(function (error) {
                                 console.log(error);
                             });
                     }
                     })
-
+                 }
             },
             paginador(val) {
                 const indiceInicio = (this.currentPage - 1) * this.perPage;
@@ -1392,28 +1485,6 @@ function pasacampo(key_event)
                     }
 
             },
-            validarIngreso(){
-                this.errorIngreso=0;
-                this.errorMostrarMsjEntrada=[];
-                if(this.proveedor_id==0) this.errorMostrarMsjEntrada.push("Agregue Proveedor");
-                if(this.serie==0) this.errorMostrarMsjEntrada.push("Agregue Serie");
-                if(this.fechaRegistro==0) this.errorMostrarMsjEntrada.push("Agregue fecha Registro");
-
-                if (this.errorMostrarMsjEntrada.length) this.errorIngreso=1; 
-                return this.errorIngreso;
-            },
-           
-            validarProducto(){
-                this.errorProducto=0;
-                this.errorMostrarMsjProducto=[];
-                if (this.idCategoria==0) this.errorMostrarMsjProducto.push("Seleccione una categoria") ;
-                if (!this.codigo) this.errorMostrarMsjProducto.push("El código esta vacío,rellene por favor") ;
-                if (!this.descripcion) this.errorMostrarMsjProducto.push("La descripcion o nombre esta vacía,rellene por favor") ;
-                if (!this.stock) this.errorMostrarMsjProducto.push("El stock esta vacío,rellene por favor") ;
-              
-                if (this.errorMostrarMsjProducto.length) this.errorProducto=1; 
-                return this.errorProducto;
-            },
             listarEquipo(page,buscar,criterio){
                 let me=this;
                 var url='/producto/master?page=' + page + '&buscar='+ buscar + '&criterio=' + criterio;
@@ -1483,5 +1554,32 @@ function pasacampo(key_event)
     }
     .green01{
         color: green !important;
+    }
+    .prueba{
+        /* width:9px ;
+        max-width:10;
+        height:10; */
+        /* overflow-y:scroll; */
+        /* border:1px solid #eee; */
+        box-shadow: 0px 0px 20px #ccc inset;
+    }
+    .anyClass {
+    height:112px;
+    width:278px;
+    overflow-y: scroll;
+    }
+    .anyClass {
+    height:112px;
+    width:278px;
+    overflow-y: scroll;
+    }
+    .border-r{
+        border:1px solid #09111a !important;
+    }
+    .disBlo{
+        display: block;
+    }
+    .disNo{
+        display: none;
     }
    </style>

@@ -156,6 +156,8 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/procedimiento','DetalleEquipoController@procedimiento');
         // CARGO DE USUARIO ACIVO
         Route::get('/user/cargo','UserActivoController@CargarCargoUser');
+        // LIQUIDACION 
+        Route::get('/liquidacion','LiquidacionController@index');
         
 
         Route::get('error', function () {

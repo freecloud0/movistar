@@ -99,23 +99,6 @@ class DetalleEquipoController extends Controller
        if (!$request->ajax()) return redirect('/');
     
         $buscar =$request->buscar;
-            // $series=DetailProducto::leftjoin('ctproduc','ctproduc.ctproduc_id','=','ctdetpr.ctdetpr_produc_id')
-            // ->leftjoin('ctundmd','ctundmd.ctundmd_code','=','ctproduc.ctproduc_tipro_code')
-            // ->leftjoin('ctcatego','ctcatego.ctcatego_id','=','ctproduc.ctproduc_catego_id')
-            // ->leftjoin('cttipro','cttipro.cttipro_code','=','ctproduc.ctproduc_tipro_code')
-            // ->select('ctdetpr.ctdetpr_produc_id','ctdetpr.ctdetpr_serie','ctdetpr.ctdetpr_undmd_code',
-            // 'ctdetpr.ctdetpr_tipro_code',
-            // 'ctdetpr.ctdetpr_mac1','ctdetpr.ctdetpr_mac2','ctdetpr.ctdetpr_mac3','ctdetpr.ctdetpr_sap','ctdetpr.ctdetpr_fecha_act'
-            // ,'ctdetpr.ctdetpr_usuario',
-            // 'ctproduc.ctproduc_id','ctproduc.ctproduc_nombre','ctproduc.sap','ctproduc.ctproduc_stock','ctundmd.ctundmd_code','ctundmd.ctundmd_desc',
-            // 'ctcatego.ctcatego_id','ctcatego.ctcatego_desc','cttipro.cttipro_code','cttipro.cttipro_desc','ctdetpr.ctdetpr_esta_code')
-            // ->where('ctdetpr.ctdetpr_esta_code','=',1)
-            // ->where('ctproduc.ctproduc_stock','>',0)
-            // ->where('ctproduc.sap','=',$buscar)->get();
-
-        // return [ 'series'=>$series];
-
-
         $series=DB::select('call ProductoSerie(?)',[$buscar]);
         return ['series'=>$series];
 

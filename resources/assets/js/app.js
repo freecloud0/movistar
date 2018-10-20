@@ -6,7 +6,6 @@
 
 
 
-
 import VeeValidate from 'vee-validate';
 
 const VueValidationEs = require('vee-validate/dist/locale/es');
@@ -32,7 +31,15 @@ import BootstrapVue from 'bootstrap-vue'
 
 Vue.use(BootstrapVue);
 
-
+import swal from 'sweetalert2'
+window.swal = swal;
+const toast = swal.mixin({
+    toast: true,
+    position: 'top-end',
+    showConfirmButton: false,
+    timer: 3000
+});
+window.toast = toast;
 import 'bootstrap/dist/css/bootstrap.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 //materialdesing
@@ -41,6 +48,17 @@ import 'mdbvue/build/css/mdb.css';
 require('./bootstrap');
 
 window.Vue = require('vue');
+import VueRouter from 'vue-router'
+Vue.use(VueRouter);
+let routes = [
+   { path: '/categoria-create', component: require('./components/Categoria-create.vue') },
+   { path: '/equipo-create', component: require('./components/Equipo-create.vue') }
+]
+const router = new VueRouter({
+
+
+    routes // short for `routes: routes`
+  })
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -64,9 +82,13 @@ Vue.component('reporte', require('./components/Reporte.vue'));
 Vue.component('liquidacion', require('./components/Liquidacion.vue'));
 
 
+  
+
 const app = new Vue({
     el: '#app',
     data: {
-        menu: 0
-    }
+        menu: 0,
+
+    },
+    router
 });

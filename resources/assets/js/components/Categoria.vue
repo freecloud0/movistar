@@ -145,7 +145,7 @@
             <!--Inicio del modal agregar/actualizar-->
              <div>
 
-                <b-modal v-model="modallg" id="modallg" size="lg" title="Categoria" tabindex="-1" :class="{'mostrar':modal}" >
+                <b-modal  data-backdrop="static" data-keyboard="false" v-model="modallg" id="modallg" size="lg" title="Categoria" tabindex="-1" :class="{'mostrar':modal}" >
                     
                             <form action="" method="post" enctype="multipart/form-data" @submit.prevent="onSubmit" class="form-horizontal">
                                 <div class="row">
