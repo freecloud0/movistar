@@ -93,93 +93,100 @@
                                    
                             <div class="col-md-4">
                                 <label for="codigoSOT"> Codigo SOT</label>
-                                <input  v-model="codigoSOT" type="number"  class="form-control" placeholder="Texto a buscar">
-                            
+
+                                <input  v-model="codigoSOT" :class="{brd:this.codigoSOT=='',werd:this.codigoSOT!='' }" type="number"  class="form-control" placeholder="Texto a buscar">
+                                
+                                <div class="filesx" :class="{disBlo:this.codigoSOT=='' ,disNo:this.codigoSOT!=''}">
+                                    Campo obligatorio
+                                </div>
                             </div>
                             
                             </div>
 
                             <br>
                             
-                         <div class="table-responsive">
-                        <table @click="mostrarLista()" class="table table-bordered table-striped table-sm">
-                            <thead class="blue white-text text-center">
-                                <tr class="text-center">
-                                     <th>Selección</th>
+                         <div  class="table-responsive" :class="{disNo:this.codigoSOT=='' ,disBlo:this.codigoSOT!=''}">
+                            <table @click="mostrarLista()" class="table table-bordered table-striped table-sm">
+                                <thead class="blue white-text text-center">
+                                    <tr class="text-center">
+                                        <th>Selección</th>
+                                        
+                                        <th>Código. SAP</th>
+                                        <th>Código del producto</th>
+                                        
+                                        <th>Fecha de Registro</th>
                                     
-                                    <th>Código. SAP</th>
-                                    <th>Código del producto</th>
+                                        <th>Usuario</th>
+                                        <th>
+                                            Opciones
+                                        </th>
                                     
-                                    <th>Fecha de Registro</th>
-                                   
-                                    <th>Usuario</th>
-                                     <th>
-                                        Opciones
-                                    </th>
-                                   
-                                   
-                                </tr>
-                            </thead>
-                            <tbody>
+                                    
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr v-for="entrada in paginador(arrayEntrada)" :key="entrada.idProducto"  >
+                                        
+                                        <td >
+                                            <div >
+                                                <b-form-checkbox 
+                                                    :disabled="entrada.ctdetgu_code==2"
+                                                    v-model="LiquiChecked"
+                                                    :value="entrada.ctdetgu_serieProduc"
+                                                    
+                                                    >
+                                                    </b-form-checkbox>  
+                                            </div>
+                                                    
+                                        </td>
+                                        <td v-text="entrada.ctdetgu_desc" ></td>
+                                        <td v-text="entrada.ctdetgu_serieProduc"></td>
+                                        <td v-text="entrada.ctdetgu_fecha_reg"></td> 
+                                        <td v-text="entrada.ctdetgu_userSalida"></td>
+                                        
+                                        <!-- <td   class="text-center">
+                                            <b-btn :disabled="entrada.ctdetgu_code==2"  @click="liquidarProducto(entrada.ctdetgu_serieProduc)"  variant="warning btn-sm" >
+                                                    <i class="fa fa-trash black"></i>    
+                                            </b-btn> 
+                                        </td> -->
+                                        <td class="sm-0 sp-0">
+                                            <b-btn class="btn orange float-right mt-2 btn-sm" :disabled="entrada.ctdetgu_code==2" @click="capturaSerie(entrada.ctdetgu_serieProduc)">
+                                                Agregar
+                                            </b-btn>
+                                        </td>
+                                        
+                                        
+                                        
+                                    </tr>
+                                    
+                                </tbody>
+                            </table>
+                            <b-btn v-show="arrayEntrada.length!==0" v-if="LiquiChecked.length !==0"  @click="liquidarProductos(LiquiChecked)"  variant="warning btn-sm" >
+                                    <i class="fa fa-trash black"></i>    
+                            </b-btn> 
+
+                            <nav aria-label="pagination example">
+                                <ul class="pagination pg-blue">
+                                    <li class="page-item" v-if="pagination.current_page > 1">
+                                        <a  class="page-link" href="#" 
+                                            @click.prevent ="cambiarPagina(pagination.current_page-1,buscar,criterio)">
+                                            Ant
+                                        </a>
+                                    </li>
+                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page==isActived ? 'active' : '']">
+                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page" ></a>
+                                    </li>
                                 
-                                <tr v-for="entrada in paginador(arrayEntrada)" :key="entrada.idProducto"  >
+                                    <li class="page-item" v-if="pagination.current_page<pagination.last_page">
+                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page+1,buscar,criterio)">Sig</a>
+                                    </li>
                                     
-                                     <td >
-                                         <div >
-                                              <b-form-checkbox 
-                                                :disabled="entrada.ctdetgu_code==2"
-                                                v-model="LiquiChecked"
-                                                :value="entrada.ctdetgu_serieProduc"
-                                                
-                                                >
-                                                </b-form-checkbox>  
-                                         </div>
-                                                 
-                                    </td>
-                                     <td v-text="entrada.ctdetgu_desc" ></td>
-                                     <td v-text="entrada.ctdetgu_serieProduc"></td>
-                                     <td v-text="entrada.ctdetgu_fecha_reg"></td> 
-                                     <td v-text="entrada.ctdetgu_userSalida"></td>
-                                     
-                                    <!-- <td   class="text-center">
-                                        <b-btn :disabled="entrada.ctdetgu_code==2"  @click="liquidarProducto(entrada.ctdetgu_serieProduc)"  variant="warning btn-sm" >
-                                                <i class="fa fa-trash black"></i>    
-                                        </b-btn> 
-                                    </td> -->
-                                    <td class="sm-0 sp-0">
-                                         <b-btn class="btn orange float-right mt-2 btn-sm" :disabled="entrada.ctdetgu_code==2" @click="capturaSerie(entrada.ctdetgu_serieProduc)">
-                                            Agregar
-                                         </b-btn>
-                                    </td>
-                                     
-                                    
-                                    
-                                </tr>
-                                
-                            </tbody>
-                        </table>
-                        <b-btn v-show="arrayEntrada.length!==0" v-if="LiquiChecked.length !==0"  @click="liquidarProductos(LiquiChecked)"  variant="warning btn-sm" >
-                                                            <i class="fa fa-trash black"></i>    
-                                                    </b-btn> 
+                                </ul>
+                            </nav>
                         </div>
-                        <nav aria-label="pagination example">
-                            <ul class="pagination pg-blue">
-                                <li class="page-item" v-if="pagination.current_page > 1">
-                                    <a  class="page-link" href="#" 
-                                        @click.prevent ="cambiarPagina(pagination.current_page-1,buscar,criterio)">
-                                        Ant
-                                    </a>
-                                </li>
-                                <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page==isActived ? 'active' : '']">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page" ></a>
-                                </li>
-                             
-                                <li class="page-item" v-if="pagination.current_page<pagination.last_page">
-                                    <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page+1,buscar,criterio)">Sig</a>
-                                </li>
-                                
-                            </ul>
-                        </nav>
+
+                        
 
                     </div>
                     </template>
@@ -356,6 +363,7 @@
                                                                 
                                                                             </b-col>
                                                                             </b-row>
+
                                                                     <div class="table-responsive">
                                                                             <br>
                                                                             

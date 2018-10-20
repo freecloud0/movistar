@@ -166,6 +166,10 @@ class ProductoMasterController extends Controller
             $pdf=\PDF::loadView('pdf.equipospdf',['produmaster'=>$produmaster,'cont'=>$cont]);
             return $pdf->download('equipos.pdf');
     }
-
+    public function CodigoSap()
+   {
+       $sap = ProductoMaster::select('sap')->get();
+       return ['sap'=>$sap];
+   }
 
 }

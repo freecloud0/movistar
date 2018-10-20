@@ -87,6 +87,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::patch('/producto/master/actualizar','ProductoMasterController@update'); 
         Route::patch('/producto/master/desactivar','ProductoMasterController@desactivar');
         Route::patch('/producto/master/activar','ProductoMasterController@activar');
+        Route::get('/codigo-sap','ProductoMasterController@CodigoSap');
         Route::get('/producto/listarPdfE','ProductoMasterController@listarPDF')->name('equipos_pdf');
         Route::get('/producto/listarPdfDeta','ProductoMasterController@listarDetallePDF')->name('detalleEquipo_pdf');
          ///////////PRODUCTO Materiales MASTER
@@ -127,6 +128,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::patch('/liquidar/producto','DespachoController@LiquidarEquipoAdmin');
         Route::patch('/liquidar/productoArray','DespachoController@LiquidarEquipoAdminArray');
         Route::get('/liquidar/listar','DespachoController@listarLiquidar');
+        Route::get('/incrementar-guia','DespachoController@Numero_de_guia_tecnico');
         //ALMACEN TECNICO
         Route::get('/almacentec','DespachoController@almacenTotaEquiposTec');
         Route::get('/almacentecmate','DespachoController@almacenTotaMaterialesTec');

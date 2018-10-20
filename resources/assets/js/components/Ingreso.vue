@@ -124,7 +124,8 @@
                                                 <b-form-input   id="inputLive1"
                                                                 v-model.trim="serie"
                                                                 type="number"
-                                                                :maxlength="maxCom" 
+                                                                :@keyup="correEs()"
+                                                                
                                                                 :state="serieState"
                                                                 placeholder="">
                                                 </b-form-input>
@@ -134,12 +135,12 @@
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
                                                 Rellene este campo
                                                 </b-form-invalid-feedback>
-                                                <b-form-invalid-feedback v-show="correEs()" id="inputLiveFeedback4">
+                                                <b-form-invalid-feedback v-show="mesaFal == 1" id="inputLiveFeedback4">
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
                                                 Serie ya Registrada
                                                 </b-form-invalid-feedback>
 
-                                                <b-form-invalid-feedback v-show="serie.length>3 " id="inputLiveFeedback1">
+                                                <b-form-invalid-feedback v-show="serie.length>4 " id="inputLiveFeedback1">
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
                                                 No exeder de 4
                                                 </b-form-invalid-feedback>
@@ -152,6 +153,7 @@
                                                 <b-form-input   id="inputLive"
                                                                 v-model.trim="nroComprobante"
                                                                 type="number"
+                                                                :@keyup="NumCom()"
                                                                 :state="nComState"
                                                                 placeholder="">
                                                 </b-form-input>
@@ -159,7 +161,7 @@
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
                                                 Rellene este campo
                                                 </b-form-invalid-feedback>
-                                                <b-form-invalid-feedback v-show="NumCom()" id="inputLiveFeedback4">
+                                                <b-form-invalid-feedback v-show="mesaFalNu == 1" id="inputLiveFeedback4">
                                                 <!-- This will only be shown if the preceeding input has an invalid state -->
                                                 Comprobante ya Registrada
                                                 </b-form-invalid-feedback>
@@ -187,13 +189,13 @@
                                         <button id="boton2" class=" btn green btn-sm " @click="abrirEquipo">Agregar Equipo</button>
                                         <button id="boton3" class=" btn red btn-sm " @click="cerrarEquipo">Cerrar Equipo</button>
                                     
-                                        <button v-b-tooltip.hover title="Agregar Equipos a Lista" :disabled="nroComprobante == ''||serie==''||NumCom()||serie.length>3 "  type="button" class="btn orange btn-sm float-right" data-toggle="modal" data-target="#basicExampleModal">
+                                        <button v-b-tooltip.hover title="Agregar Equipos a Lista" :disabled="nroComprobante == ''||serie==''||NumCom()||serie.length>4 "  type="button" class="btn orange btn-sm float-right" data-toggle="modal" data-target="#basicExampleModal">
                                             <i class="icon-plus"></i>&nbsp; Ingresar
                                         </button>
                                     </div>
                                 </div>       
                                     <!-- Modal -->
-                                    <div class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                    <div data-backdrop="static" data-keyboard="false" class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                         <div class="modal-dialog" role="document">
                                             <div class="modal-content">
                                             <div class="modal-header">
@@ -250,7 +252,7 @@
                                                                 <!-- {{arrayEquipoSap}} -->
                                                                 <div class="col-md-6"> 
                                                                 <label for="">Número de Serie</label>
-                                                                    <input :maxlength="maxCSap"  :disabled="this.arraySAP == ''||error22" type="text" class="form-control" placeholder="Texto a buscar" v-model="newTasks" @keyup="addBarra"  >
+                                                                    <input   :disabled="this.arraySAP == ''||error22" type="text" class="form-control" placeholder="Texto a buscar" v-model="newTasks" @keyup="addBarra"  >
                                                                 </div>
 
                                                             </div>    
@@ -699,9 +701,10 @@ function pasacampo(key_event)
                 numcota:1,
                 contaTotal:0,
                 contaTotalPr:0,
+                mesaFal:0,
+                mesaFalNu:0,
+                CodigoSap:[],
 
-               
-          
             }
         },
         filters:{
@@ -725,7 +728,7 @@ function pasacampo(key_event)
               
                
                 
-            return this.serie.length > 0 &&this.serie.length <=3  ? true : false
+            return this.serie.length > 0 &&this.serie.length <=4  ? true : false
             },
 
             sortOptions () {
@@ -884,7 +887,7 @@ function pasacampo(key_event)
                         doc.setTextColor(38, 86, 167)
                         doc.text(serieComp+ " -", 428, 80);
                         doc.setTextColor(205, 0, 0)
-                        doc.text("N° "+nCompro+"", 460, 80);
+                        doc.text("N° "+nCompro+"", 465, 80);
                             
                         // imagen[ 0,0, ancho, alto]
                         doc.addImage(imgData, 'JPEG', 45, 35, 185,80)
@@ -924,24 +927,32 @@ function pasacampo(key_event)
             correEs(){
                 for (let index = 0; index < this.arrayEntrada.length; index++) {
                     const element = this.arrayEntrada[index].ctdetgu_serie;
-                    if(element == this.serie){
-                        return true
-                    }
-                    else{
-                        return false
-                    }
                     
+                    this.timer = setTimeout(() => {
+                        if (element == this.serie) {
+                            this.mesaFal=1;
+                            this.timer = setTimeout(() => {
+                                this.mesaFal=0;
+                                this.serie="";
+                            }, 2000);
+                        }
+                    }, 2000);
+                   
                 }
+                
             },
              NumCom(){
                 for (let index = 0; index < this.arrayEntrada.length; index++) {
                     const element = this.arrayEntrada[index].ctdetgu_nro;
-                    if(element == this.nroComprobante){
-                        return true
-                    }
-                    else{
-                        return false
-                    }
+                    this.timer = setTimeout(() => {
+                        if (element == this.nroComprobante) {
+                            this.mesaFalNu=1;
+                            this.timer = setTimeout(() => {
+                                this.mesaFalNu=0;
+                                this.nroComprobante="";
+                             }, 2000);
+                        }
+                    }, 2000);
                     
                 }
             },
@@ -1116,7 +1127,34 @@ function pasacampo(key_event)
             },
 
             
-             
+             buscarSap(sap){
+               var sw=0;
+               for (var i = 0; i < this.CodigoSap.length; i++) {
+                   if (this.CodigoSap[i].sap==sap) {
+                       sw=true;
+                   }
+
+               }
+
+               return sw;
+
+           },
+           CodigoSapFunction(){
+                 let me=this;
+               var url='/codigo-sap' ;
+              axios.get(url).then(function (response) {
+               //    console.log(response);
+                   // handle success;
+                   var respuesta=response.data;
+                  me.CodigoSap=respuesta.sap;
+               console.log(me.CodigoSap);
+
+               })
+               .catch(function (error) {
+                   // handle error
+                   console.log(error);
+               });
+           },
 
             addBarra: function(){
                
@@ -1133,7 +1171,12 @@ function pasacampo(key_event)
                         this.timer = null;
                     }
                     this.timer = setTimeout(() => {
-                        if (this.newTasks=='') {
+                        if (this.newTasks.length >=15) {
+                            swal({
+                                    type:'error',
+                                    title:'Error...',
+                                    text:'No exeder de 14 digitos',
+                                })
                             
                         }else if (this.buscarArticuloBD(this.newTasks)) {
                             
@@ -1141,14 +1184,30 @@ function pasacampo(key_event)
                                     type:'error',
                                     title:'Error...',
                                     text:'La serie del equipo ya se encuentra en la Base de datos',
-                                })}else if (this.buscarArticulo(this.newTasks)) {
+                                })}
+                                else if (this.buscarArticulo(this.newTasks)) {
                                     swal({
                                     type:'error',
                                     title:'Error...',
                                     text:'Ya se encuentra agregado a la lista',
                                 })
-                                }else{
-                                        
+                                }
+                                
+                                else if (this.buscarSap(this.newTasks)) {
+                                   swal({
+                                   type:'error',
+                                   title:'Error...',
+                                   text:'Un codigo sap no puede ser serie',
+                                })
+                                }
+                                else{
+                                     if (this.newTasks.length>14){
+                                         swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Codigo exedido',
+                                        })
+                                     }  
                                          this.tasks.push({
                                             conta: this.numcota++,
                                             cate01:this.arraySAP[0].ctcatego_desc,
@@ -1450,6 +1509,7 @@ function pasacampo(key_event)
             this.listarEntrada(this.buscar,this.criterio);
             this.listarSerieEquipo();
             this.listarGuias();
+            this.CodigoSapFunction();
             
         },
         
