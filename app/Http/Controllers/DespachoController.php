@@ -361,6 +361,7 @@ class DespachoController extends Controller
          if (!$request->ajax()) return redirect('/');
          $date =Carbon::now('America/Lima')->toDateTimeString();
          $dateconvert =(string) $date;
+         $guiaIncrementar=$request->incrementar;
          //CAPTURAR USUARIO TRASLADO
          $user=new User();
          $user->ctusuar_code=$request->usuario_id;
@@ -378,10 +379,11 @@ class DespachoController extends Controller
          $salida->ctsalid_colab_id=$request->usuario_id;
         //  $salida->ctsalid_sot_id=$request->sot;
          $salida->ctsalid_fecha_act=$request->fechaLlegada;
+         $salida->ctsalid_numguiatecnico=$guiaIncrementar;
          $salida->ctsalid_usuario=Auth::user()->ctusuar_usuario;
          $salida->save();
          //REGISTRAR DETALLE SALIDA
-         $guiaIncrementar=$request->incrementar;
+         
          $detail=$request->data;
          foreach ($detail as $ep => $det) {
            
@@ -417,7 +419,7 @@ class DespachoController extends Controller
             $detallessalida->ctdetsa_undmd_code=$det['uni'];
             $detallessalida->ctdetsa_tipro_code=$det['detaTi'];
             $detallessalida->ctdetsa_produDescri=$det['prodescri'];
-            $detallessalida->ctdetsa_numguiatecnico=$guiaIncrementar;
+            
             //REGISTRAR USUARIO DE SALIDA
             $userSalida=DetalleGuia::where('ctdetgu_serieProduc', $serieProducto)
             ->update([
@@ -961,7 +963,7 @@ class DespachoController extends Controller
    }
    public function Numero_de_guia_tecnico()
     {
-        $numero=DetalleSalida::max('ctdetsa_numguiatecnico');
+        $numero=Salida::max('ctsalid_numguiatecnico');
         $numeromas = 'N00001';
 
       if ($numero == '') {

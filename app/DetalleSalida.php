@@ -13,7 +13,7 @@ class DetalleSalida extends Model
     'ctdetsa_lote','ctdetsa_sap','ctdetsa_cantidad','ctdetsa_fecha_reg','ctdetsa_fecha_act',
     'ctdetsa_detgu_fecha_reg','ctdetsa_observacion','ctdetsa_traspaso','ctdetsa_colab_id','ctdetsa_cantidad_traspaso',
     'ctdetsa_fecha_traspaso','ctdetsa_usuario','ctdetsa_indice','ctdetsa_sot','ctdetsa_undmdDescri',
-    'ctdetsa_undmdDescri','ctdetsa_produDescri'];   
+    'ctdetsa_undmdDescri'];   
     public function detalleProductoS()
     {
         return $this->hasmany('App\DetailProducto','ctdetsa_roduc_id','ctdetpr_produc_id');
