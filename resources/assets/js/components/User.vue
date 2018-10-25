@@ -466,7 +466,7 @@
                                         </b-form-invalid-feedback>
                                 </div>
                                 
-                                <div class="col-md-12">
+                                <div class="col-md-12" v-if="tipoAccion==1">
                                     <label class=" form-control-label" for="text-input">Contraseña</label>
                                         <b-form-input   id="inputLive7"
                                                         v-model.trim="password"
@@ -485,7 +485,17 @@
                                 </b-form-invalid-feedback>
                                 </div>
                                 
-                            
+                            <div class="col-md-12" v-if="tipoAccion==2" v-b-tooltip.hover title="Cambiar Contraseña?">
+                                   <label class=" form-control-label" for="text-input">Contraseña</label>
+                                       <b-form-input
+
+                                                       type="password"
+                                                       :disabled="true"
+                                                       placeholder="">
+                                       </b-form-input>
+
+
+                               </div>
 
                                
                             </div>

@@ -240,7 +240,7 @@ class UserController extends Controller
                 $user->ctusuar_usuario=$request->usuario;
                 $user->ctusuar_email=$request->emailC;
                 $user->ctusuar_cargo_code=$request->idCargo;
-                $user->password=bcrypt($request->password);
+                // $user->password=bcrypt($request->password);
                 $user->ctusuar_fecha_act=$request->fechareg;
                 $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
                 // return $user;
@@ -285,7 +285,7 @@ class UserController extends Controller
                 $user->ctusuar_usuario=$request->usuario;
                 $user->ctusuar_email=$request->emailC;
                 $user->ctusuar_cargo_code=$request->idCargo;
-                $user->password=bcrypt($request->password);
+                // $user->password=bcrypt($request->password);
                 $user->ctusuar_fecha_act=$request->fechareg;
                 $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
                 // return $user;
@@ -333,7 +333,7 @@ class UserController extends Controller
                 $user->ctusuar_usuario=$request->usuario;
                 $user->ctusuar_email=$request->emailC;
                 $user->ctusuar_cargo_code=$request->idCargo;
-                $user->password=bcrypt($request->password);
+                // $user->password=bcrypt($request->password);
                 $user->ctusuar_fecha_act=$request->fechareg;
                 $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
                 // return $user;
@@ -378,7 +378,7 @@ class UserController extends Controller
                 $user->ctusuar_usuario=$request->usuario;
                 $user->ctusuar_email=$request->emailC;
                 $user->ctusuar_cargo_code=$request->idCargo;
-                $user->password=bcrypt($request->password);
+                // $user->password=bcrypt($request->password);
                 $user->ctusuar_fecha_act=$request->fechareg;
                 $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
                 // return $user;
