@@ -466,7 +466,24 @@
                                         </b-form-invalid-feedback>
                                 </div>
                                 
-                              
+                                <div class="col-md-12" v-if="tipoAccion==1">
+                                    <label class=" form-control-label" for="text-input">Contraseña</label>
+                                        <b-form-input   id="inputLive7"
+                                                        v-model.trim="password"
+                                                        type="password"
+                                                        :state="contraState"
+                                                        placeholder="">
+                                        </b-form-input>
+                                        <b-form-invalid-feedback v-show="password==''" id="inputLiveFeedback">
+                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                        Rellene este campo
+                                        </b-form-invalid-feedback>
+                                          <!-- CAMPOS GENERALES -->
+                                <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
+                                <!-- This will only be shown if the preceeding input has an invalid state -->
+                                    {{uniqueDni + "DNI regrese"}}
+                                </b-form-invalid-feedback>
+                                </div>
                                 
                             <div class="col-md-12" v-if="tipoAccion==2" v-b-tooltip.hover title="Cambiar Contraseña?">
                                    <label class=" form-control-label" for="text-input">Contraseña</label>
@@ -479,7 +496,7 @@
 
 
                                </div>
-                                <p>Erick aun no ha encontrado el error</p>
+
                                
                             </div>
                                
