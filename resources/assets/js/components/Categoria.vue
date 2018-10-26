@@ -247,7 +247,8 @@
                  errores:[],
                  success:false,
                  successAct:'',
-                 CargoUser:0
+                 CargoUser:0,
+                 mesaFalNu:0
 
             }
         },
@@ -354,11 +355,35 @@
                 //envia la peticion para visualizar la data de esa pagina
                 me.listarCategoria(page,buscar,criterio);
             },
+            nombreCate(){
+                for (let index = 0; index < this.arrayCategoria.length; index++) {
+                            const element = this.arrayCategoria[index].ctcatego_desc;
+                            
+                            if (element == this.descripcion) {
+                                this.mesaFalNu=1;
+                                
+                                    this.mesaFalNu=0;
+                                    swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Ya existe el Nombre de Categoria: '+this.descripcion+'',
+                                    })
+                                    this.descripcion="";
+                            }
+                    }
+            },
+
             registrarCategoria(){
-                 if (
+
+                this.nombreCate()
+
+                if (
                     this.descripcion=='') {
 
-                    }else{
+                    }
+                else if(this.mesaFalNu==1){}
+                
+                else{
                     let me=this;
                     this.dismissCountDown = this.dismissSecs;
 

@@ -1156,84 +1156,62 @@ function pasacampo(key_event)
                });
            },
 
-            addBarra: function(){
-               
-                if (this.newTasks=='') {
-                    
-                }
-                // else if(this.buscar==''){
-                    
-                // }
-                else{
+          addBarra: function(){
 
-                    if (this.timer) {
-                        clearTimeout(this.timer);
-                        this.timer = null;
-                    }
-                    this.timer = setTimeout(() => {
-                        if (this.newTasks.length >=15) {
-                            swal({
-                                    type:'error',
-                                    title:'Error...',
-                                    text:'No exeder de 14 digitos',
-                                })
-                            
-                        }else if (this.buscarArticuloBD(this.newTasks)) {
-                            
-                                swal({
-                                    type:'error',
-                                    title:'Error...',
-                                    text:'La serie del equipo ya se encuentra en la Base de datos',
-                                })}
-                                else if (this.buscarArticulo(this.newTasks)) {
-                                    swal({
-                                    type:'error',
-                                    title:'Error...',
-                                    text:'Ya se encuentra agregado a la lista',
-                                })
-                                }
-                                
-                                else if (this.buscarSap(this.newTasks)) {
-                                   swal({
-                                   type:'error',
-                                   title:'Error...',
-                                   text:'Un codigo sap no puede ser serie',
-                                })
-                                }
-                                else{
-                                     if (this.newTasks.length>14){
-                                         swal({
-                                            type:'error',
-                                            title:'Error...',
-                                            text:'Codigo exedido',
-                                        })
-                                     }  
-                                         this.tasks.push({
-                                            conta: this.numcota++,
-                                            cate01:this.arraySAP[0].ctcatego_desc,
-                                            idtipro:this.arraySAP[0].ctproduc_tipro_code,
-                                            nompro01:this.arraySAP[0].ctproduc_nombre,
-                                            ctdetpr_serie: this.newTasks,
-                                            prodid:this.arraySAP[0].ctproduc_id,
-                                            cateid1:this.arraySAP[0].ctcatego_id,
-                                            uni:this .arraySAP[0].ctundmd_desc,
-                                            idundmed:this .arraySAP[0].ctproduc_undMed,
-                                            canti:1,
-                                            detaTi:this.arraySAP[0].cttipro_desc,
-                                            prod01:this.arraySAP[0].sap,
-                                            });
 
-                                    // contador
-                                   this.contaTotal= this.tasks.length
-                                }
-                       
-                                this.newTasks='';
 
-                    }, 200);
+               this.timer = setTimeout(() => {
+                   if (this.newTasks==''){}
+                   else if (this.newTasks.length<10){
 
-                    }
-                //    
-            },
+                       this.newTasks='';
+                   }
+                   else if (this.buscarArticuloBD(this.newTasks)) {
+                       swal({
+                           type:'error',
+                           title:'Error...',
+                           text:'La serie del equipo ya se encuentra en la Base de datos',
+                       });
+                       this.newTasks='';
+                   }
+                   else if (this.buscarArticulo(this.newTasks)) {
+                       swal({
+                           type:'error',
+                           title:'Error...',
+                           text:'Ya se encuentra agregado a la lista',
+                       });
+                       this.newTasks='';
+                   }
+                   else if (this.buscarSap(this.newTasks)) {
+                       swal({
+                           type:'error',
+                           title:'Error...',
+                           text:'Un codigo sap no puede ser serie',
+                       });
+                       this.newTasks='';
+                   }
+                   else{
+                       this.tasks.push({
+                               conta: this.numcota++,
+                               cate01:this.arraySAP[0].ctcatego_desc,
+                               idtipro:this.arraySAP[0].ctproduc_tipro_code,
+                               nompro01:this.arraySAP[0].ctproduc_nombre,
+                               ctdetpr_serie: this.newTasks,
+                               prodid:this.arraySAP[0].ctproduc_id,
+                               cateid1:this.arraySAP[0].ctcatego_id,
+                               uni:this .arraySAP[0].ctundmd_desc,
+                               idundmed:this .arraySAP[0].ctproduc_undMed,
+                               canti:1,
+                               detaTi:this.arraySAP[0].cttipro_desc,
+                               prod01:this.arraySAP[0].sap,
+
+                       });
+                       this.newTasks='';
+                       // contador
+                        this.contaTotal= this.tasks.length
+                   }
+               }, 200);
+           },
             arraM02(){
                 for (let index = 0; index < this.arrayMaterialB.length; index++) {
                     return this.arrayMaterialB[0].ctundmd_desc

@@ -192,17 +192,23 @@
                                         <label class="form-control-label" for="text-input">Nombre de Equipo
                                                 
                                         </label>
-                                        <b-form-input   id="inputLive"
+                                        <b-form-input   id="inputLive4"
                                                         v-model.trim="nombre"
                                                         type="text"
+                                                        
                                                         :state="equipoState"
                                                         placeholder="">
                                         </b-form-input>
-                                        <b-form-invalid-feedback v-show="nombre==''" id="inputLiveFeedback">
+                                        <b-form-invalid-feedback v-show="nombre==''" id="inputLiveFeedback4">
                                         <!-- This will only be shown if the preceeding input has an invalid state -->
                                         Rellene este campo
                                         </b-form-invalid-feedback>
 
+                                        <b-form-invalid-feedback v-show="mesaFalNu== 1" id="inputLiveFeedback4">
+                                           
+                                            Ya existe este campo
+                                        </b-form-invalid-feedback>
+                                        
                                     </div>
                                     <div class="col-md-6">
                                         <label class=" form-control-label" for="text-input">Descripción</label>
@@ -210,10 +216,11 @@
                                         
                                     </div>
                                         <div class="col-md-6">
-                                        <label class="form-control-label" for="text-input">Fecha</label>
-                                        <datepicker v-model="fechaActualizacion" format="dd/MM/yyyy" input-class="form-control">
-                                        </datepicker>
-                                    </div>
+                                            <label class="form-control-label" for="text-input">Fecha</label>
+                                            <datepicker v-model="fechaActualizacion" format="dd/MM/yyyy" input-class="form-control">
+                                            </datepicker>
+                                        </div>
+                                        
 
                                 </div>
                             
@@ -231,7 +238,7 @@
                     
                         <div slot="modal-footer">
                             <button type="button" class="btn btn-secondary btn-sm" @click="cerrarModal()">Cerrar</button>
-                            <button type="button" v-if="tipoAccion==1" :disabled="errorR" class="btn btn-primary btn-sm" @click="registrarEquipo()">Guardar</button>
+                                <button type="button" v-if="tipoAccion==1" :disabled="errorR" class="btn btn-primary btn-sm" @click="registrarEquipo()">Guardar</button>
                             <button type="button" v-if="tipoAccion==2" :disabled="errorR" class="btn btn-primary btn-sm" @click="actualizarEquipo()">Actualizar</button>
                         </div>
                 </b-modal>
@@ -359,6 +366,8 @@
                 errores:[],
                 success:false,
                 successAct:false,
+                mesaFalNu:0,
+                mesaSap:0
                 // errorR:''
             }
         },
@@ -367,12 +376,17 @@
         },
         
         computed:{
+
+            
+
             errorR(){
 
                 if (this.sap.length > 2 && 
                     this.categoria>0 &&
                     this.nombre.length >2 ){
-                    return false
+
+                        return false
+
                 }
                 else{
                     return true
@@ -430,6 +444,23 @@
             },
         },
         methods:{
+            NumCom(){
+                for (let index = 0; index < this.arrayEquipo.length; index++) {
+                    const element = this.arrayEquipo[index].ctproduc_nombre;
+                    this.timer = setTimeout(() => {
+                        if (element == this.nombre) {
+                           
+                            this.mesaFalNu=1;
+                            this.timer = setTimeout(() => {
+                                this.mesaFalNu=0;
+                                this.nombre="";
+                             }, 2000);
+                        }
+                    }, 2000);
+                    
+                }
+               
+            },
             listarCargo(){
                 let me=this;
                 var url='/user/cargo';
@@ -545,13 +576,62 @@
                 //envia la peticion para visualizar la data de esa pagina
                 me.listarEquipo(page,buscar,criterio); 
             },
+            nombreui(){
+                for (let index = 0; index < this.arrayEquipo.length; index++) {
+                            const element = this.arrayEquipo[index].ctproduc_nombre;
+                            
+                            if (element == this.nombre) {
+                                this.mesaFalNu=1;
+                                
+                                    this.mesaFalNu=0;
+                                    
+
+                                    swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Ya existe el Nombre de Equipo: '+this.nombre+'',
+                                    })
+                                    this.nombre="";
+                            }
+                    }
+            },
+
+            ncodeSap(){
+                for (let index = 0; index < this.arrayEquipo.length; index++) {
+                            const element = this.arrayEquipo[index].sap;
+                            
+                            if (element == this.sap) {
+                                this.mesaSap=1;
+                                
+                                    this.mesaSap=0;
+                                    
+
+                                    swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Ya existe el Sap : '+this.sap+'',
+                                            
+                                    })
+                                    this.sap="";
+                            }
+                    }
+            },
+
             registrarEquipo(){
+
+                    this.nombreui();
+                    this.ncodeSap();
+
                   if (
                     this.categoria==0
                     ||this.sap==''
                     ||this.nombre=='') {
-
-                    }else{
+                       
+                    }
+                    else if (this.mesaFalNu== 1 ||this.mesaSap== 1) {
+                            
+                        }   
+                    else{
                     let me=this;
                     this.dismissCountDown = this.dismissSecs;
 

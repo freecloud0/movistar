@@ -410,13 +410,61 @@
                 //envia la peticion para visualizar la data de esa pagina
                 me.listarEquipo(page,buscar,criterio); 
             },
+            nombreui(){
+                for (let index = 0; index < this.arrayEquipo.length; index++) {
+                            const element = this.arrayEquipo[index].ctproduc_nombre;
+                            
+                            if (element == this.nombre) {
+                                this.mesaFalNu=1;
+                                
+                                    this.mesaFalNu=0;
+                                    
+
+                                    swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Ya existe el Nombre de Equipo: '+this.nombre+'',
+                                    })
+                                    this.nombre="";
+                            }
+                    }
+            },
+
+            ncodeSap(){
+                for (let index = 0; index < this.arrayEquipo.length; index++) {
+                            const element = this.arrayEquipo[index].sap;
+                            
+                            if (element == this.sap) {
+                                this.mesaSap=1;
+                                
+                                    this.mesaSap=0;
+                                    
+
+                                    swal({
+                                            type:'error',
+                                            title:'Error...',
+                                            text:'Ya existe el Sap : '+this.sap+'',
+                                            
+                                    })
+                                    this.sap="";
+                            }
+                    }
+            },
             registrarEquipo(){
+                    this.nombreui();
+                    this.ncodeSap();
+
                   if (
                     this.categoria==0
                     ||this.sap==''
                     ||this.nombre=='') {
-
-                    }else{
+                       
+                    }
+                    else if (this.mesaFalNu== 1 ||this.mesaSap== 1) {
+                            
+                        }  
+                  
+                    else{
                     let me=this;
                     this.dismissCountDown = this.dismissSecs;
 
