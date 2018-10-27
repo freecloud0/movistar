@@ -19,7 +19,7 @@
           <div class="cover-container">
             <div class="masthead clearfix">
               <div class="inner">
-                <h3 class="masthead-brand">Coming Soon</h3>
+                <h3 class="masthead-brand">Eliniktech</h3>
                 <nav class="nav nav-masthead">
                   <a class="nav-link nav-social" href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a>
                   <a class="nav-link nav-social" href="#"><i class="fa fa-twitter" aria-hidden="true"></i></a>
@@ -28,8 +28,8 @@
                 </nav>
               </div>
             </div><br>      <div class="inner cover">
-              <h1 class="cover-heading">The adventure Begins</h1>
-              <p class="lead cover-copy">Hold tight as we get our working robots together and produce the most astonishing product ever.</p>
+              <h1 class="cover-heading">La aventura inicia</h1>
+              <p class="lead cover-copy">Empresa líder en brindar soluciones integrales en infraestructura de telecomunicaciones en la región centro del Perú.</p>
               <p class="lead">
                 {{-- <button type="button" class="btn btn-lg btn-default btn-notify" data-toggle="modal" data-target="#subscribeModal">Acceder </button> --}}
                 <a href="{{ url('iniciar-sesion') }}"><button type="button" class="btn btn-lg btn-default btn-notify" >Acceder </button></a>
@@ -37,7 +37,7 @@
             </div>
             <div class="mastfoot">
               <div class="inner">
-                <p>&copy; Your Company. Design: <a href="https://github.com/Mikisbell/free-developers-01" target="_blank">TemplateFlip</a>.</p>
+                <p>&copy; Diseñado por : <a href="https://github.com/Mikisbell/free-developers-01" target="_blank">FreeCloud</a>.</p>
               </div>
             </div>
 
