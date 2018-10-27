@@ -12,7 +12,7 @@
                                  <span class="badge badge-pill red " id="col08"> . </span>
                             </div>        
                         </tr>    -->
-                        <span class="badge badge-pill  " id="col08"> {{contador()}} </span>
+                        <span class="badge badge-pill " :class="{red:this.cnf>1, white:this.cnf<1}" > {{cnf}} </span>
                 </a>
                 
             </li>
@@ -159,6 +159,8 @@
                },
 
                offset:3,
+               conteNF:0,
+               cnf:0,
                
             }
             
@@ -213,12 +215,13 @@
             contador(){
 
                     this.docHo= moment(this.fechaActualizacion).format('L');
-                   
                     let a=0;
                    for (let index = 0; index < this.arrayNotificacion.length; index++) {
                        
                        const element = this.arrayNotificacion[index].ctdetgu_fecha_reg;
-                        if((moment(this.docHo).diff(element, 'days'))>3){
+                        if((moment(new Date()).diff(element, 'days'))>5){
+                             
+                             
                              return 1
                         }  
                         
@@ -227,6 +230,12 @@
                         }    
                        
                    }
+                   if (this.arrayNotificacion.ctdetgu_fecha_reg) {
+                        console.log(this.arrayNotificacion);
+                   }else{
+                       console.log('dsfff');
+                   }
+                  
                    
 
             },    
@@ -270,12 +279,30 @@
             
             listarAlmacen(page,buscar,criterio){
                 let me=this;
+
                 var url='/almacentec?page=' + page + '&buscar='+ buscar + '&criterio=' + criterio;
-               axios.get(url).then(function (response) {
+                axios.get(url).then(function (response) {
                     // handle success;
                    var respuesta=response.data;
                    me.arrayAlmacen=respuesta.almacen.data;
                    me.pagination=respuesta.pagination;
+                   me.conteNF=me.arrayNotificacion.length
+                   
+                   var b=0;
+                   
+                    for (let index = 0; index < me.arrayNotificacion.length; index++) {
+                        var tem2 = moment(new Date()).diff((me.arrayNotificacion[index].ctdetgu_fecha_reg), 'days'); 
+                        
+                        if (tem2>8) {
+                            me.cnf++
+                           
+                        } 
+                        
+                            
+                    }
+                    // console.log(me.cnf);
+                    
+
                 })
                 .catch(function (error) {
                     // handle error
