@@ -20,8 +20,7 @@
                                 <div class="col-md-3">
                                         <select class="form-control mt-2" v-model="criterio">
                                             <option value="ctdetsa_traspaso">Usuario</option>
-                                            <option value="1"> SAP</option>
-                                            <option value="2"> Serie</option>
+                                             <option value="ctdetsa_serie">Serie del producto</option>
                                         </select>
                                   
                                     
