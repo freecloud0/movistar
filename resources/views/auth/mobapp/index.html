@@ -1,5 +1,5 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <!--
 
 Page    : index / MobApp
@@ -43,12 +43,19 @@ URI     : https://colorlib.com
                         <a class="navbar-brand" href="index.html"><img src="images/logo.png" class="img-fluid" alt="logo"></a> <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation"> <span class="navbar-toggler-icon"></span> </button>
                         <div class="collapse navbar-collapse" id="navbar">
                             <ul class="navbar-nav ml-auto">
-                                <li class="nav-item"> <a class="nav-link active" href="#home">INICIO <span class="sr-only">(current)</span></a> </li>
+                                <li class="nav-item"> <a class="nav-link active" href="#home">HOME <span class="sr-only">(current)</span></a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#features">FEATURES</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#gallery">GALLERY</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#pricing">PRICING</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#contact">CONTÁCTANOS</a> </li>
-                                <li class="nav-item"><a href="{{ url('iniciar-sesion') }}" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Ingresar</a></li>
+                                <li class="nav-item"> <a class="nav-link" href="#contact">CONTACT</a> </li>
+                                <li class="nav-item"><a href="#" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">
+                                        <a href="{{ url('iniciar-sesion') }}">
+                                                <button type="button" class="btn btn-lg btn-default btn-notify" >Acceder </button>
+                                              </a>
+
+
+
+                                </a></li>
                             </ul>
                         </div>
                     </nav>
@@ -60,9 +67,8 @@ URI     : https://colorlib.com
 
     <header class="bg-gradient" id="home">
         <div class="container mt-5">
-            <h1>HACEMOS TELECOMUNICACIONES</h1>
-            <p class="tagline">Con más de 12 años de experiencia en instalación de infraestructura física de redes de transmisión Inalámbrica y Cableada, con alta especialización en soluciones con Fibra Óptica.
-</p>
+            <h1>Mobile App Landing Page Template</h1>
+            <p class="tagline">The one and only solution for any kind of mobila app landing needs. Just change the screenshots and texts and you are good to go. </p>
         </div>
         <div class="img-holder mt-3"><img src="images/iphonex.png" alt="phone" class="img-fluid"></div>
     </header>
@@ -79,8 +85,8 @@ URI     : https://colorlib.com
         <div class="container">
 
             <div class="section-title">
-                
-                <h3>Características</h3>
+                <small>HIGHLIGHTS</small>
+                <h3>Features you love</h3>
             </div>
 
 
@@ -92,7 +98,7 @@ URI     : https://colorlib.com
                                 <span class="ti-face-smile gradient-fill ti-3x mr-3"></span>
                                 <div class="media-body">
                                     <h4 class="card-title">Simple</h4>
-                                    <p class="card-text">Nuestro pilar fundamental es la innovación tecnológica que nos permite dar un valor agregado a todos nuestros productos.</p>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
                                 </div>
                             </div>
                         </div>
@@ -104,8 +110,8 @@ URI     : https://colorlib.com
                             <div class="media">
                                 <span class="ti-settings gradient-fill ti-3x mr-3"></span>
                                 <div class="media-body">
-                                    <h4 class="card-title">Personalizado</h4>
-                                    <p class="card-text">Contamos con un área especializada en planimetría que nos permitió desarrollar la mayor cantidad de diseños de proyectos de dorsales de Fibra Óptica ejecutados para América Móvil, durante los últimos 05 años </p>
+                                    <h4 class="card-title">Customize</h4>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
                                 </div>
                             </div>
                         </div>
@@ -117,8 +123,8 @@ URI     : https://colorlib.com
                             <div class="media">
                                 <span class="ti-lock gradient-fill ti-3x mr-3"></span>
                                 <div class="media-body">
-                                    <h4 class="card-title">Seguridad</h4>
-                                    <p class="card-text">A la fecha contamos con una experiencia mayor de 10,000 km en diseño ,construcción y mantenimiento seguras.</p>
+                                    <h4 class="card-title">Secure</h4>
+                                    <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer rutrum, urna eu pellentesque </p>
                                 </div>
                             </div>
                         </div>
@@ -481,15 +487,15 @@ URI     : https://colorlib.com
         <div class="container">
             <div class="row">
                 <div class="col-lg-6 text-center text-lg-left">
-                    <p class="mb-2"> <span class="ti-location-pin mr-2"></span> Jr. Puno 213, Huancayo, Junin</p>
+                    <p class="mb-2"> <span class="ti-location-pin mr-2"></span> 1485 Pacific St, Brooklyn, NY 11216 USA</p>
                     <div class=" d-block d-sm-inline-block">
                         <p class="mb-2">
-                            <span class="ti-email mr-2"></span> <a class="mr-4" href="mailto:support@mobileapp.com">info@eliniktech.com</a>
+                            <span class="ti-email mr-2"></span> <a class="mr-4" href="mailto:support@mobileapp.com">support@mobileapp.com</a>
                         </p>
                     </div>
                     <div class="d-block d-sm-inline-block">
                         <p class="mb-0">
-                            <span class="ti-headphone-alt mr-2"></span> <a href="tel:51836362800">977646505</a>
+                            <span class="ti-headphone-alt mr-2"></span> <a href="tel:51836362800">518-3636-2800</a>
                         </p>
                     </div>
 
@@ -509,7 +515,13 @@ URI     : https://colorlib.com
     <!-- // end .section -->
     <footer class="my-5 text-center">
         <!-- Copyright removal is not prohibited! -->
-        <p class="mb-2"><small>COPYRIGHT © 2018. TODOS LOS DERECHOS RESERVADOS. DESARROLLADO POR <a href="https://www.facebook.com/freecloud.pe/">FREECLOUD</a></small></p>
+        <p class="mb-2"><small>COPYRIGHT © 2017. ALL RIGHTS RESERVED. MOBAPP TEMPLATE BY <a href="https://colorlib.com">COLORLIB</a></small></p>
+
+        <small>
+            <a href="#" class="m-2">PRESS</a>
+            <a href="#" class="m-2">TERMS</a>
+            <a href="#" class="m-2">PRIVACY</a>
+        </small>
     </footer>
 
     <!-- jQuery and Bootstrap -->
