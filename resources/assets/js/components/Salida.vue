@@ -798,7 +798,7 @@ function pasacampo(key_event)
             },
             cantiState () {
                 for (let index = 0; index < this.arraySAPMate.length; index++) {
-                    if (this.arraySAPMate[0].ctproduc_stock>=this.cantidadProductos) {
+                    if (this.arraySAPMate[0].ctproduc_stock>=this.cantidadProductos && this.cantidadProductos >0) {
                         this.stockMaterial=this.arraySAPMate[0].ctproduc_stock - this.cantidadProductos;
                         return
                     }else{
