@@ -33,7 +33,7 @@
                             
                             <div class="col-md-3">
                                     <select class="form-control mt-2" v-model="criterio">
-                                        <option value="ctdetgu_fecha_act">Fecha</option>
+                                        <option value="ctdetgu_fecha_reg">Fecha</option>
                                         <option value="ctdetgu_nro">Nro de Guia</option>
                                         <option value="ctdetgu_serie">Nro de serie(Guia)</option>
                                         <option value="ctdetgu_serieProduc">Serie del producto </option>
@@ -673,7 +673,7 @@ function pasacampo(key_event)
                 },
                 newCantidad:[]=1,
                 offset:3,
-                criterio:'ctdetgu_fecha_act',
+                criterio:'ctdetgu_fecha_reg',
                 criterio1:'sap',
                 criterio2:'ctdetpr_serie',
                 buscar:'',
@@ -1390,7 +1390,7 @@ function pasacampo(key_event)
                 var url='/productoEntrada?buscar='+ buscar + '&criterio=' + criterio;
                axios.get(url).then(function (response) {
                     // handle success;
-                    console.log(response);
+                    // console.log(response);
                     var respuesta=response.data;
                    me.arrayEntrada=respuesta.productos;
                     me.contaTotalPr= me.arrayEntrada.length
@@ -1446,7 +1446,7 @@ function pasacampo(key_event)
                 }).then(function (response) {
                    
                 //    me.listarProducto(1,'','descripcion');
-                   me.listarEntrada('','ctdetgu_fecha_act');
+                   me.listarEntrada('','ctdetgu_fecha_reg');
                    me.listarEquipoSap();
                    me.listarSerieEquipo();
                    me.listarMaterialSap();
