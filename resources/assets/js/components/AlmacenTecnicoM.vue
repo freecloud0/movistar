@@ -609,7 +609,12 @@
                     }
                 })
                 .catch(function (error) {
-                    console.log(error);
+                     let swalErrorMessage=error.response.data.error;
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: swalErrorMessage
+                        })
                 });
                     }
             },

@@ -889,8 +889,16 @@
                 })
                  .catch((error) => {
 
-                         this.errores = error.response.data.errors;
+                       this.errores = error.response.data.errors;
                          this.success = false;
+                        let swalErrorMessage=error.response.data.error;
+                        if (swalErrorMessage) {
+                            swal({
+                                type: 'error',
+                                title: 'Error',
+                                text: swalErrorMessage
+                                })
+                         }
                     
                     });
                    

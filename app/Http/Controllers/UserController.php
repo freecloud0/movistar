@@ -101,7 +101,7 @@ class UserController extends Controller
             $cont=User::where('ctusuar_cargo_code','=',$cargo)->count();
             
             if ($cont>=2) {
-                return with(['contarEqui' => $cont]);
+                return response()->json(['error'=>'Máximo de administradores '.$cont],400);
             }else{
                 // REGISTRAR EMPLEADO
                 $persona=new Empleado();

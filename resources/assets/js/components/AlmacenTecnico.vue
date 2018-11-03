@@ -486,11 +486,12 @@
                   
                 })
                 .catch(function (error) {
-                    console.log(error);
-                    me.msj=respuesta.msj.data;
-                    // console.log(me.msj);
-                    // console.log(error);
-                    this.arrayUsuario='';
+                    let swalErrorMessage=error.response.data.error;
+                    swal({
+                        type: 'error',
+                        title: 'Error',
+                        text: swalErrorMessage
+                        })
                     
                 });
                     }

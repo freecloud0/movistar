@@ -90,7 +90,7 @@ class DespachoController extends Controller
     // MOSTRAR SALIDA DE MATERIAL
     public function SalidaMaterial(Request $request)
     {
-    //  if (!$request->ajax()) return redirect('/');
+     if (!$request->ajax()) return redirect('/');
         $buscar =$request->buscar;
         $criterio=$request->criterio;
         if ($buscar=='') {
@@ -518,7 +518,7 @@ class DespachoController extends Controller
    //traslados de Equipos entre Tecnicos
     public function update(Request $request)
     {
-            return $request;  
+            // return $request;  
         if (!$request->ajax()) return redirect('/');
           //CAPTURAR NOMBRE DE USUARIO
           $nombreUsuario=$request->idUsuario;
@@ -634,7 +634,7 @@ class DespachoController extends Controller
             
             
             $msj='No puedes ser el usuario de traslado';
-            return with(['msj' => $msj]);
+            return response()->json(['error'=>$msj],400);
         }else{
         //ACTUALIZANDO STOCK DE SALIDA DE MATERIALES
         if ($cantidad==0) {
