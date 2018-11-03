@@ -536,7 +536,7 @@ class DespachoController extends Controller
             
             
             $msj='No puedes ser el usuario de traslado';
-            return with(['msj' => $msj]);
+            return response()->json(['error'=>$msj],400);
         }else{
         //CAPTURAR SERIE DE EQUIPO PARA TRASLADO
         $serieEquipo=$request->serie;
