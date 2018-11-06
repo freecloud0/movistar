@@ -305,8 +305,10 @@
                                                                 class="text-right">
 
                                                             <br>
-                                                            <span class="b-01" style="position:absolute ; left:20px; top:60px;">{{equipoName}}</span>
-                                                            <input type="text"  v-model="buscar05"  @keyup="listarProductoEncontrar(buscar05)" class="form-control " > 
+                                                            <input type="text" v-model="buscar05"  @keyup="buscarInfo()" class="form-control " >
+
+                                                            <!-- <span class="b-01" style="position:absolute ; left:20px; top:60px;">{{equipoName}}</span> -->
+                                                            <!-- <input type="text"  v-model="buscar05"  @keyup="buscarInfo()" class="form-control " >  -->
                                                         </b-card>
 
                                                     </div>
@@ -1294,20 +1296,21 @@ function pasacampo(key_event)
                 return sw;
 
             },
-            listarProductoEncontrar(buscarSap02){
+            listarProductoEncontrar(){
                 let me=this;
-                var url='/serie/Equi?buscar=' + buscarSap02;
+                var url='/serie/Equi';
                axios.get(url).then(function (response) {
+                   console.log(response);
                     var respuesta1=response.data;
                    me.arrayEquiEn=respuesta1.series;
-                   if (me.arrayEquiEn.length<1) {
-                       me.equipoName='';
-                   } else {
-                       me.equipoName=me.arrayEquiEn[0].ctproduc_nombre;
-                   }
+                //    if (me.arrayEquiEn.length<1) {
+                //        me.equipoName='';
+                //    } else {
+                //        me.equipoName=me.arrayEquiEn[0].ctproduc_nombre;
+                //    }
                     
                  me.ControlSer=false;
-                 me.buscarInfo();
+                //  me.buscarInfo();
                  me.buscar05=''; 
                  me.materialName='Nombre de material'; 
                 })
@@ -1544,6 +1547,7 @@ function pasacampo(key_event)
         },
         mounted() {
             // this.listarProductoEncontrar(this.buscarSap02);
+            this.listarProductoEncontrar();
             this.listarMaterialSap(1,this.buscar,this.criterio);
             this.listarSalida(this.buscar,this.criterio);
             this.listarSalidaMaterial(this.buscarSW,this.criterioSW);
@@ -1631,6 +1635,25 @@ function pasacampo(key_event)
   .pl-d{
       padding-left: 15px;
   }
+  .filesx{
+  width: 100%;
+  margin-top: 0.25rem;
+  font-size: 80%;
+  color: #dc3545;
+}
+.brd{
+  border: 1px solid #dc3545!important;
+}
+.werd{
+  border: 1px solid #28a745!important;
+}
+
+.brd:focus{
+  box-shadow: 0 0 0 0.2rem rgba(146, 15, 15, 0.25)!important;
+}
+.werd:focus{
+  box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25)!important;
+}
 
 
 </style>

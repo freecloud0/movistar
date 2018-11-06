@@ -109,7 +109,7 @@ class DetalleEquipoController extends Controller
         'categoria.ctcatego_desc','tipo.cttipro_code','tipo.cttipro_desc','ctdetpr.ctdetpr_esta_code')
         ->where('ctdetpr.ctdetpr_esta_code','=',1)
         ->where('ctproduc.ctproduc_stock','>',0)
-        ->where('ctdetpr.ctdetpr_serie','=',$buscar)
+        // ->where('ctdetpr.ctdetpr_serie','=',$buscar)
         ->get();
     
    

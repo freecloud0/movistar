@@ -161,7 +161,9 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/user/cargo','UserActivoController@CargarCargoUser');
         // LIQUIDACION 
         Route::get('/liquidacion','LiquidacionController@index');
-        
+        // Contar dias
+        Route::get('/dias','LiquidacionController@contar_dias');
+
 
         Route::get('error', function () {
             abort(404);

@@ -6,13 +6,7 @@
                 <a class="nav-link" aria-haspopup="true" aria-expanded="false" @click.prevent="equis=1" >
                     <!-- <i class="icon-bell" ></i> -->
                     <i class="fas fa-dolly" id="alC"></i>
-                        <!-- <tr v-for="(almacen) in arrayAlmacen" 
-                                    :key="almacen.idalmacen" >
-                            <div v-if="restantes(almacen.ctdetsa_detgu_fecha_reg)>0">
-                                 <span class="badge badge-pill red " id="col08"> . </span>
-                            </div>        
-                        </tr>    -->
-                        <span class="badge badge-pill " :class="{red:this.cnf>1, white:this.cnf<1}" > {{cnf}} </span>
+                        <span class="badge badge-pill red">{{arrayDias.length}}</span>
                 </a>
                 
             </li>
@@ -28,79 +22,31 @@
                                 <span aria-hidden="true">&times;</span>
                                 </button>
                            <hr>
-                            <div class="table-responsive p-2">
-                                <table class=" table table-bordered table-striped table-sm">
-                                    <thead>
-                                        <tr>
-                                            <th>SAP</th>
-                                            <th>Serie</th>
-                                            <th>Dias</th>
-                                        </tr>
-                                    </thead>
-                                    <!-- {{arrayNotificacion}} -->
-                                    <tbody>
-                                        <tr v-for="almacen in paginador(arrayNotificacion)" 
-                                                v-show="restantes(almacen.ctdetgu_fecha_reg) >= 8"
-                                                :key="almacen.idalmacen"  
-                                                :class="{
-                                                   
-                                                   
-                                                }"
-                                        >
-                                        <!-- greenst: restantes(almacen.ctdetgu_fecha_reg) <= 8, -->
-                                       
-                                            <td v-text="almacen.ctdetgu_desc"></td>
-                                            <td v-text="almacen.ctdetgu_serieProduc"></td>
-                                            <td :class="{ 
-                                                    wards: restantes(almacen.ctdetgu_fecha_reg) == 8 || restantes(almacen.ctdetgu_fecha_reg) == 9,
-                                                    reds: restantes(almacen.ctdetgu_fecha_reg) >= 10, 
-                                                    greens: restantes(almacen.ctdetgu_fecha_reg) <= 4  
-                                                    }">{{restantes(almacen.ctdetgu_fecha_reg)}}</td>
-                                       
-        
-                                            
-                                            
-                                            <!-- <td 
-                                                :class="{ 
-                                                    wards: restantes(almacen.ctdetgu_fecha_reg) == 8 || restantes(almacen.ctdetgu_fecha_reg) == 9,
-                                                    reds: restantes(almacen.ctdetgu_fecha_reg) >= 10, 
-                                                    greens: restantes(almacen.ctdetgu_fecha_reg) <= 4  
-                                                    }">
-                                                    
-                                                    {{restantes(almacen.ctdetgu_fecha_reg)}}
-                                                    
-                                            </td> -->
-                                           
-                                            
-                                        
-                                        </tr>
-                                    </tbody>
-                                </table>
-                                <b-pagination size="md" align="center" :total-rows="this.cnf" v-model="currentPage" :per-page="perPage">
-                                    </b-pagination> 
+                          <div class="table-responsive p-2">
+                                <b-table show-empty
+                                       class="table-bordered  "
+                                       stacked="md"
+                                       :items="arrayDias"
+                                       :fields="fields"
+                                       :current-page="currentPage"
+                                       :per-page="perPage"
+                                       :filter="filter"
+                                       :sort-by.sync="sortBy"
+                                       :sort-desc.sync="sortDesc"
+                                       :sort-direction="sortDirection"
+                                       @filtered="onFiltered"
+                               >
+                               </b-table>
+                                <b-row>
+                               <b-col md="6" class="my-1">
+                                   <b-pagination :total-rows="this.arrayDias.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+                               </b-col>
+                               </b-row>
                             </div>
-                        
-                            <!-- <nav v-show="contador()>0" aria-label="pagination example">
-                                <ul class="pagination pg-blue">
-                                    <li class="page-item" v-if="pagination.current_page > 1">
-                                        <a class="page-link" href="#" @click.prevent ="cambiarPagina(pagination.current_page-1)">Ant</a>
-                                    </li>
-                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page==isActived ? 'active' : '']">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(page)" v-text="page" ></a>
-                                    </li>
-
-                                    <li class="page-item" v-if="pagination.current_page<pagination.last_page">
-                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page+1)">Sig</a>
-                                    </li>
-                                </ul>
-                            </nav> -->
 
                         </div>
                     </div>
                 </li>
-                </div>
-                <div class="" v-if="equis==2">
-
                 </div>
         </main>
 </template>
@@ -119,20 +65,12 @@
         
         data(){
             return{
+                  dismissSecs1: 5,
+                dismissCountDown1: 0,
+                dismissSecs: 5,
+                dismissCountDown: 0,
                 items: items, 
-                fields: ['sap','ctdetpr_serie','opciones'],
-                fields01: ['SAP','DESCRIPCION','STOCK','OPCIONES'],
-                fields02 :['ctdetsa_sot',
-                            'ctdetsa_salid_nro',
-                            'ctdetsa_produDescri',
-                            'ctdetsa_sap',
-                            'ctdetsa_serie',
-                            'ctdetsa_cantidad',
-                            'ctdetsa_undmdDescri',
-                            'ctdetsa_fecha_reg',
-                            'ctdetsa_descriTipo',
-                            'ctdetsa_usuario',
-                            ],
+                fields: ['sap','series','dias'],
                 currentPage: 1,
                 perPage: 5,
                 totalRows: items.length,
@@ -170,40 +108,56 @@
                offset:3,
                conteNF:0,
                cnf:0,
+               arrayDias:[]
                
             }
             
         },
         computed:{
-            isActived: function(){
-               return this.pagination.current_page;
+            sortOptions () {
+           // Create an options list from our fields
+           return this.fields
+               .filter(f => f.sortable)
+               .map(f => { return { text: f.label, value: f.key } })
            },
-           //Calcula los elementos de la paginación
-           pagesNumber: function() {
-               if(!this.pagination.to) {
-                   return [];
-               }
+           isActived: function(){
+                return this.pagination.current_page;
+            },
+            //Calcula los elementos de la paginación
+            pagesNumber: function() {
+                if(!this.pagination.to) {
+                    return [];
+                }
+                
+                var from = this.pagination.current_page - this.offset; 
+                if(from < 1) {
+                    from = 1;
+                }
 
-               var from = this.pagination.current_page - this.offset;
-               if(from < 1) {
-                   from = 1;
-               }
+                var to = from + (this.offset * 2); 
+                if(to >= this.pagination.last_page){
+                    to = this.pagination.last_page;
+                }  
 
-               var to = from + (this.offset * 2);
-               if(to >= this.pagination.last_page){
-                   to = this.pagination.last_page;
-               }
+                var pagesArray = [];
+                while(from <= to) {
+                    pagesArray.push(from);
+                    from++;
+                }
+                return pagesArray;             
 
-               var pagesArray = [];
-               while(from <= to) {
-                   pagesArray.push(from);
-                   from++;
-               }
-               return pagesArray;
-
-           },
+            },
         },
         methods:{
+            countDownChanged (dismissCountDown) {
+            this.dismissCountDown = dismissCountDown
+            },
+            showAlert () {
+            this.dismissCountDown = this.dismissSecs
+            },
+            countDownChanged1 (dismissCountDown1) {
+            this.dismissCountDown1 = dismissCountDown1
+            },
 
             cambiarPagina(page,buscar,criterio){
                let me=this;
@@ -222,30 +176,7 @@
                 },
 
             contador(){
-
-                    this.docHo= moment(this.fechaActualizacion).format('L');
-                    let a=0;
-                   for (let index = 0; index < this.arrayNotificacion.length; index++) {
-                       
-                       const element = this.arrayNotificacion[index].ctdetgu_fecha_reg;
-                        if((moment(new Date()).diff(element, 'days'))>5){
-                             
-                             
-                             return 1
-                        }  
-                        
-                        else{
-                            return 0;
-                        }    
-                       
-                   }
-                   if (this.arrayNotificacion.ctdetgu_fecha_reg) {
-                        console.log(this.arrayNotificacion);
-                   }else{
-                       console.log('dsfff');
-                   }
-                  
-                   
+                this.docHo=arrayDias.length;  
 
             },    
 
@@ -317,12 +248,31 @@
                     console.log(error);
                 });
             },
+        getDias(){
+            let me=this;
+               var url='/dias';
+              axios.get(url).then(function (response) {
+                   // handle success;
+                   me.arrayDias=response.data.data;
+                   let limiteDias=me.arrayDias.length;
+                //    toast({
+                //         type: 'warning',
+                //         title: `Recuerde tiene ${limiteDias} productos pendientes `
+                //     })
+               })
+               .catch(function (error) {
+                   // handle error
+                   console.log(error);
+               });   
+        }
             
         },
          mounted() {
+             this.getDias()
              this.AdminNotificacion(1)
-            this.productsCount= this.arrayNotificacion.length;
+            this.productsCount= this.arrayDias.length;
             this.listarAlmacen(1,this.buscar,this.criterio);
+            // setInterval(()=>this.getDias(),3000);
               
         },
 
