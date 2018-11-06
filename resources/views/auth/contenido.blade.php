@@ -10,13 +10,29 @@ URI     : https://colorlib.com
  -->
 
 <head>
-    <title>MobApp - App Landing Page Template</title>
+    <title>ELINIKTECH - Conectando familias</title>
     <!-- Required meta tags -->
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Mobland - Mobile App Landing Page Template">
     <meta name="keywords" content="HTML5, bootstrap, mobile, app, landing, ios, android, responsive">
-
+    <link rel="apple-touch-icon" sizes="57x57" href="images/apple-icon-57x57.png">
+    <link rel="apple-touch-icon" sizes="60x60" href="images/apple-icon-60x60.png">
+    <link rel="apple-touch-icon" sizes="72x72" href="images/apple-icon-72x72.png">
+    <link rel="apple-touch-icon" sizes="76x76" href="images/apple-icon-76x76.png">
+    <link rel="apple-touch-icon" sizes="114x114" href="images/apple-icon-114x114.png">
+    <link rel="apple-touch-icon" sizes="120x120" href="images/apple-icon-120x120.png">
+    <link rel="apple-touch-icon" sizes="144x144" href="images/apple-icon-144x144.png">
+    <link rel="apple-touch-icon" sizes="152x152" href="images/apple-icon-152x152.png">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/apple-icon-180x180.png">
+    <link rel="icon" type="image/png" sizes="192x192"  href="images/android-icon-192x192.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="96x96" href="images/favicon-96x96.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/favicon-16x16.png">
+    <link rel="manifest" href="images/manifest.json">
+    <meta name="msapplication-TileColor" content="#ffffff">
+    <meta name="msapplication-TileImage" content="images/ms-icon-144x144.png">
+    <meta name="theme-color" content="#ffffff">
     <!-- Font -->
     <link rel="dns-prefetch" href="//fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css?family=Rubik:300,400,500" rel="stylesheet">
@@ -29,6 +45,7 @@ URI     : https://colorlib.com
     <link rel="stylesheet" href="css/owl.carousel.min.css">
     <!-- Main css -->
     <link href="css/style.css" rel="stylesheet">
+
 </head>
 
 <body data-spy="scroll" data-target="#navbar" data-offset="30">
@@ -44,9 +61,9 @@ URI     : https://colorlib.com
                         <div class="collapse navbar-collapse" id="navbar">
                             <ul class="navbar-nav ml-auto">
                                 <li class="nav-item"> <a class="nav-link active" href="#home">INICIO <span class="sr-only">(current)</span></a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#features">FEATURES</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#gallery">GALLERY</a> </li>
-                                <li class="nav-item"> <a class="nav-link" href="#pricing">PRICING</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#features">NOSOTROS</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#gallery">GALERÍA</a> </li>
+                                <li class="nav-item"> <a class="nav-link" href="#pricing">PRECIO</a> </li>
                                 <li class="nav-item"> <a class="nav-link" href="#contact">CONTÁCTANOS</a> </li>
                                 <li class="nav-item"><a href="{{ url('iniciar-sesion') }}" class="btn btn-outline-light my-3 my-sm-0 ml-lg-3">Ingresar</a></li>
                             </ul>
@@ -138,9 +155,9 @@ URI     : https://colorlib.com
             <div class="row">
                 <div class="col-lg-6 offset-lg-6">
                     <div class="box-icon"><span class="ti-mobile gradient-fill ti-3x"></span></div>
-                    <h2>Discover our App</h2>
-                    <p class="mb-4">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Obcaecati vel exercitationem eveniet vero maxime ratione </p>
-                    <a href="#" class="btn btn-primary">Read more</a>
+                    <h2>Descarga nuestra Aplicación</h2>
+                    <p class="mb-4">Compatible con todas las versiones de Android </p>
+                    <a href="#" class="btn btn-primary">Leer más</a>
                 </div>
             </div>
             <div class="perspective-phone">
@@ -463,11 +480,11 @@ URI     : https://colorlib.com
             <div class="call-to-action">
 
                 <div class="box-icon"><span class="ti-mobile gradient-fill ti-3x"></span></div>
-                <h2>Download Anywhere</h2>
-                <p class="tagline">Available for all major mobile and desktop platforms. Rapidiously visualize optimal ROI rather than enterprise-wide methods of empowerment. </p>
+                <h2>Descarga</h2>
+                <p class="tagline">Disponible para todas las principales plataformas móviles y de escritorio. Visualice rápidamente el en lugar de los métodos de empoderamiento en toda la empresa.</p>
                 <div class="my-4">
 
-                    <a href="#" class="btn btn-light"><img src="images/appleicon.png" alt="icon"> App Store</a>
+                    
                     <a href="#" class="btn btn-light"><img src="images/playicon.png" alt="icon"> Google play</a>
                 </div>
                 <p class="text-primary"><small><i>*Works on iOS 10.0.5+, Android Kitkat and above. </i></small></p>
