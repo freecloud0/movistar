@@ -96,7 +96,7 @@
                                         </td>
                                         <td>
                                             
-                                                <b-btn type="button" class="btn btn-danger btn-sm" @click="desactivarEquipo(almacen.ctdetsa_indice)">
+                                                <b-btn type="button" class="btn btn-danger btn-sm" @click="desactivarEquipo(almacen.ctdetsa_indice,almacen.ctdetsa_serie)">
                                                         Liquidar
                                                 </b-btn>
                                         
@@ -376,7 +376,7 @@
                 me.listarAlmacen(page,buscar,criterio);
             },
             
-            desactivarEquipo(idEquipo){
+            desactivarEquipo(idEquipo,serie){
                 swal({
                     title: '¿Desea Sacar este producto de su inventario?',
                     
@@ -388,23 +388,39 @@
                     cancelButtonText: 'Cancelar'
                     }).then((result) => {
                     if (result.value) {
+                            swal.mixin({
+                            input: 'text',
+                            confirmButtonText: 'Aceptar',
+                            showCancelButton: true,
+                            }).queue([
+                            {
+                                title: 'Ingrese código sot',
+                            },
+                            ]).then((result) => {
+                                console.log(result);
+                            if (result.value) {
+                                    let me=this;
+                                axios.patch('/Equipo/desactivar',{
+                                    
+                                    'idEquipo':idEquipo,
+                                    'serie':serie,
+                                    'sot':parseInt(result.value) 
 
-                        let me=this;
-                            axios.patch('/Equipo/desactivar',{
-                                
-                                'idEquipo':idEquipo
-                            }).then(function (response) {
-                           
-                            me.listarAlmacen(1,'','ctdetsa_traspaso');
-                                   swal(
-                                    'Eliminado!',
-                                    'Registro desactivado',
-                                    'success'
-                                    )       
+                                }).then(function (response) {
+                            
+                                me.listarAlmacen(1,'','ctdetsa_traspaso');
+                                    swal(
+                                        'Eliminado!',
+                                        'Registro desactivado',
+                                        'success'
+                                        )       
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                });
+                            }
                             })
-                            .catch(function (error) {
-                                console.log(error);
-                            });
+                       
                         
                     }
                     })

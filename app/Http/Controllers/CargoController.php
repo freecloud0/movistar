@@ -42,14 +42,8 @@ class CargoController extends Controller
         $cargos=Cargo::where('estado','=','1')
         ->select('ctcargo_code','ctcargo_nombre')->orderby('ctcargo_code','desc')->get();
 
-        $cargos1=Cargo::where('estado','=','1')->where('ctcargo_code','!=',1)
-        ->select('ctcargo_code','ctcargo_nombre')->orderby('ctcargo_code','desc')->get();
-        $user=User::where('ctusuar_cargo_code',1)->count();
-        if ($user<=1) {
             return ['cargos'=>$cargos];
-        }else{
-            return ['cargos'=>$cargos1];
-        }
+      
         // return $user;
         // return ['cargos'=>$cargos];
     }

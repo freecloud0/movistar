@@ -208,204 +208,105 @@ class UserController extends Controller
    
     public function update(Request $request)
     {
-            // return $request;
-        if (!$request->ajax()) return redirect('/');
-        $cargo=$request->idCargo;
-        $cargousuario=$request->idUsuario;
-        $user= User::findOrFail($request->idUsuario);
-        $persona= Empleado::findOrFail($request->idEmpleado);
-        $cargoUser= Permiso::findOrFail($request->idPermiso);
-        $dni=Empleado::where('ctcolab_dni',$request->ctcolab_dni)->pluck('ctcolab_dni');
-        $dnis = str_replace('["',"",$dni);
-        $EmpleadoDNI = str_replace('"]',"",$dnis);
-
-       
-        if ($request->ctcolab_dni == $EmpleadoDNI ) {
-            if ($cargo==1) {
-                $persona->ctcolab_ap_paterno=$request->apePater;
-                $persona->ctcolab_ap_materno=$request->apeMater;
-                $persona->ctcolab_nombres=$request->nombres;
-                $persona->ctcolab_dni=$request->ctcolab_dni;
-                $persona->ctcolab_direccion=$request->direccion;
-                $persona->ctcolab_telefono=$request->telefono;
-                $persona->ctcolab_celular=$request->celular;
-                $persona->ctcolab_email=$request->emailP;
-                $persona->ctcolab_fecha_act=$request->fechareg;
-                $persona->ctcolab_usuario=Auth::user()->ctusuar_usuario;
-        
-                // return $persona;
-                  $persona->save();
-        
-        
-                $user->ctusuar_usuario=$request->usuario;
-                $user->ctusuar_email=$request->emailC;
-                $user->ctusuar_cargo_code=$request->idCargo;
-                // $user->password=bcrypt($request->password);
-                $user->ctusuar_fecha_act=$request->fechareg;
-                $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
-                // return $user;
-                  $user->save();
-                //ACTUALIZANDO ROL DE USUARIO
-                
-                // ROLES PARA EL USUARIO REGISTRADO
-               
-                $cargoUser->categoria=1;
-                $cargoUser->equipo=1;
-                $cargoUser->material=1;
-                $cargoUser->ingreso=1;
-                $cargoUser->salida=1;
-                $cargoUser->equipoTecnico=1;
-                $cargoUser->materialTecnico=1;
-                $cargoUser->proveedor=1;
-                $cargoUser->usuario=1;
-                $cargoUser->unidadMedida=1;
-                $cargoUser->rol=1;
-                $cargoUser->liquidacion=1;
-                $cargoUser->UserID=$cargousuario;
-                $cargoUser->save();
-                return response()->json('Actualizado Correctamente', 200);
-             }else{
-            
-            
-                $persona->ctcolab_ap_paterno=$request->apePater;
-                $persona->ctcolab_ap_materno=$request->apeMater;
-                $persona->ctcolab_nombres=$request->nombres;
-                $persona->ctcolab_dni=$request->ctcolab_dni;
-                $persona->ctcolab_direccion=$request->direccion;
-                $persona->ctcolab_telefono=$request->telefono;
-                $persona->ctcolab_celular=$request->celular;
-                $persona->ctcolab_email=$request->emailP;
-                $persona->ctcolab_fecha_act=$request->fechareg;
-                $persona->ctcolab_usuario=Auth::user()->ctusuar_usuario;
-        
-                // return $persona;
-                $persona->save();
-        
-        
-                $user->ctusuar_usuario=$request->usuario;
-                $user->ctusuar_email=$request->emailC;
-                $user->ctusuar_cargo_code=$request->idCargo;
-                // $user->password=bcrypt($request->password);
-                $user->ctusuar_fecha_act=$request->fechareg;
-                $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
-                // return $user;
-                $user->save();
-                //ACTUALIZANDO ROL DE USUARIO
-                
-                $cargoUser->categoria=$request->categoriaChecked;
-                $cargoUser->equipo=$request->equipoChecked;
-                $cargoUser->material=$request->materialChecked;
-                $cargoUser->ingreso=$request->ingresoChecked;
-                $cargoUser->salida=$request->salidaChecked;
-                $cargoUser->equipoTecnico=$request->equipoTecnicoChecked;
-                $cargoUser->materialTecnico=$request->materialTecnicoChecked;
-                $cargoUser->proveedor=$request->proveedorChecked;
-                $cargoUser->usuario=$request->usuarioChecked;
-                $cargoUser->unidadMedida=$request->unidadMedidaChecked;
-                $cargoUser->rol=$request->rolChecked;
-                $cargoUser->liquidacion=$request->liquidacionChecked;
-                $cargoUser->UserID=$cargousuario;
-                $cargoUser->save();
-                //  return $userCargo;
-                return response()->json('Actualizado Correctamente', 200);
-            }
-        }else {
-            $request->validate([
-                'ctcolab_dni' => 'unique:ctcolab,ctcolab_dni,ctcolab_id'.$idEmpleado.',ctcolab_id',
-                'password' =>'sometimes'
-            ]);
-            if ($cargo==1) {
-                $persona->ctcolab_ap_paterno=$request->apePater;
-                $persona->ctcolab_ap_materno=$request->apeMater;
-                $persona->ctcolab_nombres=$request->nombres;
-                $persona->ctcolab_dni=$request->ctcolab_dni;
-                $persona->ctcolab_direccion=$request->direccion;
-                $persona->ctcolab_telefono=$request->telefono;
-                $persona->ctcolab_celular=$request->celular;
-                $persona->ctcolab_email=$request->emailP;
-                $persona->ctcolab_fecha_act=$request->fechareg;
-                $persona->ctcolab_usuario=Auth::user()->ctusuar_usuario;
-        
-                // return $persona;
-                  $persona->save();
-        
-        
-                $user->ctusuar_usuario=$request->usuario;
-                $user->ctusuar_email=$request->emailC;
-                $user->ctusuar_cargo_code=$request->idCargo;
-                // $user->password=bcrypt($request->password);
-                $user->ctusuar_fecha_act=$request->fechareg;
-                $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
-                // return $user;
-                  $user->save();
-                //ACTUALIZANDO ROL DE USUARIO
-                
-                // ROLES PARA EL USUARIO REGISTRADO
-               
-                $cargoUser->categoria=1;
-                $cargoUser->equipo=1;
-                $cargoUser->material=1;
-                $cargoUser->ingreso=1;
-                $cargoUser->salida=1;
-                $cargoUser->equipoTecnico=1;
-                $cargoUser->materialTecnico=1;
-                $cargoUser->proveedor=1;
-                $cargoUser->usuario=1;
-                $cargoUser->unidadMedida=1;
-                $cargoUser->rol=1;
-                $cargoUser->liquidacion=1;
-                $cargoUser->UserID=$cargousuario;
-                $cargoUser->save();
-                return response()->json('Actualizado Correctamente', 200);
-             }else{
-            
-            
-                $persona->ctcolab_ap_paterno=$request->apePater;
-                $persona->ctcolab_ap_materno=$request->apeMater;
-                $persona->ctcolab_nombres=$request->nombres;
-                $persona->ctcolab_dni=$request->ctcolab_dni;
-                $persona->ctcolab_direccion=$request->direccion;
-                $persona->ctcolab_telefono=$request->telefono;
-                $persona->ctcolab_celular=$request->celular;
-                $persona->ctcolab_email=$request->emailP;
-                $persona->ctcolab_fecha_act=$request->fechareg;
-                $persona->ctcolab_usuario=Auth::user()->ctusuar_usuario;
-        
-                // return $persona;
-                $persona->save();
-        
-        
-                $user->ctusuar_usuario=$request->usuario;
-                $user->ctusuar_email=$request->emailC;
-                $user->ctusuar_cargo_code=$request->idCargo;
-                // $user->password=bcrypt($request->password);
-                $user->ctusuar_fecha_act=$request->fechareg;
-                $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
-                // return $user;
-                $user->save();
-                //ACTUALIZANDO ROL DE USUARIO
-                
-                $cargoUser->categoria=$request->categoriaChecked;
-                $cargoUser->equipo=$request->equipoChecked;
-                $cargoUser->material=$request->materialChecked;
-                $cargoUser->ingreso=$request->ingresoChecked;
-                $cargoUser->salida=$request->salidaChecked;
-                $cargoUser->equipoTecnico=$request->equipoTecnicoChecked;
-                $cargoUser->materialTecnico=$request->materialTecnicoChecked;
-                $cargoUser->proveedor=$request->proveedorChecked;
-                $cargoUser->usuario=$request->usuarioChecked;
-                $cargoUser->unidadMedida=$request->unidadMedidaChecked;
-                $cargoUser->rol=$request->rolChecked;
-                $cargoUser->liquidacion=$request->liquidacionChecked;
-                $cargoUser->UserID=$cargousuario;
-                $cargoUser->save();
-                //  return $userCargo;
-                return response()->json('Actualizado Correctamente', 200);
-            }
-
-        }
-       
          
+        $respuesta=$request->idUsuario;
+        $cargo_request=$request->idCargo;
+        $userCargo=User::where('ctusuar_code',$respuesta)->pluck('ctusuar_cargo_code');
+        $cargo=$userCargo->implode($userCargo);
+        if ($cargo_request==1) {
+            if ($cargo!=1) {
+                $cont=User::where('ctusuar_cargo_code','=',1)->count();
+                if ($cont>=2) {
+                     $msj='Máximo de administradores '.$cont;
+                     return response()->json(['ok'=>false,'error'=>$msj],400);
+                     
+                } else {
+                     $data=$this->requestUpdate($request);
+                     $dataRole=$this->requestUpdateRole($request,$cargo_request);
+                     return response()->json(['ok'=>true,'data'=>$data,'message'=>'Actualizado Correctamente'],200);
+                }
+            } else {
+                $data=$this->requestUpdate($request);
+                $dataRole=$this->requestUpdateRole($request,$cargo_request);
+                return response()->json(['ok'=>true,'data'=>$data,'message'=>'Actualizado Correctamente'],200);
+            }
+        } else {
+            $data=$this->requestUpdate($request);
+            $dataRole=$this->requestUpdateRole($request,$cargo_request);
+            return response()->json(['ok'=>true,'data'=>$data,'message'=>'Actualizado Correctamente'],200);
+            
+        }
+        
+    }
+    public function requestUpdate($request)
+    {
+        // UPDATE COLABORADOR
+        $persona= Empleado::findOrFail($request->idEmpleado);
+            $persona->ctcolab_ap_paterno=$request->apePater;
+            $persona->ctcolab_ap_materno=$request->apeMater;
+            $persona->ctcolab_nombres=$request->nombres;
+            $persona->ctcolab_dni=$request->ctcolab_dni;
+            $persona->ctcolab_direccion=$request->direccion;
+            $persona->ctcolab_telefono=$request->telefono;
+            $persona->ctcolab_celular=$request->celular;
+            $persona->ctcolab_email=$request->emailP;
+            $persona->ctcolab_fecha_act=$request->fechareg;
+            $persona->ctcolab_usuario=Auth::user()->ctusuar_usuario;
+            $persona->save();
+        // UPDATE USUARIO
+        $user= User::findOrFail($request->idUsuario);
+            $user->ctusuar_usuario=$request->usuario;
+            $user->ctusuar_email=$request->emailC;
+            $user->ctusuar_cargo_code=$request->idCargo;
+            $user->ctusuar_fecha_act=$request->fechareg;
+            $user->ctusuar_usuario_code=Auth::user()->ctusuar_usuario;
+            $user->save();
+        
+        return [$user,$persona];
+    }
+    public function requestUpdateRole($request,$cargo)
+    {
+        $cargousuario=$request->idUsuario;
+        $cargoUser= Permiso::findOrFail($request->idPermiso);
+        if ($cargo==1) {
+           // UPDATE ROLES USER ADMIN
+           $cargoUser->categoria=1;
+           $cargoUser->equipo=1;
+           $cargoUser->material=1;
+           $cargoUser->ingreso=1;
+           $cargoUser->salida=1;
+           $cargoUser->equipoTecnico=1;
+           $cargoUser->materialTecnico=1;
+           $cargoUser->proveedor=1;
+           $cargoUser->usuario=1;
+           $cargoUser->unidadMedida=1;
+           $cargoUser->rol=1;
+           $cargoUser->liquidacion=1;
+           $cargoUser->UserID=$cargousuario;
+           $cargoUser->save();
+           return $cargoUser;
+        } else {
+            // UPDATE ROLES USER USER
+            $cargoUser->categoria=$request->categoriaChecked;
+            $cargoUser->equipo=$request->equipoChecked;
+            $cargoUser->material=$request->materialChecked;
+            $cargoUser->ingreso=$request->ingresoChecked;
+            $cargoUser->salida=$request->salidaChecked;
+            $cargoUser->equipoTecnico=$request->equipoTecnicoChecked;
+            $cargoUser->materialTecnico=$request->materialTecnicoChecked;
+            $cargoUser->proveedor=$request->proveedorChecked;
+            $cargoUser->usuario=$request->usuarioChecked;
+            $cargoUser->unidadMedida=$request->unidadMedidaChecked;
+            $cargoUser->rol=$request->rolChecked;
+            $cargoUser->liquidacion=$request->liquidacionChecked;
+            $cargoUser->UserID=$cargousuario;
+            $cargoUser->save();
+            return $cargoUser;
+        }
+        
+        
+
+        
 
     }
     public function selectUsuario(Request $request)

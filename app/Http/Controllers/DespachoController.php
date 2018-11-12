@@ -699,7 +699,18 @@ class DespachoController extends Controller
         // return $request;    
         if (!$request->ajax()) return redirect('/');
         $date =Carbon::now('America/Lima')->toDateTimeString();
-        $dateconvert =(string) $date;
+        $dateconvert =(string) $date; 
+        // tbla liquidacion
+        $idLiqui=Liquidacion::max('ctliqui_id');
+        $idLiquiMax=$idLiqui+1;
+        $product_liquidation=new Liquidacion();
+        $product_liquidation->ctliqui_id=$idLiquiMax; 
+        $product_liquidation->ctliqui_serie=$request->serie;
+        $product_liquidation->ctliqui_sot=$request->sot;
+        $product_liquidation->ctliqui_fechareg=$dateconvert;
+        $product_liquidation->ctliqui_userliqui=Auth::user()->ctusuar_usuario;
+        // return $product_liquidation;
+        $product_liquidation->save();
     //INDICE DE DETALLE PRODUCTO
      $vendidos= new DetalleSalida();
      $vendidos->ctdetsa_esta_code=$request->idEquipo;
@@ -917,7 +928,7 @@ class DespachoController extends Controller
    }
    public function LiquidarEquipoAdminArray(Request $request)
    {
-        //  return $request;
+        //  return $request; 
     if (!$request->ajax()) return redirect('/');
         $date =Carbon::now('America/Lima')->toDateTimeString();
         $dateconvert =(string) $date;
@@ -932,6 +943,7 @@ class DespachoController extends Controller
             //añadiendo equipos a la tabla liquidacion para control respectivo
             $product_liquidation=new Liquidacion();
             $product_liquidation->ctliqui_id=$idLiquiMax; 
+            $product_liquidation->ctliqui_serie=$value;
             $product_liquidation->ctliqui_sot=$codigoSOT;
             $product_liquidation->ctliqui_fechareg=$dateconvert;
             $product_liquidation->ctliqui_userliqui=Auth::user()->ctusuar_usuario;

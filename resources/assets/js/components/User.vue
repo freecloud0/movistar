@@ -1149,10 +1149,14 @@
                 }).then(function (response) {
                    me.cerrarModal();
                    me.listarUsuario(1,'','ctcolab_dni');
-                   me.successAct = response.data;
+                   me.successAct = response.data.message;
                 })
                 .catch(function (error) {
-                    // console.log(error);
+                     swal({
+                                type: 'error',
+                                title: 'Error',
+                                text: error.response.data.error
+                         })
                     me.uniqueDni=error.response.data.errors.ctcolab_dni[0];
                 });
             },

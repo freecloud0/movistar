@@ -167,7 +167,7 @@
                                             </b-btn> 
                                         </td> -->
                                         <td class="sm-0 sp-0">
-                                            <b-btn class="btn orange float-right mt-2 btn-sm"  @click="capturaSerieDevolucion(entrada.ctdetgu_serieProduc)">
+                                            <b-btn class="btn orange float-right mt-2 btn-sm"  @click="capturaSerie(entrada.ctdetgu_serieProduc)">
                                                 Agregar
                                             </b-btn>
                                         </td>
