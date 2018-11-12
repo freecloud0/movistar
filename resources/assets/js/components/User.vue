@@ -145,443 +145,433 @@
             </div>
             <!-- Button trigger modal -->
 
-    <div data-backdrop="static" data-keyboard="false" class="modal fade" id="basicExampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Añadir a Lista de Productos</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                
-                <div class="modal-body">
-                    <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
-                        <div role="tablist">
-                            
-                            <b-card no-body class="mb-1">
-                                <b-card-header header-tag="header" class="p-1" role="tab">
-                                    <div class="  boton" v-show="datoPer" ><i id="exPopover3" class="retr fas fa-exclamation-triangle"></i></div>
+    <b-modal v-model="show" size="lg" 
+             title="Añadir a Lista de Productos" 
+             >
+       <b-container fluid>
+            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div role="tablist">
+                    
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <div class="  boton" v-show="datoPer" ><i id="exPopover3" class="retr fas fa-exclamation-triangle"></i></div>
 
-                                    <b-popover target="exPopover3" triggers="hover focus">
-                                    <template slot="title">Alerta</template>
-                                       
-                                        <div class="text-danger" v-show="apePater==''">Rellene Campo  Apellido paterno</div>
-                                        <div class="text-danger" v-show="apeMater==''">Rellene Campo  Apellido materno</div>
-                                        <div class="text-danger" v-show="nombres==''">Rellene Campo de Apellido</div>
-                                        <div class="text-danger" v-show="dni.length < 8 |dni.length > 8">Rellene dni</div>
-                                        <div class="text-danger" v-show="celular.length <9 |celular.length >9">Rellene número Cell.</div>
-                                    </b-popover>
+                            <b-popover target="exPopover3" triggers="hover focus">
+                            <template slot="title">Alerta</template>
+                                
+                                <div class="text-danger" v-show="apePater==''">Rellene Campo  Apellido paterno</div>
+                                <div class="text-danger" v-show="apeMater==''">Rellene Campo  Apellido materno</div>
+                                <div class="text-danger" v-show="nombres==''">Rellene Campo de Apellido</div>
+                                <div class="text-danger" v-show="dni.length < 8 |dni.length > 8">Rellene dni</div>
+                                <div class="text-danger" v-show="celular.length <9 |celular.length >9">Rellene número Cell.</div>
+                            </b-popover>
 
 
-                                    <b-btn block href="#" v-b-toggle.accordion1 variant="blue">Datos Personales</b-btn> 
-                                </b-card-header>
-                                <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
-                                    <b-card-body>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <b-card bg-variant="light">
-                                                        <div class="row">
-                                                            <div class="col-md-6">
-                                                                <b-form-group 
-                                                                    label="Apellido Paterno"
-                                                                    label-class="text-sm-right"
-                                                                    label-for="nestedStreet">
-                                                                    
-                                                                    <b-form-input   id="inputLive1"
-                                                                                    v-model.trim="apePater"
-                                                                                    type="text"
-                                                                                    :state="apePState"
-                                                                                    placeholder="">
-                                                                    </b-form-input>
-                                                                    <b-form-invalid-feedback v-show="apePater==''" id="inputLiveFeedback">
-                                                                    <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                    Rellene este campo
-                                                                    </b-form-invalid-feedback>
-                                                                </b-form-group>
-                                                            </div>
-                                                            <div class="col-md-6">
-                                                                <b-form-group 
-                                                                    label="Apellido Materno"
-                                                                    label-class="text-sm-right"
-                                                                    label-for="nestedCity">
-
-                                                                    <b-form-input   id="inputLive2"
-                                                                                    v-model.trim="apeMater"
-                                                                                    type="text"
-                                                                                    :state="apeMState"
-                                                                                    placeholder="">
-                                                                    </b-form-input>
-                                                                    <b-form-invalid-feedback v-show="apeMater==''" id="inputLiveFeedback">
-                                                                    <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                    Rellene este campo
-                                                                    </b-form-invalid-feedback>
-                                                        
-                                                                </b-form-group>
-                                                            </div>
-                                                        </div>
-
+                            <b-btn block href="#" v-b-toggle.accordion1 variant="blue">Datos Personales</b-btn> 
+                        </b-card-header>
+                        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
+                                                <div class="row">
+                                                    <div class="col-md-6">
                                                         <b-form-group 
-                                                                    label="Nombres"
-                                                                    label-class="text-sm-right"
-                                                                    label-for="nestedState">
-
-                                                                    <b-form-input   id="inputLive"
-                                                                                v-model.trim="nombres"
-                                                                                type="text"
-                                                                                :state="nomState"
-                                                                                placeholder="">
-                                                                    </b-form-input>
-                                                                    <b-form-invalid-feedback v-show="nombres==''" id="inputLiveFeedback">
-                                                                    <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                    Rellene este campo
-                                                                    </b-form-invalid-feedback>
-
-                                                        </b-form-group>
-                                                        <b-form-group 
-                                                                    label="DNI"
-                                                                    label-class="text-sm-right"
-                                                                    label-for="nestedCountry">
-
-                                                                    <input type="number" :class="{ brd:dni.length<8| dni.length>8, werd:dni.length==8}"  v-model="dni" @keyup="dniEx()" class="form-control" >
-                                                                <div class="filesx" v-if="mesaFal == 1" >
-                                                                    <p>Ya existe este campo</p>
-                                                                </div>
-                                                                <div class="filesx" v-if="dni.length<8 | dni.length>8 " >
-                                                                    <p>Rellene con 8 digitos</p>
-                                                                </div>
-                                                                
-
-                                                                <b-form-invalid-feedback v-show="dni.length != 8"  id="inputLiveFeedback1">
-                                                                    Rellene con 8 digitos
-                                                                </b-form-invalid-feedback>
-
-                                                                <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                    {{uniqueDni + 'DNI'}}
-                                                                </b-form-invalid-feedback>
-                                                        
-                                                        </b-form-group>
-
-                                                </b-card>
-                                            </div> 
-                                            <div class="col-md-6">
-                                                <b-card bg-variant="light">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class=" form-control-label" for="text-input">Direccion</label>
-                                                                <input type="text" v-model="direccion" class="form-control" placeholder="Av.nom## " >
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label class="form-control-label" for="text-input">Teléfono</label>
-                                                                <input type="text" v-model="telefono" class="form-control"  placeholder="">
-                                                                <span v-if="errores.ctcolab_telefono" :class="['label label-danger']">{{ errores.ctcolab_telefono[0] }}</span>
-                                                        </div>
-                                                        <div class="col-6">
-                                                            <label class="form-control-label" for="text-input">Celular</label>
-                                                                
-
-                                                                <b-form-input   id="inputLive5"
-                                                                                v-model.trim="celular"
-                                                                                type="text"
-                                                                                :state="cellState"
-                                                                                placeholder="">
-                                                                </b-form-input>
-                                                                <b-form-invalid-feedback v-show="celular.length<9 | celular.length>9" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Ingrese 9 digitos
-                                                                </b-form-invalid-feedback>
-                                                                <b-form-invalid-feedback v-if="errores.ctcolab_celular" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Ya existe este Número
-                                                                </b-form-invalid-feedback>
-                                                                
-                                                        </div>
-                                                    </div>
-                                                </b-card>
-                                                <br>
-                                                <b-card bg-variant="light">
-                                                    <div class="col-md-12">
-                                                        <label for="">Fecha de Registro</label>
-                                                        <datepicker v-model="fechareg" format="dd/MM/yyyy" input-class="form-control">
-                                                        </datepicker>
-                                                    </div>
-                                                </b-card>
-                                            </div>
-                                        </div>
-                                    </b-card-body>
-                                </b-collapse>
-                            </b-card>
-                            <b-card no-body class="mb-1">
-                                <b-card-header header-tag="header" class="p-1" role="tab">
-                                    <b-btn block href="#" v-b-toggle.accordion2 variant="blue">Datos de Usuarios</b-btn>
-                                    
-                                    <div class="boton" v-show="datoUse" ><i id="exPopover4" class="retr fas fa-exclamation-triangle"></i></div>
-                                    <b-popover target="exPopover4" triggers="hover focus">
-                                    <template slot="title">Alerta</template>
-                                       
-                                        <div class="text-danger" v-show="err1us">Rellene Campo  Usuario</div>
-                                        <div class="text-danger" v-show="err1us1">Rellene Campo  Email</div>
-                                        <div class="text-danger" v-show="err1us2">Rellene Campo de COntraseña</div>
-                                        
-                                    </b-popover>
-                                </b-card-header>
-                                <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
-                                    <b-card-body>
-                                        <div class="row">
-                                            <div class="col-md-6">
-                                                <div class="pr-4 pl-4 ">
-                                                    <img src="img/img_avatar.png" alt="Avatar" style="width:100%">
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6">
-                                                <b-card bg-variant="light">
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <label class=" form-control-label" for="text-input">Nombre de Usuario</label>
+                                                            label="Apellido Paterno"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedStreet">
                                                             
-                                                                <b-form-input   id="inputLive5"
-                                                                                v-model.trim="usuario"
-                                                                                type="text"
-                                                                                :state="userState"
-                                                                                placeholder="">
-                                                                </b-form-input>
-                                                                <b-form-invalid-feedback v-show="usuario==''" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Rellene este campo
-                                                                </b-form-invalid-feedback>
-                                                                <b-form-invalid-feedback v-if="errores.ctusuar_usuario" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Ya existe este Usuario
-                                                                </b-form-invalid-feedback>
-                                                        </div>
-
-                                                        <div class="col-md-12">
-                                                            <label class=" form-control-label" for="text-input">Email</label>
-                                                                
-                                                                <!-- <span v-if="errores.ctusuar_email" :class="['label label-danger']">{{ errores.ctcolab_celular[0] }}</span> -->
-                                                                <b-form-input   id="inputLive6"
-                                                                                v-model.trim="emailC"
-                                                                                type="email"
-                                                                                :state="mailState"
-                                                                                placeholder="">
-                                                                </b-form-input>
-                                                                <b-form-invalid-feedback v-show="emailC==''" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Rellene este campo
-                                                                </b-form-invalid-feedback>
-                                                        </div>
-                                                        
-                                                        <div class="col-md-12" v-if="tipoAccion==1">
-                                                            <label class=" form-control-label" for="text-input">Contraseña</label>
-                                                                <b-form-input   id="inputLive7"
-                                                                                v-model.trim="password"
-                                                                                type="password"
-                                                                                :state="contraState"
-                                                                                placeholder="">
-                                                                </b-form-input>
-                                                                <b-form-invalid-feedback v-show="password==''" id="inputLiveFeedback">
-                                                                <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                                Rellene este campo
-                                                                </b-form-invalid-feedback>
-                                                                <!-- CAMPOS GENERALES -->
-                                                        
-                                                        </div>
-                                                        
-                                                    <div class="col-md-12" v-if="tipoAccion==2" v-b-tooltip.hover title="Cambiar Contraseña?">
-                                                        <label class=" form-control-label" for="text-input">Contraseña</label>
-                                                            <b-form-input
-
-                                                                            type="password"
-                                                                            :disabled="true"
+                                                            <b-form-input   id="inputLive1"
+                                                                            v-model.trim="apePater"
+                                                                            type="text"
+                                                                            :state="apePState"
                                                                             placeholder="">
                                                             </b-form-input>
-
-
+                                                            <b-form-invalid-feedback v-show="apePater==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
+                                                        </b-form-group>
                                                     </div>
+                                                    <div class="col-md-6">
+                                                        <b-form-group 
+                                                            label="Apellido Materno"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedCity">
 
-                                                    
-                                                    </div>
-                                                    
+                                                            <b-form-input   id="inputLive2"
+                                                                            v-model.trim="apeMater"
+                                                                            type="text"
+                                                                            :state="apeMState"
+                                                                            placeholder="">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback v-show="apeMater==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
                                                 
-                                                </b-card>
-                                            
-                                            </div>
-                                        </div> 
-                                    </b-card-body>
-                                </b-collapse>
-                            </b-card>
-                            <b-card no-body class="mb-1">
-                                <b-card-header header-tag="header" class="p-1" role="tab">
-                                    <div class="  boton" v-show="datoCarg" ><i class="retr fas fa-exclamation-triangle"></i></div>
-                                    <b-btn block href="#" v-b-toggle.accordion3 variant="red" class="red">Cargos y Roles</b-btn>
-                                </b-card-header>
-                                <b-collapse id="accordion3"  accordion="my-accordion" role="tabpanel">
-                                    <b-card-body>
-                                        <div class="col-6">
-                                            <b-form-group 
-                                                        label="Cargo"
-                                                        label-class="text-sm-right"
-                                                        label-for="nestedStreet">
+                                                        </b-form-group>
+                                                    </div>
+                                                </div>
+
+                                                <b-form-group 
+                                                            label="Nombres"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedState">
+
+                                                            <b-form-input   id="inputLive"
+                                                                        v-model.trim="nombres"
+                                                                        type="text"
+                                                                        :state="nomState"
+                                                                        placeholder="">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback v-show="nombres==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
+
+                                                </b-form-group>
+                                                <b-form-group 
+                                                            label="DNI"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedCountry">
+
+                                                            <input type="number" :class="{ brd:dni.length<8| dni.length>8, werd:dni.length==8}"  v-model="dni" @keyup="dniEx()" class="form-control" >
+                                                        <div class="filesx" v-if="mesaFal == 1" >
+                                                            <p>Ya existe este campo</p>
+                                                        </div>
+                                                        <div class="filesx" v-if="dni.length<8 | dni.length>8 " >
+                                                            <p>Rellene con 8 digitos</p>
+                                                        </div>
                                                         
-                                                        <b-form-select v-model="idCargo" class="mb-3" :state="selectState">
-                                                            <option :value="0">Seleccione Categoria</option>
-                                                            <option v-for="cargo in arrayCargo" :key="cargo.ctcargo_code" :value="cargo.ctcargo_code" v-text="cargo.ctcargo_nombre"></option>
-                                                        </b-form-select>
-                                                        <b-form-invalid-feedback class="mn-t-01" v-show="idCargo==0" id="inputLiveFeedback">
-                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
-                                                        Selecione un campo
+
+                                                        <b-form-invalid-feedback v-show="dni.length != 8"  id="inputLiveFeedback1">
+                                                            Rellene con 8 digitos
                                                         </b-form-invalid-feedback>
 
-                                            
-                                            </b-form-group>
-                                        </div>  
-                                        <div v-show="idCargo!=0" >
-                                            <hr>
+                                                        <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            {{uniqueDni + 'DNI'}}
+                                                        </b-form-invalid-feedback>
+                                                
+                                                </b-form-group>
 
+                                        </b-card>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
                                             <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Direccion</label>
+                                                        <input type="text" v-model="direccion" class="form-control" placeholder="Av.nom## " >
+                                                </div>
                                                 <div class="col-6">
-                                                    <b-form-group class="" >
-                                                    <template slot="label">
-                                                        <b>Almacen</b><br>
+                                                    <label class="form-control-label" for="text-input">Teléfono</label>
+                                                        <input type="text" v-model="telefono" class="form-control"  placeholder="">
+                                                        <span v-if="errores.ctcolab_telefono" :class="['label label-danger']">{{ errores.ctcolab_telefono[0] }}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-control-label" for="text-input">Celular</label>
                                                         
-                                                    </template>
-                                                    <div class="row">
-                                                        <div class="col-md-12">
-                                                            <b-form-checkbox 
-                                                                v-model="categoriaChecked"
-                                                                :value="restic"
-                                                                unchecked-value=0
-                                                                :disabled="idCargo==1"
-                                                                >
-                                                                Categoria
-                                                            </b-form-checkbox>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <b-form-checkbox 
-                                                                v-model="equipoChecked"
-                                                                :value="restic"
-                                                                unchecked-value=0
-                                                                :disabled="idCargo==1"
-                                                                >
-                                                                Equipo
-                                                            </b-form-checkbox>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <b-form-checkbox 
-                                                                v-model="materialChecked"
-                                                                :value="restic"
-                                                                unchecked-value=0
-                                                                :disabled="idCargo==1"
-                                                                >
-                                                                Material
-                                                            </b-form-checkbox>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <b-form-checkbox 
-                                                                v-model="ingresoChecked"
-                                                                :value="restic"
-                                                                unchecked-value=0
-                                                                :disabled="idCargo==1"
-                                                                >
-                                                                Ingreso
-                                                            </b-form-checkbox>
-                                                        </div>
-                                                        <div class="col-md-12">
-                                                            <b-form-checkbox 
-                                                                v-model="salidaChecked"
-                                                                :value="restic"
-                                                                unchecked-value=0
-                                                                :disabled="idCargo==1"
-                                                                >
-                                                                Salida
-                                                            </b-form-checkbox>
-                                                        </div>
-                                                    </div>
 
-                                                    </b-form-group>
+                                                        <b-form-input   id="inputLive5"
+                                                                        v-model.trim="celular"
+                                                                        type="text"
+                                                                        :state="cellState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="celular.length<9 | celular.length>9" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ingrese 9 digitos
+                                                        </b-form-invalid-feedback>
+                                                        <b-form-invalid-feedback v-if="errores.ctcolab_celular" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ya existe este Número
+                                                        </b-form-invalid-feedback>
+                                                        
+                                                </div>
+                                            </div>
+                                        </b-card>
+                                        <br>
+                                        <b-card bg-variant="light">
+                                            <div class="col-md-12">
+                                                <label for="">Fecha de Registro</label>
+                                                <datepicker v-model="fechareg" format="dd/MM/yyyy" input-class="form-control">
+                                                </datepicker>
+                                            </div>
+                                        </b-card>
+                                    </div>
+                                </div>
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <b-btn block href="#" v-b-toggle.accordion2 variant="blue">Datos de Usuarios</b-btn>
+                            
+                            <div class="boton" v-show="datoUse" ><i id="exPopover4" class="retr fas fa-exclamation-triangle"></i></div>
+                            <b-popover target="exPopover4" triggers="hover focus">
+                            <template slot="title">Alerta</template>
+                                
+                                <div class="text-danger" v-show="err1us">Rellene Campo  Usuario</div>
+                                <div class="text-danger" v-show="err1us1">Rellene Campo  Email</div>
+                                <div class="text-danger" v-show="err1us2">Rellene Campo de COntraseña</div>
+                                
+                            </b-popover>
+                        </b-card-header>
+                        <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="pr-4 pl-4 ">
+                                            <img src="img/img_avatar.png" alt="Avatar" style="width:100%">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Nombre de Usuario</label>
+                                                    
+                                                        <b-form-input   id="inputLive5"
+                                                                        v-model.trim="usuario"
+                                                                        type="text"
+                                                                        :state="userState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="usuario==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                        <b-form-invalid-feedback v-if="errores.ctusuar_usuario" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ya existe este Usuario
+                                                        </b-form-invalid-feedback>
                                                 </div>
 
-                                                <div class="col-6">
-                                                    <b-form-group >
-                                                        <template slot="label">
-                                                                <b>Almacen Tecnico</b><br>
-                                                        </template>
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Email</label>
+                                                        
+                                                        <!-- <span v-if="errores.ctusuar_email" :class="['label label-danger']">{{ errores.ctcolab_celular[0] }}</span> -->
+                                                        <b-form-input   id="inputLive6"
+                                                                        v-model.trim="emailC"
+                                                                        type="email"
+                                                                        :state="mailState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="emailC==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                </div>
+                                                
+                                                <div class="col-md-12" v-if="tipoAccion==1">
+                                                    <label class=" form-control-label" for="text-input">Contraseña</label>
+                                                        <b-form-input   id="inputLive7"
+                                                                        v-model.trim="password"
+                                                                        type="password"
+                                                                        :state="contraState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="password==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                        <!-- CAMPOS GENERALES -->
+                                                
+                                                </div>
+                                                
+                                            <div class="col-md-12" v-if="tipoAccion==2" v-b-tooltip.hover title="Cambiar Contraseña?">
+                                                <label class=" form-control-label" for="text-input">Contraseña</label>
+                                                    <b-form-input
 
-                                                    <b-form-checkbox 
-                                                        v-model="equipoTecnicoChecked"
-                                                        :value="restic"
-                                                        unchecked-value=0
-                                                        :disabled="idCargo==1"
-                                                        >
-                                                        Equipo Técnico
-                                                    </b-form-checkbox>
-                                                    
-                                                    <b-form-checkbox 
-                                                        v-model="materialTecnicoChecked"
-                                                        :value="restic"
-                                                        unchecked-value=0
-                                                        :disabled="idCargo==1"
-                                                        >
-                                                        Material Técnico
-                                                    </b-form-checkbox>
-                                                    </b-form-group>
-                                                    <hr>
-                                                    <b-form-group >
-                                                        <template slot="label">
-                                                                <b>Compras</b><br>
-                                                        </template>
+                                                                    type="password"
+                                                                    :disabled="true"
+                                                                    placeholder="">
+                                                    </b-form-input>
 
+
+                                            </div>
+
+                                            
+                                            </div>
+                                            
+                                        
+                                        </b-card>
+                                    
+                                    </div>
+                                </div> 
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <div class="  boton" v-show="datoCarg" ><i class="retr fas fa-exclamation-triangle"></i></div>
+                            <b-btn block href="#" v-b-toggle.accordion3 variant="red" class="red">Cargos y Roles</b-btn>
+                        </b-card-header>
+                        <b-collapse id="accordion3"  accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="col-6">
+                                    <b-form-group 
+                                                label="Cargo"
+                                                label-class="text-sm-right"
+                                                label-for="nestedStreet">
+                                                
+                                                <b-form-select v-model="idCargo" class="mb-3" :state="selectState">
+                                                    <option :value="0">Seleccione Categoria</option>
+                                                    <option v-for="cargo in arrayCargo" :key="cargo.ctcargo_code" :value="cargo.ctcargo_code" v-text="cargo.ctcargo_nombre"></option>
+                                                </b-form-select>
+                                                <b-form-invalid-feedback class="mn-t-01" v-show="idCargo==0" id="inputLiveFeedback">
+                                                <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                Selecione un campo
+                                                </b-form-invalid-feedback>
+
+                                    
+                                    </b-form-group>
+                                </div>  
+                                <div v-show="idCargo!=0" >
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <b-form-group class="" >
+                                            <template slot="label">
+                                                <b>Almacen</b><br>
+                                                
+                                            </template>
+                                            <div class="row">
+                                                <div class="col-md-12">
                                                     <b-form-checkbox 
-                                                        v-model="proveedorChecked"
+                                                        v-model="categoriaChecked"
                                                         :value="restic"
                                                         unchecked-value=0
                                                         :disabled="idCargo==1"
                                                         >
-                                                        Proveedor
+                                                        Categoria
                                                     </b-form-checkbox>
-                                                    </b-form-group>
-                                                    <hr>
-                                                    <b-form-group >
-                                                        <template slot="label">
-                                                                <b>Configuraciones</b><br>
-                                                        </template>
-                                                    
+                                                </div>
+                                                <div class="col-md-12">
                                                     <b-form-checkbox 
-                                                        v-model="unidadMedidaChecked"
+                                                        v-model="equipoChecked"
                                                         :value="restic"
                                                         unchecked-value=0
                                                         :disabled="idCargo==1"
                                                         >
-                                                        Und. Medida
+                                                        Equipo
                                                     </b-form-checkbox>
-                                                    </b-form-group>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="materialChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Material
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="ingresoChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Ingreso
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="salidaChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Salida
+                                                    </b-form-checkbox>
                                                 </div>
                                             </div>
 
+                                            </b-form-group>
                                         </div>
 
-                                    </b-card-body>
-                                </b-collapse>
-                            </b-card>
-                        </div>             
-                    </form>
-                </div>
-                <div class="modal-footer">
-                  
-                        <p class="red-text mr-2" v-if="tipoAccion==1">{{nell}}</p>   
-                        <button type="button" class="btn btn-secondary btn-sm float-left" data-dismiss="modal" >Cerrar</button>
-                        <!-- <button type="button" class="btn btn-primary btn-sm float-right" :disabled="errorR" @click.prevent="next()">Siguiente</button> -->
-                     
-                   
-                        <button type="button" v-if="tipoAccion==2" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="actualizarUsuario()">Actualizar</button>
-                        <button type="button" v-if="tipoAccion==1" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="registrarUsuario()">Guardar</button>
-                   
-                </div>
+                                        <div class="col-6">
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Almacen Tecnico</b><br>
+                                                </template>
 
-            </div>
-        </div>
-    </div>
+                                            <b-form-checkbox 
+                                                v-model="equipoTecnicoChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Equipo Técnico
+                                            </b-form-checkbox>
+                                            
+                                            <b-form-checkbox 
+                                                v-model="materialTecnicoChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Material Técnico
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                            <hr>
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Compras</b><br>
+                                                </template>
+
+                                            <b-form-checkbox 
+                                                v-model="proveedorChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Proveedor
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                            <hr>
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Configuraciones</b><br>
+                                                </template>
+                                            
+                                            <b-form-checkbox 
+                                                v-model="unidadMedidaChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Und. Medida
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                </div>             
+            </form>
+       </b-container>
+
+       <div slot="modal-footer" class="w-100">
+         
+        
+         <p class="red-text mr-2" v-if="tipoAccion==1">{{nell}}</p> 
+         <button type="button" @click="show=false" class="btn btn-secondary btn-sm float-left"  >Cerrar</button>  
+        
+        <button type="button" v-if="tipoAccion==2" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="actualizarUsuario()">Actualizar</button>
+        <button type="button" v-if="tipoAccion==1" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="registrarUsuario()">Guardar</button>
+    
+       </div>
+    </b-modal>
  
                 
         </main>
@@ -679,7 +669,8 @@
                 liquidacionChecked:0,
                 idPermiso:'',
                 uniqueDni:'',
-                mesaFal:0
+                mesaFal:0,
+                show:false,
                 
             }
     
@@ -1014,6 +1005,7 @@
                     'password':this.password,
                     
                 }).then(function (response) {
+                    me.show=false;
                    me.cerrarModal();
                     me.success = true;
                    me.listarUsuario(1,'','ctcolab_dni');
@@ -1148,8 +1140,10 @@
                 'idPermiso':this.idPermiso
                 }).then(function (response) {
                    me.cerrarModal();
+                   me.show=false;
                    me.listarUsuario(1,'','ctcolab_dni');
                    me.successAct = response.data.message;
+                   
                 })
                 .catch(function (error) {
                      swal({
@@ -1157,7 +1151,7 @@
                                 title: 'Error',
                                 text: error.response.data.error
                          })
-                    me.uniqueDni=error.response.data.errors.ctcolab_dni[0];
+                     me.uniqueDni=error.response.data.errors.ctcolab_dni[0];
                 });
             },
             cerrarModal(){
@@ -1202,13 +1196,13 @@
                 this.rolChecked=0,
                 this.unidadMedidaChecked=0,
                 this.errores=[];
-               
+                this.show=false;
 
             },
             abrirModal(modelo,accion,data=[]){
 
                    
-
+                this.show=true;
                 this.modallg01=true;
                 
                 switch (modelo) {

@@ -1592,7 +1592,7 @@ function pasacampo(key_event)
                    let cantidad =me.tasks.length;
                      toast({
                         type: 'success',
-                        title: `Añadido ${cantidad} productos en almacén de ${me.messageUser}`
+                        title: `Añadido ${cantidad} productos en almacén de ${me.usuarioName}`
                     })
                     me.contaTotal=0;
                     me.tasks=[];
