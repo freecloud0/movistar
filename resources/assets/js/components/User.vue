@@ -1,0 +1,1515 @@
+<template>
+        <main class="main">
+            <!-- Breadcrumb -->
+            <ol class="breadcrumb">
+                
+              <br>
+            </ol>
+            <div class="container-fluid">
+                <!-- Ejemplo de tabla Listado -->
+                     
+                    <audio id="xyz" preload="auto"  src="audio/error.mp3" type="audio/mpeg" > </audio>
+                
+                <div class="">
+                    <div class="card-header hedCa white-text">
+                        <i class="fa fa-align-justify"></i> Usuarios
+                        
+                        <button v-b-tooltip.hover title="Agregar Categoria" 
+                                v-b-modal.modallg
+                                @click="abrirModal('usuario','registrar')" 
+                                type="button" class="redondear2 btn-transparent whit-de float-right" >
+                            <i class="fas fa-external-link-alt"></i> Nuevo
+                        </button>
+                        <!-- <div class="float-right mr-4">
+                            <div class="lineaH"></div>
+                        </div> -->
+
+                        
+ 
+                    </div>
+                    <div class="card-body">
+                        <div class="row mb-4">
+                                <div class="col-md-6 busq p-2">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                        <select class="form-control" v-model="criterio">
+                                        <option value="ctcolab_dni">DNI</option>
+                                        <option value="ctcolab_ap_paterno">Apellidos y Nombres</option>
+                                    </select>
+                                    </div>
+                                    <div class="my-4 visible-rE"></div>
+                                    <div class="col-md-7" >
+                                       <input type="text" v-model="buscar" @keyup="listarUsuario(1,buscar,criterio)" class="form-control" placeholder="Texto a buscar">
+                                    </div>
+                                    <div class="col-1 visible-wE">
+                                         <button type="submit" @click="listarUsuario(1,buscar,criterio)" 
+                                                                class="psoFSal btn green btn-sm ">
+                                                                <i class="fa fa-search"></i> 
+                                        </button>
+                                    </div>
+                                    </div>
+                                </div>
+                            
+                            <div v-if="success" class="flotante" :class="['label label-success']">
+                                <b-alert :show="dismissCountDown"
+                                        dismissible
+                                        variant="success"
+                                        @dismissed="dismissCountDown=0"
+                                        @dismiss-count-down="countDownChanged">
+
+                                        <span>Registrado Correctamente!</span>
+                                </b-alert>
+                            </div>
+                            <div v-if="successAct" class="flotante">
+                                <b-alert :show="dismissCountDown1"
+                                        dismissible
+                                        variant="warning"
+                                        @dismissed="dismissCountDown1=0"
+                                        @dismiss-count-down="countDownChanged1">
+
+                                        <span>{{successAct}}</span>
+                                </b-alert>
+                            </div>
+
+                        </div>
+                      
+                        <div class="bg-grasy my-2" v-for="(usuarioAr,indice) in arrayUsuario" :key="usuarioAr.ctcolab_id">
+                            <div class="header-tableR">
+                                <div class="row">
+                                    <div class="col" >
+                                        
+
+                                        <div v-if="usuarioAr.estado" class="triangulo_bottom_Activo">
+                                            <div class="text-center b-01 white-text pt-2">
+                                                <i class="fas fa-ellipsis-v fl-rt"></i> {{indice+1}}
+                                            </div> 
+                                        </div>
+
+                                        <div v-else class="triangulo_bottom_Inactivo">
+                                            <div class="text-center b-01 white-text pt-2">
+                                                <i class="fas fa-ellipsis-v"></i> {{indice+1}}
+                                            </div> 
+                                        </div>
+
+                                    </div>
+                                    <div class="col" >
+                                        
+                                        <div class="float-right">
+                                            <button v-b-tooltip.hover title="Opcion y edicion"  v-b-modal.modallg   @click="abrirModal('usuario','actualizar',usuarioAr)" type="button" class=" btn-transparent iconOp" >
+                                                <i class="fas fa-cog"></i>
+                                            </button>
+                                        </div>
+                                        <div class="float-right">
+                                            <div v-if="usuarioAr.estado">
+                                                <button v-b-tooltip.hover title="Desactivar producto?" @click="desactivarUsuario( usuarioAr.ctusuar_code)" type="button" class=" btn-transparent iconOp" >
+                                                    <i class="fas fa-toggle-on"></i>
+                                                </button>
+                                            </div>
+                                            <div v-else>
+                                                <button v-b-tooltip.hover title="Activar producto?"  @click="activarUsuario( usuarioAr.ctusuar_code)" type="button" class=" btn-transparent iconOp" >
+                                                    <i class="fas fa-toggle-off"></i>
+                                                </button>
+                                            </div>
+                                        </div>
+                                        <div class="float-right">
+                                            <div class="lineaH"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="body-tableR">
+                                <div class="row">
+                                    <div class="col-12">
+                                        <i class="far fa-user-circle fontS-17 green-text"></i>
+                                        <span class="b-01 ml-2 fontS-18">
+                                            {{usuarioAr.USUARIO}}
+                                        </span>
+                                        <span>({{usuarioAr.DATOS}})</span>
+                                    </div>
+                                    <div class="ml-4"></div>
+                                   
+                                    <div class="d-flex flex-row ml-2">
+                                        <div class="div">
+                                            <i class="b-01 icoC-text ml-2">Cargo:</i>
+                                            <span class="b-01 black-text">
+                                                {{usuarioAr.CARGO}}
+                                            </span>
+                                        </div>
+                                        <div class="div ml-2">
+                                            <i class="b-01 icoC-text ml-2">Dni:</i>
+                                            <span class="b-01 black-text">
+                                                 {{usuarioAr.ctcolab_dni}}
+                                            </span> 
+                                        </div>
+                                        <div class="div ml-2">
+                                            <i class="b-01 icoC-text ml-2">Cell:</i>
+                                            <span class="b-01 black-text">
+                                                {{usuarioAr.ctcolab_celular}}
+                                            </span> 
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-md sm-0 sp-0">
+                                        <i class="b-01 icoC-text ml-2">Email:</i>
+                                        <span class="b-01 black-text">
+                                            {{usuarioAr.ctusuar_email}}
+                                        </span>
+                                    </div>
+                                    <div class="col-md sm-0 sp-0">
+                                        <i class="b-01 icoC-text ml-2">Dni:</i>
+                                        <span class="b-01 black-text">
+                                            {{usuarioAr.ctcolab_dni}}
+                                        </span>
+                                    </div> -->
+                                    
+                                </div>
+                            </div>
+                        </div>
+
+                            <!-- <div class="table-responsive">
+                                <b-table class=" table table-bordered table-striped " :items="(arrayUsuario)" :fields="fields">
+                                    <template slot="Detalles" slot-scope="row">
+                                  
+                                    <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+                                    {{ row.detailsShowing ? 'ocultar' : 'Mostrar'}} Detalles
+                                    </b-button>
+
+                                    </template>
+                                
+                                    <template slot="row-details" slot-scope="row">
+                                    <b-card>
+                                        <div class="row">
+                                            <div class="col-6">
+                                                <b-row class="mb-2">
+                                                <b-col sm="3" class="text-sm-right"><b>DNI:</b></b-col>
+                                                <b-col>{{ row.item.ctcolab_dni }}</b-col>
+                                                </b-row>
+
+                                                <b-row class="mb-2">
+                                                <b-col sm="3" class="text-sm-right"><b>Teléfono:</b></b-col>
+                                                <b-col>{{ row.item.ctcolab_telefono }}</b-col>
+                                                </b-row>
+
+                                                <b-row class="mb-2">
+                                                <b-col sm="3" class="text-sm-right"><b>Celular:</b></b-col>
+                                                <b-col>{{ row.item.ctcolab_celular }}</b-col>
+                                                </b-row>
+                                            </div>
+                                            <div class="col-6">
+                                                <label for=""> <b>Dirección : </b>{{ row.item.ctcolab_direccion }}</label>
+                                                <br>
+                                                <label for=""><b>Email-Usuario: </b>{{ row.item.ct}} </label>
+                                                
+                                            </div>
+                                        </div>
+                                    </b-card>
+                                    </template>
+                                    <template slot="Opciones" slot-scope="row">
+                                        
+                                        
+                                         <button @click="abrirModal('usuario','actualizar',row.item)"  type="button" class="btn orange btn-sm" data-toggle="modal" data-target="#basicExampleModal">
+                                            Editar
+                                        </button>
+                                        
+                                    </template>
+                                    <template slot="estado" slot-scope="row">
+                                            <div v-if="row.item.estado">
+                                            <button v-b-modal class="btn green btn-sm" @click="desactivarUsuario( row.item.ctusuar_code)">
+                                                    Activo
+                                            </button>
+                                        </div>
+                                        <div v-else>
+                                            <button v-b-modal class="btn btn-danger btn-sm" @click="activarUsuario( row.item.ctusuar_code)">
+                                                    Inactivo
+                                            </button>
+                                        </div>
+                                    </template>
+                                </b-table>
+                            </div> -->
+
+                            <nav aria-label="pagination example">
+                                <ul class="pagination pg-blue">
+                                    <li class="page-item" v-if="pagination.current_page > 1">
+                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page - 1,buscar,criterio)">Ant</a>
+                                    </li>
+                                    <li class="page-item" v-for="page in pagesNumber" :key="page" :class="[page == isActived ? 'active' : '']">
+                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(page,buscar,criterio)" v-text="page"></a>
+                                    </li>
+                                    <li class="page-item" v-if="pagination.current_page < pagination.last_page">
+                                        <a class="page-link" href="#" @click.prevent="cambiarPagina(pagination.current_page + 1,buscar,criterio)">Sig</a>
+                                    </li>
+                                </ul>
+                            </nav>
+                    </div>
+                </div>
+          
+    
+                    
+              
+                <!-- Fin ejemplo de tabla Listado -->
+            </div>
+            <!-- Button trigger modal -->
+
+    <b-modal v-model="show" size="lg" no-close-on-esc no-close-on-backdrop
+             title="Añadir a Lista de Productos" 
+             >
+       
+            <form action="" method="post" enctype="multipart/form-data" class="form-horizontal">
+                <div role="tablist">
+
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <div class="  boton" v-show="datoPer" ><i id="exPopover3" class="retr fas fa-exclamation-triangle"></i></div>
+
+                            <b-popover target="exPopover3" triggers="hover focus">
+                            <template slot="title">Alerta</template>
+                                
+                                <div class="text-danger" v-show="apePater==''">Rellene Campo  Apellido paterno</div>
+                                <div class="text-danger" v-show="apeMater==''">Rellene Campo  Apellido materno</div>
+                                <div class="text-danger" v-show="nombres==''">Rellene Campo de Apellido</div>
+                                <div class="text-danger" v-show="dni.length < 8 |dni.length > 8">Rellene dni</div>
+                                <div class="text-danger" v-show="celular.length <9 |celular.length >9">Rellene número Cell.</div>
+                            </b-popover>
+
+
+                            <b-btn block href="#" v-b-toggle.accordion1 variant="blue">Datos Personales</b-btn> 
+                        </b-card-header>
+                        <b-collapse id="accordion1" visible accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <b-form-group 
+                                                            label="Apellido Paterno"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedStreet">
+                                                            
+                                                            <b-form-input   id="inputLive1"
+                                                                            v-model.trim="apePater"
+                                                                            type="text"
+                                                                            :state="apePState"
+                                                                            placeholder="">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback v-show="apePater==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
+                                                        </b-form-group>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b-form-group 
+                                                            label="Apellido Materno"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedCity">
+
+                                                            <b-form-input   id="inputLive2"
+                                                                            v-model.trim="apeMater"
+                                                                            type="text"
+                                                                            :state="apeMState"
+                                                                            placeholder="">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback v-show="apeMater==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
+                                                
+                                                        </b-form-group>
+                                                    </div>
+                                                </div>
+
+                                                <b-form-group 
+                                                            label="Nombres"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedState">
+
+                                                            <b-form-input   id="inputLive"
+                                                                        v-model.trim="nombres"
+                                                                        type="text"
+                                                                        :state="nomState"
+                                                                        placeholder="">
+                                                            </b-form-input>
+                                                            <b-form-invalid-feedback v-show="nombres==''" id="inputLiveFeedback">
+                                                            <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            Rellene este campo
+                                                            </b-form-invalid-feedback>
+
+                                                </b-form-group>
+                                                <b-form-group 
+                                                            label="DNI"
+                                                            label-class="text-sm-right"
+                                                            label-for="nestedCountry">
+
+                                                            <input type="number" :class="{ brd:dni.length<8| dni.length>8, werd:dni.length==8}"  v-model="dni" @keyup="dniEx()" class="form-control" >
+                                                        <div class="filesx" v-if="mesaFal == 1" >
+                                                            <p>Ya existe este campo</p>
+                                                        </div>
+                                                        <div class="filesx" v-if="dni.length<8 | dni.length>8 " >
+                                                            <p>Rellene con 8 digitos</p>
+                                                        </div>
+                                                        
+
+                                                        <b-form-invalid-feedback v-show="dni.length != 8"  id="inputLiveFeedback1">
+                                                            Rellene con 8 digitos
+                                                        </b-form-invalid-feedback>
+
+                                                        <b-form-invalid-feedback v-if="uniqueDni.length > 0" id="inputLiveFeedback1">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                            {{uniqueDni + 'DNI'}}
+                                                        </b-form-invalid-feedback>
+                                                
+                                                </b-form-group>
+
+                                        </b-card>
+                                    </div> 
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Direccion</label>
+                                                        <input type="text" v-model="direccion" class="form-control" placeholder="Av.nom## " >
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-control-label" for="text-input">Teléfono</label>
+                                                        <input type="text" v-model="telefono" class="form-control"  placeholder="">
+                                                        <span v-if="errores.ctcolab_telefono" :class="['label label-danger']">{{ errores.ctcolab_telefono[0] }}</span>
+                                                </div>
+                                                <div class="col-6">
+                                                    <label class="form-control-label" for="text-input">Celular</label>
+                                                        
+
+                                                        <b-form-input   id="inputLive5"
+                                                                        v-model.trim="celular"
+                                                                        type="text"
+                                                                        :state="cellState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="celular.length<9 | celular.length>9" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ingrese 9 digitos
+                                                        </b-form-invalid-feedback>
+                                                        <b-form-invalid-feedback v-if="errores.ctcolab_celular" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ya existe este Número
+                                                        </b-form-invalid-feedback>
+                                                        
+                                                </div>
+                                            </div>
+                                        </b-card>
+                                        <br>
+                                        <b-card bg-variant="light">
+                                            <div class="col-md-12">
+                                                <label for="">Fecha de Registro</label>
+                                                <datepicker v-model="fechareg" format="dd/MM/yyyy" input-class="form-control">
+                                                </datepicker>
+                                            </div>
+                                        </b-card>
+                                    </div>
+                                </div>
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <b-btn block href="#" v-b-toggle.accordion2 variant="blue">Datos de Usuarios</b-btn>
+                            
+                            <div class="boton" v-show="datoUse" ><i id="exPopover4" class="retr fas fa-exclamation-triangle"></i></div>
+                            <b-popover target="exPopover4" triggers="hover focus">
+                            <template slot="title">Alerta</template>
+                                
+                                <div class="text-danger" v-show="err1us">Rellene Campo  Usuario</div>
+                                <div class="text-danger" v-show="err1us1">Rellene Campo  Email</div>
+                                <!-- <div class="text-danger" v-show="err1us2">Rellene Campo de COntraseña</div> -->
+                                
+                            </b-popover>
+                        </b-card-header>
+                        <b-collapse id="accordion2" accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <div class="pr-4 pl-4 ">
+                                            <img src="img/img_avatar.png" alt="Avatar" style="width:100%">
+                                        </div>
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b-card bg-variant="light">
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Nombre de Usuario</label>
+                                                    
+                                                        <b-form-input   id="inputLive5"
+                                                                        v-model.trim="usuario"
+                                                                        type="text"
+                                                                        :state="userState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="usuario==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                        <b-form-invalid-feedback v-if="errores.ctusuar_usuario" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Ya existe este Usuario
+                                                        </b-form-invalid-feedback>
+                                                </div>
+
+                                                <div class="col-md-12">
+                                                    <label class=" form-control-label" for="text-input">Email</label>
+                                                        
+                                                        <!-- <span v-if="errores.ctusuar_email" :class="['label label-danger']">{{ errores.ctcolab_celular[0] }}</span> -->
+                                                        <b-form-input   id="inputLive6"
+                                                                        v-model.trim="emailC"
+                                                                        type="email"
+                                                                        :state="mailState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="emailC==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                </div>
+                                                
+                                                <div class="col-md-12" v-if="tipoAccion==1">
+                                                    <label class=" form-control-label" for="text-input">Contraseña</label>
+                                                        <b-form-input   id="inputLive7"
+                                                                        v-model.trim="password"
+                                                                        type="password"
+                                                                        :state="contraState"
+                                                                        placeholder="">
+                                                        </b-form-input>
+                                                        <b-form-invalid-feedback v-show="password==''" id="inputLiveFeedback">
+                                                        <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                        Rellene este campo
+                                                        </b-form-invalid-feedback>
+                                                        <!-- CAMPOS GENERALES -->
+                                                
+                                                </div>
+                                                
+                                            <div class="col-md-12" v-if="tipoAccion==2" v-b-tooltip.hover title="Cambiar Contraseña?">
+                                                <label class=" form-control-label" for="text-input">Contraseña</label>
+                                                    <b-form-input
+
+                                                                    type="password"
+                                                                    :disabled="true"
+                                                                    placeholder="">
+                                                    </b-form-input>
+
+
+                                            </div>
+
+                                            
+                                            </div>
+                                            
+                                        
+                                        </b-card>
+                                    
+                                    </div>
+                                </div> 
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                    <b-card no-body class="mb-1">
+                        <b-card-header header-tag="header" class="p-1" role="tab">
+                            <div class="  boton" v-show="datoCarg" ><i class="retr fas fa-exclamation-triangle"></i></div>
+                            <b-btn block href="#" v-b-toggle.accordion3 variant="red" class="red">Cargos y Roles</b-btn>
+                        </b-card-header>
+                        <b-collapse id="accordion3"  accordion="my-accordion" role="tabpanel">
+                            <b-card-body>
+                                <div class="col-6">
+                                    <b-form-group 
+                                                label="Cargo"
+                                                label-class="text-sm-right"
+                                                label-for="nestedStreet">
+                                                
+                                                <b-form-select v-model="idCargo" class="mb-3" :state="selectState">
+                                                    <option :value="0">Seleccione Categoria</option>
+                                                    <option v-for="cargo in arrayCargo" :key="cargo.ctcargo_code" :value="cargo.ctcargo_code" v-text="cargo.ctcargo_nombre"></option>
+                                                </b-form-select>
+                                                <b-form-invalid-feedback class="mn-t-01" v-show="idCargo==0" id="inputLiveFeedback">
+                                                <!-- This will only be shown if the preceeding input has an invalid state -->
+                                                Selecione un campo
+                                                </b-form-invalid-feedback>
+
+                                    
+                                    </b-form-group>
+                                </div>  
+                                <div v-show="idCargo!=0" >
+                                    <hr>
+
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <b-form-group class="" >
+                                            <template slot="label">
+                                                <b>Almacen</b><br>
+                                                
+                                            </template>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="categoriaChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Categoria
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="equipoChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Equipo
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="materialChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Material
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="ingresoChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Ingreso
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="salidaChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Salida
+                                                    </b-form-checkbox>
+                                                </div>
+                                                <div class="col-md-12">
+                                                    <b-form-checkbox 
+                                                        v-model="liquidacionChecked"
+                                                        :value="restic"
+                                                        unchecked-value=0
+                                                        :disabled="idCargo==1"
+                                                        >
+                                                        Liquidación
+                                                    </b-form-checkbox>
+                                                </div>
+                                            </div>
+
+                                            </b-form-group>
+                                        </div>
+
+                                        <div class="col-6">
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Almacen Tecnico</b><br>
+                                                </template>
+
+                                            <b-form-checkbox 
+                                                v-model="equipoTecnicoChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Equipo Técnico
+                                            </b-form-checkbox>
+                                            
+                                            <b-form-checkbox 
+                                                v-model="materialTecnicoChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Material Técnico
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                            <hr>
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Compras</b><br>
+                                                </template>
+
+                                            <b-form-checkbox 
+                                                v-model="proveedorChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Proveedor
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                            <hr>
+                                            <b-form-group >
+                                                <template slot="label">
+                                                        <b>Configuraciones</b><br>
+                                                </template>
+                                            
+                                            <b-form-checkbox 
+                                                v-model="unidadMedidaChecked"
+                                                :value="restic"
+                                                unchecked-value=0
+                                                :disabled="idCargo==1"
+                                                >
+                                                Und. Medida
+                                            </b-form-checkbox>
+                                            </b-form-group>
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </b-card-body>
+                        </b-collapse>
+                    </b-card>
+                </div>             
+            </form>
+     
+
+       <div slot="modal-footer" class="w-100">
+         
+        
+         <p class="red-text mr-2" v-if="tipoAccion==1">{{nell}}</p> 
+         <button type="button" @click="show=false" class="btn btn-secondary btn-sm float-left"  >Cerrar</button>  
+        
+        <button type="button" v-if="tipoAccion==2" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="actualizarUsuario()">Actualizar</button>
+        <button type="button" v-if="tipoAccion==1" :disabled="errorR02" class="btn btn-primary btn-sm float-right" @click="registrarUsuario()">Guardar</button>
+    
+       </div>
+    </b-modal>
+ 
+                
+        </main>
+        
+</template>
+
+
+<script>
+
+
+
+
+
+    import Datepicker from 'vuejs-datepicker';
+    import moment from "moment";
+    export default {
+        data(){
+            return{
+                
+                dismissSecs: 5,
+                dismissCountDown: 0,
+                dismissSecs1: 5,
+                dismissCountDown1: 0,
+                step:1,
+                step01:1,
+                animate: true,
+                dismissSecs: 5,
+                dismissCountDown: 0,
+                fields: [ 'DATOS' ,'ctusuar_email','USUARIO','CARGO', 'Detalles','Opciones','estado'],
+                modallg01:false,
+                user_id:0,
+                apePater:'',
+                apeMater:'',
+                nombres:'',              
+                dni:0,
+                direccion:'',
+                telefono:0,
+                celular:0,
+                emailP:'',
+                emailC:'',
+                fechareg:'',
+                idCargo:0,
+                usuario:'',
+                idEmpleado:0,
+                password:'', 
+                
+                modal:0,
+                tituloModal:'',
+                tipoAccion:0,
+                errorUsuario:0,
+                errorMostrarMsjUsuario:[],
+                pagination:{
+                    'total':0,
+                    'current_page':0,
+                    'per_page':0,
+                    'last_page':0,
+                    'from':0,
+                    'to':0,
+                },
+
+                eqLis:2,
+                offset:3,
+                criterio:'ctcolab_dni',
+                buscar:'',
+                arrayCargo:[],
+                arrayUsuario:[],
+                arrayDistrito:[],
+                arrayDepartamento:[],
+                arrayProvincia:[],
+                errores:[],
+                success:false,
+                 nell:'',
+                 successAct:'',
+
+                //check
+                // flavours: ['Categoria', 'Equipos', 'Materiales', 'Ingresos', 'Salidas'],
+                // options:['Equipo','Material'],
+                // options01:['Proveedor'],
+                // options02:['Uni. Medida'],
+                // selected: [],
+                // selected1: [],
+                // allSelected: false,
+                // indeterminate: false
+                categoriaChecked:0,
+                equipoChecked:0,
+                materialChecked:0,
+                ingresoChecked:0,
+                salidaChecked:0,
+                equipoTecnicoChecked:0,
+                materialTecnicoChecked:0,
+                proveedorChecked:0,
+                usuarioChecked:0,
+                rolChecked:0,
+                unidadMedidaChecked:0,
+                liquidacionChecked:0,
+                idPermiso:'',
+                uniqueDni:'',
+                mesaFal:0,
+                show:false,
+                
+            }
+    
+        },
+         components:{
+            Datepicker,
+        },
+         computed:{
+             err1us(){
+                 if (this.usuario.length<2) {
+                     return true
+                 }
+                
+                 else{
+                     return false
+                 }
+             },
+             err1us1(){
+                 if (this.emailC.length<2) {
+                     return true
+                 }
+                
+                 else{
+                     return false
+                 }
+             },
+             err1u2(){
+                 if (this.password.length<2) {
+                     return true
+                 }
+                
+                 else{
+                     return false
+                 }
+             },
+             restic(){
+                 if (this.idCargo==1) {
+                     return 0 ,
+                    this.categoriaChecked=0,
+                    this.categoriaChecked=0,
+                    this.equipoChecked=0,
+                    this.materialChecked=0,
+                    this.ingresoChecked=0,
+                    this.salidaChecked=0,
+                    this.equipoTecnicoChecked=0,
+                    this.materialTecnicoChecked=0,
+                    this.proveedorChecked=0,
+                    this.usuarioChecked=0,
+                    this.rolChecked=0,
+                    this.unidadMedidaChecked=0
+                     
+                 }
+                 else if(this.idCargo>1) {
+                     return 1;
+                 }
+             },
+             err1Us(){
+                 if (this.usuario.length<2) {
+                     return true
+                 }
+             },
+             errorR(){
+
+                if (this.apePater.length > 2&& 
+                    this.apeMater.length > 2 &&
+                    this.nombres.length > 2 &&
+                    this.dni.length > 7 &&
+                    this.idCargo > 0 
+                 ){
+                    return false
+                }
+                else{
+                    return true
+                }
+               
+            },
+            // validaciones
+            datoPer(){
+                
+                if (this.apePater.length > 2&& 
+                    this.apeMater.length > 2 &&
+                    this.nombres.length > 2 &&
+                    this.dni.length > 7 &&
+                    this.celular.length ==9 )
+                    {
+                        return false
+                    }
+                else {
+                    return true
+                }
+            },
+            datoUse(){
+                
+                
+                if (this.usuario.length > 2 && 
+                    this.emailC.length > 2 &&
+                    this.password !==''  )
+                    {
+                        return false
+                    }
+                else {
+                    return true
+                }
+            },
+            datoCarg(){
+                
+                if (this.idCargo> 0 )
+                    {
+                        return false
+                    }
+                else {
+                    return true
+                }
+            },
+            errorR02(){
+
+                if (this.usuario.length > 2 && 
+                    this.emailC.length > 2 &&
+                    this.celular.length ==9 &&
+                    this.password !=='' &&
+                    this.apePater.length > 2&& 
+                    this.apeMater.length > 2 &&
+                    this.nombres.length > 2 &&
+                    this.dni.length > 7 &&
+                    this.idCargo> 0 
+                 
+                 ){
+                    return false
+                }
+                else{
+                    return true
+                }
+               
+            },
+            cellState () {
+            return this.celular.length >8 && this.celular.length <10 ? true : false
+            },
+            apePState(){
+            return this.apePater.length > 2 ? true : false
+            },
+            apeMState () {
+            return this.apeMater.length > 2 ? true : false
+            },
+            nomState () {
+            return this.nombres.length > 2 ? true : false
+            },
+            dniState () {
+            return this.dni.length >7 && this.dni.length <9? true : false
+            },
+            selectState () {
+            return this.idCargo > 0 ? true : false
+            },
+            userState () {
+            return this.usuario.length > 2 ? true : false
+            },
+            mailState () {
+            return this.emailC.length > 2 ? true : false
+            },
+            contraState () {
+            return this.password !=='' ? true : false
+            },
+
+            isActived: function(){
+                return this.pagination.current_page;
+            },
+            //Calcula los elementos de la paginación
+            pagesNumber: function() {
+                if(!this.pagination.to) {
+                    return [];
+                }
+                
+                var from = this.pagination.current_page - this.offset; 
+                if(from < 1) {
+                    from = 1;
+                }
+
+                var to = from + (this.offset * 2); 
+                if(to >= this.pagination.last_page){
+                    to = this.pagination.last_page;
+                }  
+
+                var pagesArray = [];
+                while(from <= to) {
+                    pagesArray.push(from);
+                    from++;
+                }
+                return pagesArray;             
+
+            }
+        },
+       
+        methods:{
+            // sonido(){
+            //     document.getElementById('xyz').play();
+
+            //     swal({
+            //           title: 'Error!',
+            //             text: 'Do you want to continue',
+            //             type: 'error',
+            //             confirmButtonText: 'Cool'
+            //     })
+            // },
+            
+            dniEx(){
+                for (let index = 0; index < this.arrayUsuario.length; index++) {
+                   const aUser = this.arrayUsuario[index];
+
+                   if (aUser.ctcolab_dni == this.dni) {
+
+                        this.mesaFal=1;
+                       this.dni="";
+                        this.timer = setTimeout(() => {
+                            this.mesaFal=0;
+
+                       }, 1200);
+
+                   }
+               }
+           },
+            //check
+             toggleAll (checked) {
+            this.selected = checked ? this.flavours.slice() : []
+            },
+
+
+
+            countDownChanged (dismissCountDown) {
+            this.dismissCountDown = dismissCountDown
+            },
+            countDownChanged1 (dismissCountDown1) {
+            this.dismissCountDown1 = dismissCountDown1
+            },
+
+            showAlert () {
+            this.dismissCountDown = this.dismissSecs
+            },
+
+
+            prev() {
+                this.step-- , 
+                this.step01--;
+                
+                
+            },
+            next() {
+
+                    this.step01++,
+                    this.step++  
+                     
+            },
+
+            listarUsuario(page,buscar,criterio){
+                let me=this;
+                var url='/user?page=' + page + '&buscar='+ buscar + '&criterio=' + criterio;
+               axios.get(url).then(function (response) {
+                    var respuesta=response.data;
+                   me.arrayUsuario=respuesta.personas.data;
+                   me.pagination=respuesta.pagination;
+                })
+                .catch(function (error) {
+                    // handle error 
+                    console.log(error);
+                });
+            },
+       
+            selectCargo(){
+                 let me=this;
+                 var url='/cargo/selectCargo';
+               axios.get(url).then(function (response) {
+                   var respuesta=response.data;
+                   me.arrayCargo=respuesta.cargos;
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                });
+            },
+        
+           
+          
+             cambiarPagina(page,buscar,criterio){
+                let me = this;
+                //Actualiza la página actual
+                me.pagination.current_page = page;
+                //Envia la petición para visualizar la data de esa página
+                me.listarUsuario(page,buscar,criterio);
+            },
+            registrarUsuario(){
+                if (
+                    this.idCargo==0
+                    ||this.apePater==''
+                    ||this.apeMater==''
+                    ||this.nombres==''
+                    ||this.dni==''
+                    ||this.usuario==''
+                    ||this.celular=='' ) {
+
+                    }else{
+                let me=this;
+                this.dismissCountDown = this.dismissSecs;
+                
+                
+                    
+                
+                axios.post('/user/registrar',{
+                    // check
+                    'categoriaChecked':this.categoriaChecked,
+                    'equipoChecked':this.equipoChecked,
+                    'materialChecked':this.materialChecked,
+                    'ingresoChecked':this.ingresoChecked,
+                    'salidaChecked':this.salidaChecked,
+                    'equipoTecnicoChecked':this.equipoTecnicoChecked,
+                    'materialTecnicoChecked':this.materialTecnicoChecked,
+                    'proveedorChecked':this.proveedorChecked,
+                    'usuarioChecked':this.usuarioChecked,
+                    'rolChecked':this.rolChecked,
+                    'unidadMedidaChecked':this.unidadMedidaChecked,
+                    'liquidacionChecked':this.liquidacionChecked,
+                    
+                    // fin check
+                    'apePater':this.apePater,
+                    'apeMater':this.apeMater,
+                    'nombres':this.nombres,
+                    'ctcolab_dni':this.dni,
+                    'direccion':this.direccion,
+                    'ctcolab_telefono':this.telefono,
+                    'ctcolab_celular':this.celular,
+                    'emailP':this.emailP,
+                    'emailC':this.emailC,
+                    'fechareg':moment(this.fechareg).format('YYYY-MM-DD hh:mm:ss'),
+                    'idCargo':this.idCargo,                   
+                    'ctusuar_usuario':this.usuario,
+                    'password':this.password,
+                    
+                }).then(function (response) {
+                    me.show=false;
+                   me.cerrarModal();
+                    me.success = true;
+                   me.listarUsuario(1,'','ctcolab_dni');
+                   me.errores=[];
+                     this.timer = setTimeout(() => {
+
+                      this.step = 1; 
+                      this.step01 = 1; 
+
+                    }, 800);
+
+                })
+                 .catch((error) => {
+                        document.getElementById('xyz').play();             
+                       this.errores = error.response.data.errors;
+                         this.success = false;
+                        let swalErrorMessage=error.response.data.error;
+                        if (swalErrorMessage) {
+                            
+                            swal({
+                                type: 'error',
+                                title: 'Error',
+                                text: swalErrorMessage
+                                })
+                         }
+                    
+                    });
+                   
+                    
+                    }
+            },
+            desactivarUsuario(idUsuario){
+                swal({
+                    title: '¿Desea desactivar este registro?',
+                    
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Desactivar',
+                    cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                    if (result.value) {
+
+                        let me=this;
+                            axios.patch('/user/desactivar',{
+                                
+                                'idUsuario':idUsuario
+                            }).then(function (response) {
+                           
+                            me.listarUsuario(1,'','ctcolab_dni');
+                                   swal(
+                                    'Desactivado!',
+                                    'Registro desactivado',
+                                    'success'
+                                    )       
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                        
+                    }
+                    })
+            },
+             activarUsuario(idUsuario){
+                swal({
+                    title: '¿Desea activar este registro?',
+                    
+                    type: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Activar',
+                    cancelButtonText: 'Cancelar'
+                    }).then((result) => {
+                    if (result.value) {
+
+                        let me=this;
+                            axios.patch('/user/activar',{
+                                
+                                'idUsuario':idUsuario
+                            }).then(function (response) {
+                           
+                            me.listarUsuario(1,'','ctcolab_dni');
+                                   swal(
+                                    'Activado!',
+                                    'Registro Activado.',
+                                    'success'
+                                    )       
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                            });
+                        
+                    }
+                    })
+            },
+            
+            actualizarUsuario(){
+                let me=this;
+                this.dismissCountDown1 = this.dismissSecs1;
+                axios.patch('/user/actualizar',{
+                 // check
+                    'categoriaChecked':this.categoriaChecked,
+                    'equipoChecked':this.equipoChecked,
+                    'materialChecked':this.materialChecked,
+                    'ingresoChecked':this.ingresoChecked,
+                    'salidaChecked':this.salidaChecked,
+                    'equipoTecnicoChecked':this.equipoTecnicoChecked,
+                    'materialTecnicoChecked':this.materialTecnicoChecked,
+                    'proveedorChecked':this.proveedorChecked,
+                    'usuarioChecked':this.usuarioChecked,
+                    'rolChecked':this.rolChecked,
+                    'unidadMedidaChecked':this.unidadMedidaChecked,
+                    'liquidacionChecked':this.liquidacionChecked,
+
+                    // fin check
+                'apePater':this.apePater,
+                'apeMater':this.apeMater,
+                'nombres':this.nombres,
+                'ctcolab_dni':this.dni,
+                'direccion':this.direccion,
+                'telefono':this.telefono,
+                'celular':this.celular,
+                'emailP':this.emailP,
+                'emailC':this.emailC,
+                'fechareg':moment(this.fechareg).format('YYYY-MM-DD hh:mm:ss'),
+                'idCargo':this.idCargo,                   
+                'usuario':this.usuario,
+                'password':this.password,
+                'idEmpleado':this.idEmpleado,
+                'idUsuario':this.user_id,
+                'idPermiso':this.idPermiso
+                }).then(function (response) {
+                   me.cerrarModal();
+                   me.show=false;
+                   me.listarUsuario(1,'','ctcolab_dni');
+                   me.successAct = response.data.message;
+                   
+                })
+                .catch(function (error) {
+                    document.getElementById('xyz').play();
+                     swal({
+                                type: 'error',
+                                title: 'Error',
+                                text: error.response.data.error
+                         })
+                     me.uniqueDni=error.response.data.errors.ctcolab_dni[0];
+                });
+            },
+            cerrarModal(){
+                if (this.timer) {
+                        clearTimeout(this.timer);
+                        this.timer = null;
+                    }
+                    this.timer = setTimeout(() => {
+
+                      this.step = 1; 
+                      this.step01 = 1; 
+
+                    }, 1000);
+                
+                this.modallg01 =false,
+                this.tituloModal='';
+                this.apePater='',
+                this.apeMater='',
+                this.nombres='',               
+                this.dni='',
+                this.emailP=''
+                this.emailC=''
+                this.direccion='',
+                this.telefono='',
+                this.celular='',
+                this.fechareg=new Date(),
+                this.idCargo=0,
+                this.usuario='',
+                this.idEmpleado=0,
+                this.password='',
+                this.errorUsuario=0;
+                // CHECKECK 0
+                this.categoriaChecked=0,
+                this.equipoChecked=0,
+                this.materialChecked=0,
+                this.ingresoChecked=0,
+                this.salidaChecked=0,
+                this.equipoTecnicoChecked=0,
+                this.materialTecnicoChecked=0,
+                this.proveedorChecked=0,
+                this.usuarioChecked=0,
+                this.rolChecked=0,
+                this.unidadMedidaChecked=0,
+                this.errores=[];
+                this.show=false;
+
+            },
+            abrirModal(modelo,accion,data=[]){
+
+                   
+                this.show=true;
+                this.modallg01=true;
+                
+                switch (modelo) {
+                    case "usuario":
+                        {
+                            switch (accion) {
+                                case 'registrar':{
+                                    
+                                    this.modal=1;
+                                    this.tituloModal='Registrar Usuario'
+                                    this.apePater='',
+                                    this.apeMater='',
+                                    this.nombres='',               
+                                    this.dni='',
+                                    this.emailP=''
+                                    this.emailC=''
+                                    this.direccion='',
+                                    this.telefono='',
+                                    this.celular='',
+                                    this.fechareg=new Date(),
+                                    this.idCargo=0,
+                                    this.usuario='',
+                                    this.idEmpleado=0,
+                                    this.password='',
+                                    this.errores=[];
+                                    
+                                    this.tipoAccion=1;
+                                    break;
+                                }
+                                case 'actualizar':{
+                                    'DATOS' ,'EMAIL','USUARIO','CARGO'
+                                    this.modal=1;
+                                    this.tituloModal='Actualizar Usuario'
+                                    this.user_id=data['ctusuar_code'];
+                                    this.apePater=data['ctcolab_ap_paterno'],
+                                    this.apeMater=data['ctcolab_ap_materno'],
+                                    this.nombres=data['ctcolab_nombres'],               
+                                    this.dni=data['ctcolab_dni'],
+                                    this.emailP=data['EMAIL']
+                                    this.emailC=data['ctusuar_email']
+                                    this.direccion=data['ctcolab_direccion'],
+                                    this.telefono=data['ctcolab_telefono'],
+                                    this.celular=data['ctcolab_celular'],
+                                    this.fechareg=data['ctusuar_fecha_act'],
+                                    this.idCargo=data['ctcargo_code'],
+                                    this.usuario=data['USUARIO'],
+                                    this.idEmpleado=data['ctcolab_id'],
+                                    this.password=data['password'],
+                                    // Devolviendo CHECK DE PERMISOS
+                                    this.categoriaChecked=data['categoria'],
+                                    this.equipoChecked=data['equipo'],
+                                    this.materialChecked=data['material'],
+                                    this.ingresoChecked=data['ingreso'],
+                                    this.salidaChecked=data['salida'],
+                                    this.equipoTecnicoChecked=data['equipoTecnico'],
+                                    this.materialTecnicoChecked=data['materialTecnico'],
+                                    this.proveedorChecked=data['proveedor'],
+                                    this.usuarioChecked=data['usuario'],
+                                    this.rolChecked=data['rol'],
+                                    this.unidadMedidaChecked=data['unidadMedida'],
+                                    this.idPermiso=data['idPermiso'],
+                                    // FIN CHECK PERMISOS
+                                    this.tipoAccion=2;
+                                    
+                                    
+                                    break;
+                                }
+                              
+                            }
+                        }                       
+                }
+                this.selectCargo();
+            }
+        },
+         watch: {
+            selected (newVal, oldVal) {
+            // Handle changes in individual flavour checkboxes
+            if (newVal.length === 0) {
+                this.indeterminate = false
+                this.allSelected = false
+            } else if (newVal.length === this.flavours.length) {
+                this.indeterminate = false
+                this.allSelected = true
+            } else {
+                this.indeterminate = true
+                this.allSelected = false
+            }
+        }},
+        
+        mounted() {
+            this.listarUsuario(1,this.buscar,this.criterio);
+        }
+        
+    }
+</script>
+<style>
+    .modal-content{
+        width: 100% !important ;
+        position: absolute !important;
+    }
+    .mostrar{
+        display: list-item !important;
+        opacity: 1 !important ;
+        position: absolute !important ;
+        background-color: #3c29297a !important;
+    }
+    .div-error{
+        display: flex;
+        justify-content: center;
+    }
+    .text-error{
+        color: red !important;
+        font-weight: bold;
+    }
+    .mn-t-01{
+        margin-top: -10px!important;
+    }
+    .flotante{
+        right: 20px;
+        position: absolute;
+        top: 45px;
+    }
+    .btn-circle.btn-xl {
+    width: 70px;
+    height: 70px;
+    padding: 10px 16px;
+    border-radius: 35px;
+    font-size: 24px;
+    line-height: 1.33;
+}
+
+.btn-circle {
+    width: 30px;
+    height: 30px;
+    padding: 6px 0px;
+    border-radius: 15px;
+    text-align: center;
+    font-size: 12px;
+    line-height: 1.42857;
+}
+.linea{
+    width: 70px;
+    height: 5px;
+    background: red;
+    position: relative;
+    
+}
+.filesx{
+   width: 100%;
+   margin-top: 0.25rem;
+   font-size: 80%;
+   color: #dc3545;
+}
+.brd{
+   border: 1px solid #dc3545!important;
+}
+.werd{
+   border: 1px solid #28a745!important;
+}
+
+.brd:focus{
+   box-shadow: 0 0 0 0.2rem rgba(146, 15, 15, 0.25)!important;
+}
+.werd:focus{
+   box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25)!important;
+}
+
+.boton{
+position: absolute;
+top: 10px;
+right: 10px;;
+
+  width:30px;
+  height:30px;
+
+  margin: 5px;
+    background: white;
+  -webkit-border-radius: 50px;
+  -moz-border-radius: 50px;
+  border-radius: 50px;
+  
+
+  text-transform: uppercase;
+
+}
+
+.boton .retr{
+  color:orange;
+    margin-top: 4px;
+    margin-left: 4px;
+   font-size:20px;
+}
+</style>
