@@ -47,6 +47,7 @@
                                                 :options="arrayOrden"
                                                 placeholder="Buscar orden..."
                                                 :onChange="getDatosProducto"
+                                                @change="changeEndTime"
                                                 >
                                 
                                 </v-select>
@@ -212,13 +213,13 @@
                                     </div>
 
                                     <div class="my-4">
-                                        <div v-if="cliente" class="body-tableR">
+                                        <div v-if="cliente1" class="body-tableR">
                                             <div class="row">
                                                 <div class="col-md-4 sp-0">
                                                     <!-- <i class="ml-2 far fa-circle green-text"></i> -->
                                                     <i class="ml-2 far fa-user-circle green-text fontS-17"></i>
                                                     <span class="b-01 ml-2 fontS-18">
-                                                        {{cliente}}
+                                                        {{cliente1}}
 
                                                     </span>
                                                      
@@ -490,7 +491,7 @@ import moment from "moment";
                 arrayMUser:[],
                 arrayEUser:[],
                 totalEquiUser:0,
-                cliente:'',
+                cliente1:'',
                 direcliente:'',
                 CargoUser:0,
                 selected:null
@@ -882,6 +883,11 @@ import moment from "moment";
                     // console.log(error.response);
                 });
             },
+            changeEndTime(value)
+                {
+                this.$set(this, 'end_time', value);
+                console.log('hola');
+                },
             activarclase(){
                 let me=this;
                 me.arrayOrden=[];
@@ -1001,7 +1007,7 @@ import moment from "moment";
                     me.arrayEUser=response.data.Equipos;
                     me.arrayMUser=response.data.Materiales;
                     me.totalEquiUser=response.data.total;
-                    me.cliente=response.data.cliente[0].ctorden_cliente;
+                    me.cliente1=response.data.cliente[0].ctorden_cliente;
                     me.direcliente=response.data.cliente[0].ctorden_direccliente
                      
                     
