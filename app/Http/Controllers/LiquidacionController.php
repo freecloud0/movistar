@@ -163,6 +163,17 @@ class LiquidacionController extends Controller
         $ordenu->ctorden_fechareg=$this->fechanow();
         $ordenu->save();
     }
+    public function updateOrdenUser(Request $request)
+    {
+        $ordenuserUpdate= Orden::findOrFail($request->ordenid);
+        $ordenuserUpdate->ctorden_numorden=$request->orden;
+        $ordenuserUpdate->ctorden_cliente=$request->cliente;
+        $ordenuserUpdate->ctorden_direccliente=$request->direccion;
+        $ordenuserUpdate->ctorden_codigo=$request->codigo;
+        $ordenuserUpdate->ctorden_userID=$request->idUser;
+        $ordenuserUpdate->ctorden_fechareg=$this->fechanow();
+        $ordenuserUpdate->save();
+    }
     public function getOrden(Request $request)
     {
         return $this->orden($request);

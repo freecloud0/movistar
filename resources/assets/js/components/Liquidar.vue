@@ -41,11 +41,13 @@
                             </div>
                             <div class="col-md-3">
                                 <label>N° Orden</label>
-                                <v-select   :on-search="getOrden"
+                                <v-select  v-model="selected"
+                                 :on-search="getOrden"
                                                 label="ctorden_numorden" 
                                                 :options="arrayOrden"
                                                 placeholder="Buscar orden..."
-                                                :onChange="getDatosProducto" >
+                                                :onChange="getDatosProducto"
+                                                >
                                 
                                 </v-select>
                             </div>
@@ -490,7 +492,8 @@ import moment from "moment";
                 totalEquiUser:0,
                 cliente:'',
                 direcliente:'',
-                CargoUser:0
+                CargoUser:0,
+                selected:null
 
             }
         },
@@ -839,13 +842,50 @@ import moment from "moment";
                     
                     if (error.response.data.error) {
                         document.getElementById('xyz').play();
-                        swal(error.response.data.error)
+                        // swal(error.response.data.error)
+                          Swal({
+                        title: error.response.data.error,
+                        text:'¿Desea reemplazarlo?',
+                        type: 'warning',
+                        showCancelButton: true,
+                        confirmButtonText: 'Aceptar',
+                        cancelButtonText: 'Cancelar'
+                        }).then((result) => {
+                            
+                        if (result.value) {
+                           axios.patch('/patch-orden-user',{
+                                'codigo':me.codigo,
+                                'orden':me.orden,
+                                'idUser':me.user,
+                                'cliente':me.cliente,
+                                'direccion':me.direccion,
+                                'ordenid':me.ordenAid
+                            }).then(function (response) {
+                            me.activarclase();
+                            me.cerrarModal();
+                            me.getOrdenes();
+                            me.ordenError='';
+                                toast({
+                                            type: 'success',
+                                            title: `Orden Actualizada`
+                                        })
+                            
+                            }).catch(function (error) {
+
+                            })
+                            } 
+                        })
                     }else if (error.response.data.error_data) {
                         me.ordenError=error.response.data.error_data;
                     }
                      
                     // console.log(error.response);
                 });
+            },
+            activarclase(){
+                let me=this;
+                me.arrayOrden=[];
+                me.userName='';
             },
             abrirModal(modelo,accion,data=[]){
                 switch (modelo) {
@@ -1052,5 +1092,14 @@ import moment from "moment";
     }
     .lista{
         border-style:dotted;
+    }
+    .disabled {
+      pointer-events:none;
+      color: #bfcbd9;
+      cursor: not-allowed;
+      background-image: none;
+      background-color: #eef1f6;
+      border-color: #d1dbe5; 
+      display:none;  
     }
 </style>

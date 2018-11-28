@@ -208,6 +208,7 @@ Route::group(['middleware'=>['auth']],function(){
         Route::get('/get-ordenEM','LiquidacionController@EMordenUsuario');
         Route::get('/fecha-series','LiquidacionController@gettablafecha');
         Route::patch('/liquidar-productoArray','LiquidacionController@liquidarequiposdias');
+        Route::patch('/patch-orden-user','LiquidacionController@updateOrdenUser');
         // Contar dias
         Route::get('/dias','LiquidacionController@contar_dias');
         Route::get('/dias-tecnico','LiquidacionController@vertecnicos');
