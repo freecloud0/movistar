@@ -132,93 +132,72 @@
                         </div>
 
                          <br>
-                        <div  v-for="(equipo,indice) in arrayEquipo" :key="equipo.idCategoria">
-                            <div class="mb-2 bg-grasy card">
-                                <div class="header-tableR">
-                                    <div class="row">
-                                        <div class="col" >
-                                            <div v-if="equipo.estado" class="triangulo_bottom_Activo">
-                                                <div class="text-center b-01 white-text pt-2">
-                                                    <i class="fas fa-ellipsis-v fl-rt"></i> {{indice+1}}
-                                                </div> 
-                                            </div>
+                         <div class="table-responsive text-nowrap">
+                             <table class="table table-bordered ">
+                                 <thead class="hedCa white-text">
+                                     <tr>
+                                         <th scope="col">#</th>
+                                         <th scope="col">Equipo</th>
+                                         <th scope="col">Cod. Sap</th>
+                                         <th scope="col">Cantidad</th>
+                                         <th scope="col">Opciones</th>
+                                         <th scope="col " v-show="CargoUser==1" class="text-center">Estado</th>
+                                         <th scope="col">Excel</th>
+                                         <th scope="col">Pdf</th>
+                                     </tr>
+                                 </thead>
+                                 <tbody>
+                                     <tr  v-for="(equipo,indice) in arrayEquipo" :key="equipo.idCategoria">
+                                         <th scope="col">{{indice+1}}</th>
+                                         <th scope="col">{{equipo.ctproduc_nombre}}</th>
+                                         <th scope="col">{{equipo.sap}}</th>
+                                         <th scope="col">{{equipo.ctproduc_stock}}</th>   
+                                         <th scope="col" >
+                                            <div class="text-center d-flex flex-row">
+                                                <div class="" >
+                                                    <button  v-b-modal.modallg1  @click="listarProducto(equipo.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
+                                                        <i class="fas fa-list-ul"></i>
+                                                    </button>
 
-                                            <div v-else class="triangulo_bottom_Inactivo">
-                                                <div class="text-center b-01 white-text pt-2">
-                                                    <i class="fas fa-ellipsis-v"></i> {{indice+1}}
-                                                </div> 
-                                            </div>
-                                        </div>
-                                        <div class="col" v-show="CargoUser==1">
-                                            
-                                            <div class="float-right" >
+                                                    <button v-show="CargoUser==1"  v-b-modal.modallg  @click="abrirModal('categoria','actualizar',equipo)" type="button" class=" btn-transparent iconOp" >
+                                                        <i class="fas fa-cog"></i>
+                                                    </button>
+                                                </div>
                                                 
-                                                
-                                                <button v-b-tooltip.hover title="Detalle de Producto"  v-b-modal.modallg1  @click="listarProducto(equipo.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-list-ul"></i>
-                                                </button>
-
-                                                <button v-show="CargoUser==1" v-b-tooltip.hover title="Opcion y edicion"  v-b-modal.modallg  @click="abrirModal('categoria','actualizar',equipo)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-cog"></i>
-                                                </button>
-
                                             </div>
-                                            <div class="float-right" v-show="CargoUser==1">
-                                                <button v-b-tooltip.hover title="Desactivar producto?" v-if="equipo.estado"  @click="desactivarEquipo(equipo.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-toggle-on"></i>
-                                                </button>
-                                                <button v-b-tooltip.hover title="Activar producto?" v-else  @click="activarEquipo(equipo.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-toggle-off"></i>
-                                                </button>
-                                            </div>
-                                            <div class="float-right">
-                                                <div class="lineaH"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                                <div class="body-tableR">
-
-                                    <div class="row">
-                                        <div class="col-md">
-                                            <i class="far fa-circle green-text"></i>
-                                        
-                                            <span class="b-01 ml-2 fontS-18">
-                                                {{equipo.ctproduc_nombre}}
-                                            </span>
-                                        
-                                            <div class="div ml-4">
-                                                <i class="b-01 icoC-text">Sap:</i>
-                                                <span>{{equipo.sap}}</span>
-
-                                                <i class="b-01 icoC-text ml-2">Can.:</i>
-                                                <span>{{equipo.ctproduc_stock}}</span>
-                                            </div>
-                                        </div>
-                                        <div class="col-md ">
-                                            <button v-b-tooltip.hover title="Exportar en PDF"  
-                                                    @click="pdfExport(equipo.sap)" type="button" 
-                                                    class=" btn-transparent red-text float-right" >
-                                                <i class="fas fa-file-pdf "></i>
+                                         </th>
+                                         <th v-show="CargoUser==1" class="text-center">
+                                             
+                                            <button  v-if="equipo.estado"  @click="desactivarEquipo(equipo.ctproduc_id)" type="button" class=" btn-transparent blue-text" >
+                                                <i class="fas fa-toggle-on"></i>
                                             </button>
-                                            <button v-b-tooltip.hover title="Exportar en Excel"  
+                                            <button  v-else  @click="activarEquipo(equipo.ctproduc_id)" type="button" class=" btn-transparent red-text" >
+                                                <i class="fas fa-toggle-off"></i>
+                                            </button>
+                                               
+                                         </th>
+                                         <th scope="col">
+                                             <button 
                                                     @click="excelExport(equipo.sap)" type="button" 
-                                                    class=" btn-transparent green-text float-right" >
+                                                    class=" btn-transparent green-text " >
                                                 <i class="fas fa-file-excel"></i>
                                             </button>
-                                        </div>
-                                    </div>
-
-                                </div>
-
-                            </div>
-
-                        </div>
-                        
+                                         </th>
+                                         <th scope="col">
+                                             <button 
+                                                    @click="pdfExport(equipo.sap)" type="button" 
+                                                    class=" btn-transparent red-text " >
+                                                <i class="fas fa-file-pdf "></i>
+                                            </button>
+                                            
+                                        </th>
+                                     </tr>
+                                 </tbody>
+                             </table>
+                         </div>
 
                          <nav aria-label="pagination example">
-                            <ul class="pagination pg-blue">
+                            <ul class="pagination pagination-circle">
                                 <li class="page-item" v-if="pagination.current_page > 1">
                                     <a class="page-link" href="#" @click.prevent ="cambiarPagina(pagination.current_page-1,Activo,buscar,criterio)">Ant</a>
                                 </li>

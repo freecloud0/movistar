@@ -18,65 +18,70 @@
             </li>
 
          
-                <div class="" v-if="equis==1">
-                <li class="nav-item ">
-                    <div class="romer">
-                        <div class="m-4">
-                         
-                                <h5 class="modal-title" >Notificaciones</h5>
-                                <button type="button" class="close topCe red-text" @click.prevent="equis=2" data-dismiss="modal" aria-label="Close">
-                                <span aria-hidden="true">&times;</span>
-                                </button>
-                           <hr>
-                           <b-col md="12" class="my-1">
-                                <b-form-group horizontal label="Paginas" class="mb-0">
-                                <b-form-select :options="pageOptions" v-model="perPage" />
-                                </b-form-group>
-                            </b-col>
-                           <b-col md="6" class=" disBl" >
-                                <b-form-group horizontal label="Sort" class="mb-0">
-                                <b-input-group>
-                                    <b-form-select  v-model="sortBy" :options="sortOptions">
-                                    <option slot="first" :value="null">-- none --</option>
-                                    </b-form-select>
-                                    <b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">
-                                    <option :value="true">Asc</option>
-                                    <option :value="false">Desc</option>
-                                    </b-form-select>
-                                </b-input-group>
-                                </b-form-group>
-                            </b-col>
-                          <div class="table-responsive p-2">
-                                <b-table show-empty
-                                       class="table-bordered  "
-                                       stacked="md"
-                                       :items="arrayDias"
-                                       :fields="fields"
-                                       :current-page="currentPage"
-                                       :per-page="perPage"
-                                       :filter="filter"
-                                       :sort-by.sync="sortBy"
-                                       :sort-desc.sync="sortDesc"
-                                       :sort-direction="sortDirection"
-                                       @filtered="onFiltered"
-                               >
-                               <template slot="Fecha" slot-scope="data">
-                                      <span :class="{redt:data.item.dias>9}"> {{data.item.dias}}</span> 
+                <div  v-if="equis==1">
+                    <div class="triangulo-equilatero-bottom">
+
+                     </div>
+                    <li class="nav-item ">
+                        
+                        <div class="romer">
+                            
+                            <div class="m-2">
+                            
+                                    <h5 class="modal-title" >Notificaciones</h5>
+                                    <button type="button" class="close topCe red-text" @click.prevent="equis=2" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                    </button>
+                            <div class="hrZt"></div>
+                            <b-col md="12" class="my-1">
+                                    <b-form-group horizontal label="Paginación" class="mb-0">
+                                    <b-form-select :options="pageOptions" v-model="perPage" />
+                                    </b-form-group>
+                                </b-col>
+                            <b-col md="5" class=" disBl" >
+                                    <b-form-group horizontal label="Sort" class="mb-0">
+                                    <b-input-group>
+                                        <b-form-select  v-model="sortBy" :options="sortOptions">
+                                        <option slot="first" :value="null">-- none --</option>
+                                        </b-form-select>
+                                        <b-form-select :disabled="!sortBy" v-model="sortDesc" slot="append">
+                                        <option :value="true">Asc</option>
+                                        <option :value="false">Desc</option>
+                                        </b-form-select>
+                                    </b-input-group>
+                                    </b-form-group>
+                                </b-col>
+                            <div class="table-responsive p-2">
+                                    <b-table show-empty
+                                        class="table-bordered  "
+                                        stacked="md"
+                                        :items="arrayDias"
+                                        :fields="fields"
+                                        :current-page="currentPage"
+                                        :per-page="perPage"
+                                        :filter="filter"
+                                        :sort-by.sync="sortBy"
+                                        :sort-desc.sync="sortDesc"
+                                        :sort-direction="sortDirection"
+                                        @filtered="onFiltered"
+                                >
+                                <template slot="Fecha" slot-scope="data">
+                                        <span :class="{redt:data.item.dias>9}"> {{data.item.dias}}</span> 
+                                        
+                                    </template>
+
+                                </b-table>
                                     
-                                </template>
+                                    <b-row>
+                                <b-col md="6" class="my-1">
+                                    <b-pagination :total-rows="this.arrayDias.length" :per-page="perPage" v-model="currentPage" class="my-0" />
+                                </b-col>
+                                </b-row>
+                                </div>
 
-                               </b-table>
-                                
-                                <b-row>
-                               <b-col md="6" class="my-1">
-                                   <b-pagination :total-rows="this.arrayDias.length" :per-page="perPage" v-model="currentPage" class="my-0" />
-                               </b-col>
-                               </b-row>
                             </div>
-
                         </div>
-                    </div>
-                </li>
+                    </li>
                 </div>
         </main>
 </template>
@@ -319,6 +324,9 @@
     }
 </script>
 <style>
+    .romer{
+        border-radius: 10px!important;
+    }
     .redes{
         top: -10px;
         left: 40px;
@@ -383,17 +391,34 @@
             top: 5px;
             right: 5px;
         }
+    .hrZt {
+        margin-top: 0.4rem;
+        margin-bottom: 0.5rem;
+        border: 0;
+        border-top: 1px solid rgba(0, 0, 0, 0.1);
+    }
 
     @media screen and (min-width: 769px) {
        .romer{
             position: absolute;
             top:20px;
-            right:15px;
+            right:-7px;
             background: white;
             width:auto;
-            border-style: solid;
-    border-color: #263238;
+            border: 1px solid #FF9800;
+
             /* height: 200px; */
+        }
+        .triangulo-equilatero-bottom {
+            width: 0;
+            height: 0;
+            position: absolute;
+            top:30px;
+            right:107px;
+            border-right: 20px solid transparent;
+            border-top: 20px solid transparent;
+            border-left: 20px solid transparent;
+            border-bottom: 20px solid #FF9800;
         }
     }
     
@@ -404,8 +429,9 @@
             right:-70px;
             background: white;
             width: auto;
-            border-style: solid;
-    border-color: #4285f4;
+            width:auto;
+            border: 1px solid #4285f4;
+
             /* height: 200px; */
         }
     }

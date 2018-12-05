@@ -133,64 +133,39 @@
                                 </b-alert>
                             </div>
 
-                        <div  v-for="(material,Indice) in arrayMaterial" :key="material.idCategoria">
-                            
-                            <div class="mb-2 bg-grasy card">
-                                <div class="header-tableR" >
-                                    
-                                    <div class="row">
-                                        <div class="col">
-                                            <div v-if="material.estado" class="triangulo_bottom_Activo">
-                                                <div class="text-center b-01 white-text pt-2">
-                                                    <i class="fas fa-ellipsis-v fl-rt"></i> {{Indice+1}}
-                                                </div> 
-                                            </div>
-
-                                            <div v-else class="triangulo_bottom_Inactivo">
-                                                <div class="text-center b-01 white-text pt-2">
-                                                    <i class="fas fa-ellipsis-v fl-rt"></i> {{Indice+1}}
-                                                </div> 
-                                            </div>
-                                        </div>
-                                       
-                                        <div class="col" v-show="CargoUser==1">
-                                            
-                                            <div class="float-right">
-                                                <button v-b-tooltip.hover title="Opcion y edicion"  v-b-modal.modallg   @click="abrirModal('categoria','actualizar',material)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-cog"></i>
-                                                </button>
-                                            </div>
-                                            <div class="float-right">
-                                                <button v-b-tooltip.hover title="Desactivar producto?" v-if="material.estado"  @click="desactivarMaterial(material.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-toggle-on"></i>
-                                                </button>
-                                                <button v-b-tooltip.hover title="Activar producto?" v-else  @click="activarMaterial(material.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
-                                                    <i class="fas fa-toggle-off"></i>
-                                                </button>
-                                            </div>
-                                            <div class="float-right">
-                                                <div class="lineaH"></div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="body-tableR">
-                                    <div class="row">
-                                        <div class="col-md-4">
-                                            <i class="far fa-circle green-text"></i>
-                                            <span class="b-01 ml-2 fontS-18">
-                                                {{material.ctproduc_nombre}}
-                                            </span>
-                                            <div class="ml-4">
-                                                <i class="b-01 icoC-text">Sap:</i>
-                                                    <span>{{material.sap}}</span>
-                                            </div>
-
-                                            
-                                        </div>
-                                        <div class="col-md-6 text-center">
+                        <div class="table-responsive text-nowrap">
+                            <table class="table table-bordered ">
+                                <thead class="hedCa white-text">
+                                    <tr>
+                                        <th scope="col">#</th>
+                                        <th scope="col">Equipo</th>
+                                        <th scope="col">Cod. Sap</th>
+                                        <th scope="col" class="text-center">Cantidad</th>
+                                        <th scope="col" class="text-center">En uso</th>
+                                        <th scope="col" class="text-center">Opciones</th>
+                                        <th scope="col " v-show="CargoUser==1" class="text-center">Estado</th>
                                         
-                                            {{material.ctproduc_stock}} / 
+
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr  v-for="(material,indice) in arrayMaterial" :key="material.idCategoria">
+                                        <th scope="col">
+                                            <div class="pt-2">{{indice+1}}</div>
+                                        </th>
+                                        <th scope="col">
+                                            <div class="pt-2">
+                                                {{material.ctproduc_nombre}}
+                                            </div>
+                                        </th>
+                                        <th scope="col" >
+                                            <div class="pt-2">
+                                                {{material.sap}}
+                                            </div>
+                                        </th>
+                                        <th class="text-center">
+                                            <div class="pb-2">
+                                                {{material.ctproduc_stock}} / 
                                                 <span  class="blue-text b-01">{{material.stockMaximo}}
                                                     <a>
                                                     <i class=" ml-2 fas fa-box-open " @click="metodoacStock(material.ctproduc_id,material)"></i>
@@ -200,23 +175,43 @@
                                                 <span class="green-text b-01">
                                                     {{material.ctundmd_desc}}
                                                 </span>
-                                               <!-- <b-progress :value="material.ctproduc_stock+tdoT0" -->
-                                               <b-progress :value="controlT(material.stockMaximo,material.ctproduc_stock)"
-                                                           :variant="estadoS(material.stockMaximo,material.ctproduc_stock)">
+                                                <b-progress :value="controlT(material.stockMaximo,material.ctproduc_stock)"
+                                                        :variant="estadoS(material.stockMaximo,material.ctproduc_stock)">
 
-                                               </b-progress>
+                                                </b-progress>
+                                            </div>
+                                        </th>
+                                        <th scope="col text-center">
+                                            <div class="pt-2 text-center">
+                                                {{material.ctproduc_stock_uso}} 
+                                                <span class="green-text b-01">
+                                                    {{material.ctundmd_desc}}
+                                                </span>
+                                            </div>
+                                        </th>
+                                        <th scope="col">
+                                        <div class="text-center pt-2">
+                                                <button   v-b-modal.modallg   @click="abrirModal('categoria','actualizar',material)" type="button" class=" btn-transparent iconOp" >
+                                                    <i class="fas fa-cog"></i>
+                                                </button>
+
                                         </div>
-                                        <div class="col-md-2">
-                                           <span>En Uso : </span> {{material.ctproduc_stock_uso}} 
-                                           
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-
+                                        </th>
+                                        <th v-show="CargoUser==1" class="text-center" >
+                                            <div class="pt-2">
+                                                <button  v-if="material.estado"  @click="desactivarMaterial(material.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
+                                                    <i class="fas fa-toggle-on"></i>
+                                                </button>
+                                                <button  v-else  @click="activarMaterial(material.ctproduc_id)" type="button" class=" btn-transparent iconOp" >
+                                                    <i class="fas fa-toggle-off"></i>
+                                                </button>
+                                            </div>
+                                        </th>
+                                        
+                                    </tr>
+                                </tbody>
+                            </table>
                         </div>
-                        <br>
 
                         <nav aria-label="pagination example">
                             <ul class="pagination pg-blue">
